@@ -28,6 +28,8 @@ private slots:
 
     void on_actionLogin_triggered();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     LoginWindowPopUpForm* m_login_window;

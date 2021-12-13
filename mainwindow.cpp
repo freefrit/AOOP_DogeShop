@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dialog.h"
 #include "loginwindowpopupform.h"
+#include <QDialog>
 
 vector<Customer> customer_list;
 vector<Seller> seller_list;
@@ -29,5 +31,16 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionLogin_triggered()
 {
     m_login_window->show();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    //QDialog *dlg = new QDialog(this);
+    //dlg->show();
+
+    Dialog *test = new Dialog(this);
+    test->show();
+    //delete test;
 }
 
