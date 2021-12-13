@@ -24,11 +24,14 @@
    </property>
    <property name="font">
     <font>
-     <family>Adobe 黑体 Std R</family>
+     <family>Agency FB</family>
      <pointsize>20</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 170, 0);</string>
    </property>
    <property name="text">
     <string>shop_title</string>
@@ -55,8 +58,8 @@
   <widget class="QPushButton" name="next_page">
    <property name="geometry">
     <rect>
-     <x>840</x>
-     <y>50</y>
+     <x>860</x>
+     <y>60</y>
      <width>93</width>
      <height>28</height>
     </rect>
