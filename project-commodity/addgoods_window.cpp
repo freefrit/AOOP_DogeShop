@@ -32,6 +32,14 @@ AddGoods_window::AddGoods_window(QWidget *parent) :
     card_grid_layout(row_cards, ui->down_gridLayout, 1);
 }
 
+AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AddGoods_window)
+{
+    if(!flag)
+        delete ui;
+}
+
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
 {
     grid->setRowMinimumHeight(0, 180);
@@ -105,8 +113,6 @@ void AddGoods_window::clear_lineEdit_v()
 
 AddGoods_window::~AddGoods_window()
 {
-    //Csv *csvObj = new Csv;
-    //csvObj->save_shop_csv(shop_v, "../src/shop.csv");
     delete ui;
 }
 

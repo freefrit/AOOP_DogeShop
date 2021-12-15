@@ -105,8 +105,6 @@ void AddGoods_window::clear_lineEdit_v()
 
 AddGoods_window::~AddGoods_window()
 {
-    //Csv *csvObj = new Csv;
-    //csvObj->save_shop_csv(shop_v, "../src/shop.csv");
     delete ui;
 }
 
@@ -188,14 +186,14 @@ void AddGoods_window::on_add_clicked()
     {
         load_window->setWindowTitle("上架成功");
         load_window->set_text("SUCCESS");
-        qDebug() << shop_v.size();
-        qDebug() << QString::fromStdString(shop_v.back().name) << shop_v.back().num << shop_v.back().price;
+        //qDebug() << shop_v.size();
+        //qDebug() << QString::fromStdString(shop_v.back().name) << shop_v.back().num << shop_v.back().price;
     }
     else
     {
         load_window->setWindowTitle("上架失敗");
         load_window->set_text("FAILED");
-        qDebug() << shop_v.size();
+        //qDebug() << shop_v.size();
     }
     load_window->show();
 }
