@@ -38,6 +38,7 @@ private slots:
     void on_actionHome_triggered();
     void on_lineedit_searchbar_selectionChanged();
     void on_actionmyInfo_triggered();
+
 private:
     int prePage;
     Ui::MainWindow *ui;
