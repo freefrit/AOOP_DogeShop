@@ -20,6 +20,8 @@ public:
     void clear_layout(QLayout* layout);
     void clear_lineEdit_v();
 
+    void reject() override;
+
 private slots:
     void on_next_page_clicked();
 

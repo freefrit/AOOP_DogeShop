@@ -105,7 +105,17 @@ void AddGoods_window::clear_lineEdit_v()
 
 AddGoods_window::~AddGoods_window()
 {
+    //Csv *csvObj = new Csv;
+    //csvObj->save_shop_csv(shop_v, "../src/shop.csv");
     delete ui;
+}
+
+void AddGoods_window::reject()
+{
+    Csv *csvObj = new Csv;
+    csvObj->save_shop_csv(shop_v, "../src/shop.csv");
+
+    QDialog::reject();
 }
 
 void AddGoods_window::on_next_page_clicked()
@@ -163,8 +173,6 @@ void AddGoods_window::on_add_clicked()
 
         if(num_in_v[i]->text() != "" && price_in_v[i]->text() != "")
         {
-            //qDebug() << 2*row_cards*page + i << num_in_v[i]->text();
-            //qDebug() << 2*row_cards*page + i << price_in_v[i]->text();
             temp = new Card_in_shop;
             temp->set_data(all_card[idx], num_in_v[i]->text().toInt(), price_in_v[i]->text().toInt());
             shop_v.push_back(*temp);

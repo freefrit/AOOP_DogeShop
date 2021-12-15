@@ -4,7 +4,7 @@ vector<Card> Csv::read_csv(string path)
 {
     vector<Card> out;
     QFile file(QString::fromStdString(path));
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         qDebug() << "read csv error!";
         return out;
@@ -30,7 +30,34 @@ vector<Card> Csv::read_csv(string path)
     return out;
 }
 
-void Csv::save_csv(vector<Card>, string)
+void Csv::save_shop_csv(vector<Card_in_shop> shop, string path)
 {
+    string temp = "";
+    for(int i = 0; i < (int)shop.size(); i++)
+    {
+        temp += shop[i].name + ",";
+        temp += shop[i].type + ",";
+        temp += shop[i].url + ",";
+        temp += to_string(shop[i].num) + ",";
+        temp += to_string(shop[i].price) + "\n";
+    }
 
+    QFile file(QString::fromStdString(path));
+    if(!file.open(QIODevice::WriteOnly| QIODevice::Text | QIODevice::Append))
+    {
+        qDebug() << "write csv error!";
+        return;
+    }
+    else
+    {
+        if(file.pos() == 0)
+        {
+            unsigned char bom[] = {0xEF,0xBB,0xBF};
+            file.write((char*)bom, sizeof(bom));
+        }
+
+        QTextStream in(&file);
+        in << QString::fromStdString(temp);
+        file.close();
+    }
 }
