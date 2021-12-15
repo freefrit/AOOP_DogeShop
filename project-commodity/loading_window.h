@@ -14,6 +14,7 @@ class Loading_window : public QDialog
 public:
     explicit Loading_window(QWidget *parent = nullptr);
     ~Loading_window();
+    void set_text(QString text);
 
 private:
     Ui::Loading_window *ui;

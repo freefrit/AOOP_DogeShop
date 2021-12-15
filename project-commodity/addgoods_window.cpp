@@ -1,14 +1,9 @@
 #include "addgoods_window.h"
 #include "ui_addgoods_window.h"
 #include "loading_window.h"
-#include "card.h"
 #include "csv.h"
 
 using namespace std;
-
-static vector<Card> all_card;
-static int page = 0;
-static int row_cards = 8;
 
 AddGoods_window::AddGoods_window(QWidget *parent) :
     QDialog(parent),
@@ -16,6 +11,8 @@ AddGoods_window::AddGoods_window(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    page = 0;
+    row_cards = 8;
     Csv *csvObj = new Csv;
     all_card = csvObj->read_csv("../src/cards.csv");
     delete csvObj;
@@ -59,6 +56,8 @@ void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         num->setAlignment(Qt::AlignRight);
         price->setAlignment(Qt::AlignRight);
         QLineEdit *num_in = new QLineEdit, *price_in = new QLineEdit;
+        num_in_v.push_back(num_in);
+        price_in_v.push_back(price_in);
         QHBoxLayout *hBoxLayout = new QHBoxLayout;
         hBoxLayout->addWidget(num, Qt::AlignLeft);
         hBoxLayout->addWidget(num_in, Qt::AlignLeft);
@@ -93,6 +92,14 @@ void AddGoods_window::clear_layout(QLayout* layout)
     }
 }
 
+void AddGoods_window::clear_lineEdit_v()
+{
+    while(this->num_in_v.size())
+        num_in_v.pop_back();
+    while(this->price_in_v.size())
+        price_in_v.pop_back();
+}
+
 AddGoods_window::~AddGoods_window()
 {
     delete ui;
@@ -110,6 +117,7 @@ void AddGoods_window::on_next_page_clicked()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
+    clear_lineEdit_v();
     clear_layout(ui->up_gridLayout);
     clear_layout(ui->down_gridLayout);
     card_grid_layout(row_cards, ui->up_gridLayout, 0);
@@ -131,11 +139,32 @@ void AddGoods_window::on_previous_page_clicked()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
+    clear_lineEdit_v();
     clear_layout(ui->up_gridLayout);
     clear_layout(ui->down_gridLayout);
     card_grid_layout(row_cards, ui->up_gridLayout, 0);
     card_grid_layout(row_cards, ui->down_gridLayout, 1);
 
     delete load_window;
+}
+
+
+void AddGoods_window::on_add_clicked()
+{
+    for(int i = 0; i < (int)num_in_v.size(); i++)
+    {
+        if(num_in_v[i]->text() != "")
+            qDebug() << 2*row_cards*page + i << num_in_v[i]->text();
+        if(price_in_v[i]->text() != "")
+            qDebug() << 2*row_cards*page + i << price_in_v[i]->text();
+
+        num_in_v[i]->clear();
+        price_in_v[i]->clear();
+    }
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("上架成功");
+    load_window->set_text("SUCCESS");
+    load_window->show();
 }
 

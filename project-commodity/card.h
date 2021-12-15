@@ -21,7 +21,7 @@ public:
     void load_pic(const string &strPicUrl, QLabel &lable, int height);
     void detail();
 };
-
+/*
 class Card_block_sell: public Card
 {
 public:
@@ -35,5 +35,5 @@ public:
     //void set_ui(QLabel *, QLabel *, QLabel *, );
     void set_layout();
 };
-
+*/
 #endif // CARD_H

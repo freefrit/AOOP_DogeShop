@@ -12,3 +12,8 @@ Loading_window::~Loading_window()
 {
     delete ui;
 }
+
+void Loading_window::set_text(QString text)
+{
+    ui->label->setText(text);
+}

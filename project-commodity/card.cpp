@@ -39,10 +39,3 @@ void Card::detail()
     detail_window->set_layout(this->name, this->type, this->url);
     detail_window->show();
 }
-
-void Card_block_sell::set_layout()
-{
-    //this->name_label->setGeometry()
-    //LoadPic(this->url, *(this->pic_label));
-    this->name_label->setText(QString::fromStdString(this->name));
-}
