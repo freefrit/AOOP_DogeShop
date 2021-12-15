@@ -30,6 +30,38 @@ vector<Card> Csv::read_csv(string path)
     return out;
 }
 
+vector<Card_in_shop> Csv::read_shop(string path)
+{
+    vector<Card_in_shop> out;
+    QFile file(QString::fromStdString(path));
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "read csv error!";
+        return out;
+    }
+
+    file.readLine();    //skip first line
+    while(!file.atEnd())
+    {
+        QString line = file.readLine();
+        line.replace('\n',"");
+        QStringList lineList = line.split(',');
+
+        Card_in_shop *temp;
+        temp = new Card_in_shop;
+        temp->name = lineList[0].toStdString();
+        temp->type = lineList[1].toStdString();
+        temp->url = lineList[2].toStdString();
+        temp->num = lineList[3].toInt();
+        temp->price = lineList[4].toInt();
+
+        out.push_back(*temp);
+    }
+    file.close();
+
+    return out;
+}
+
 void Csv::save_shop_csv(vector<Card_in_shop> shop, string path)
 {
     string temp = "";
