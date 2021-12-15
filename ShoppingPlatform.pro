@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +28,6 @@ HEADERS += \
     seller.h
 
 FORMS += \
-    dialog.ui \
     loginwindowpopupform.ui \
     mainwindow.ui
 

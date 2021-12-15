@@ -10,16 +10,16 @@ class Person
 {
 private:
     QString username;
-    QString id;
     QString password;
-
+    int id;
 
 
 protected:
     Money money;
 public:
 
-    Person(QString name,QString pass){
+    Person(int _id,QString name,QString pass){
+        id=_id;
         username=name;
         password=pass;
     }

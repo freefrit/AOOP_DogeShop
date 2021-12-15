@@ -2,15 +2,18 @@
 
 Money::Money()
 {
-
+    cash=0;
+    point=0;
 }
-void Money::addCash(int deposit)
+Money& Money::addCash(int deposit)
 {
     cash+=deposit;
+    return *this;
 }
-void Money::addPoint(double p)
+Money& Money::addPoint(double p)
 {
     point+=p;
+    return *this;
 }
 void Money::spendCash(int cost)
 {

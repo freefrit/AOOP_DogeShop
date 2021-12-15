@@ -9,8 +9,8 @@ class Money
 
 public:
     Money();
-    void addCash(int);
-    void addPoint(double);
+    Money& addCash(int);
+    Money& addPoint(double);
     void spendCash(int);
     void exchange(double);//exchange point to cash
     int getCash();

@@ -6,6 +6,7 @@
 #include "customer.h"
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <random>
 
 int Dulplicate_idx(vector<Customer> &list, QString id_in)
 {
@@ -16,6 +17,7 @@ int Dulplicate_idx(vector<Customer> &list, QString id_in)
     }
     return -1;
 }
+
 
 int Dulplicate_idx(vector<Seller> &list, QString id_in)
 {
@@ -29,8 +31,6 @@ int Dulplicate_idx(vector<Seller> &list, QString id_in)
 
 extern vector<Customer> customer_list;
 extern vector<Seller> seller_list;
-//extern int current_customer ;
-//extern int current_seller ;
 
 
 LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
@@ -39,6 +39,8 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
 {
     ui->setupUi(this);
     login_success=false;
+
+    query=new QSqlQuery(database);
 
     //style sheets
     this->setStyleSheet("QLabel#label_error {background-color:rgba(255,30,30,80) ; "
@@ -65,27 +67,16 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
 
     //error labels
     reset_error_labels();
-
-    //set initial display of login
-    ui->lineedit_ID->setPlaceholderText("Account or ID");
-    ui->lineedit_ID->setReadOnly(1);
-    ui->lineedit_password->setPlaceholderText("Password");
-    ui->lineedit_password->setReadOnly(1);
-    ui->commandLinkButton->hide();
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->comboBox->setPlaceholderText("-----");
-
-    //signup tabs echomode
-    ui->c_password->setEchoMode(QLineEdit::Password);
-    ui->c_password2->setEchoMode(QLineEdit::Password);
-    ui->s_password->setEchoMode(QLineEdit::Password);
-    ui->s_password2->setEchoMode(QLineEdit::Password);
+    //line_edit placeholder
+    initialize_lineedits();
 }
 void LoginWindowPopUpForm::signOrLog(enum state s)
 {
     reset_error_labels();
     if(s==login_)
     {
+        ui->lineedit_password->clear();
+        ui->tabWidget->setCurrentIndex(0);
         ui->tabWidget->setTabVisible(0,true);
         ui->tabWidget->setTabVisible(1,false);
         ui->tabWidget->setTabVisible(2,false);
@@ -94,9 +85,9 @@ void LoginWindowPopUpForm::signOrLog(enum state s)
     {
         ui->tabWidget->setTabVisible(0,false);
         ui->tabWidget->setTabVisible(1,true);
+        ui->tabWidget->setCurrentIndex(1);
         ui->tabWidget->setTabVisible(2,true);
     }
-
 };
 LoginWindowPopUpForm::~LoginWindowPopUpForm()
 {
@@ -120,21 +111,29 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         ui->c_error_password_label->setText("Password invalid.");
         ui->c_error_password_label->show();
     }
-    else if(QString::compare(password_in,password_check)){
+    else if(QString::compare(password_in,password_check))
+    {
         ui->c_error_password_label->setText("Passwords don't match.");
         ui->c_error_password_label->show();
         ui->c_password2->clear();
     }
-    else if(Dulplicate_idx(customer_list, name_in) == -1) //no dulplicate
+    else if(!c_duplicate_username(name_in)) //no dulplicate
     {
         qDebug()<<"register ok";
         QMessageBox::information(this," ","Congratulation!\nYou are now our member.\nPlease relogin after this message.");
         signOrLog(login_);
-        c=new Customer(name_in,password_in);
-        customer_list.push_back(*c);
-//        mypage->setCurrentIndex(1);
-//        hide();
 
+        query->exec("SELECT COUNT(*) FROM customer_list;");
+        query->next();
+        int x=query->value(0).toInt();
+        int random_generate_id=(int)((rand()/(RAND_MAX+1.)*1000)+1e8+x*1e6);
+        //local vec insert
+        c=new Customer(random_generate_id,name_in,password_in);
+        customer_list.push_back(*c);
+        //sql insert
+        sql_command="INSERT INTO customer_list VALUES("+QString::number(random_generate_id)+",'"+
+                name_in+"','"+password_in+"',0,0);";
+        query->exec(sql_command);
     }
     else
     {
@@ -163,15 +162,28 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         ui->s_error_password_label->setText("Incorrect password.");
         ui->s_error_password_label->show();
     }
-    else if(QString::compare(password_in,password_check)){
+    else if(QString::compare(password_in,password_check))
+    {
         ui->s_error_password_label->setText("Passwords don't match.");
         ui->s_error_password_label->show();
         ui->s_password2->clear();
     }
-    else if(Dulplicate_idx(seller_list, name_in) == -1){
-        s=new Seller(name_in,password_in);
+    else if(!s_duplicate_username(name_in))
+    {
+        qDebug()<<"register ok";
+        QMessageBox::information(this," ","Congratulation!\nYou are now our seller.\nPlease relogin after this message.");
+        signOrLog(login_);
+        query->exec("SELECT COUNT(*) FROM seller_list;");
+        query->next();
+        int x=query->value(0).toInt();
+        int random_generate_id=(int)((rand()/(RAND_MAX+1.)*1000)+2e8+x*1e6);
+        //local vec insert
+        s=new Seller(random_generate_id,name_in,password_in);
         seller_list.push_back(*s);
-
+        //sql insert
+        sql_command="INSERT INTO seller_list VALUES("+QString::number(random_generate_id)+",'"+
+                name_in+"','"+password_in+"',0,0);";
+        query->exec(sql_command);
     }
     else
     {
@@ -181,20 +193,36 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         ui->s_id->clear();
         qDebug("error: dulpicate id!\n");
     }
-        cout << "error: dulpicate id!\n";
-    mypage->setCurrentIndex(3);
-    hide();
 }
-
+bool LoginWindowPopUpForm::c_duplicate_username(QString username)
+{
+    sql_command="SELECT COUNT(*) FROM customer_list WHERE username = '"+username+"';";
+    query->exec(sql_command);
+    query->next();
+    return query->value(0).toBool();
+}
+bool LoginWindowPopUpForm::s_duplicate_username(QString username)
+{
+    sql_command="SELECT COUNT(*) FROM seller_list WHERE username = '"+username+"';";
+    query->exec(sql_command);
+    query->next();
+    return query->value(0).toBool();
+}
 void LoginWindowPopUpForm::on_Login_button_clicked()
 {
     QString x=ui->comboBox->currentText();
     current_user=-1;
     name_in= ui->lineedit_ID->text();
     if(!QString::compare(x,"Customer"))
-        current_user=Dulplicate_idx(customer_list, name_in),identity=cus;
+    {
+        identity=cus;
+        current_user=Dulplicate_idx(customer_list,name_in);
+    }
     else if(!QString::compare(x,"Seller"))
-        current_user=Dulplicate_idx(seller_list, name_in),identity=sel;
+    {
+        identity=sel;
+        current_user=Dulplicate_idx(seller_list,name_in);
+    }
     else{
         if(!QString::compare(x,"test"))identity=man;
         current_user=0;
@@ -225,6 +253,7 @@ void LoginWindowPopUpForm::on_Login_button_clicked()
     }
 
 }
+
 void LoginWindowPopUpForm::on_lineedit_ID_returnPressed()
 {
     on_Login_button_clicked();
@@ -260,32 +289,32 @@ void LoginWindowPopUpForm::on_Login_button_pass_clicked()
 }
 
 bool LoginWindowPopUpForm::validPass(QString pass){
+    bool contain_english=false,contain_num=false;
     if(pass.length()<6||pass.length()>12)
         return false;
     for(auto& c:pass)   {
-        if(c>='0'&&c<='9');
-        else if(c>='a'&&c<='z');
-        else if(c>='A'&&c<='Z');
-        else if(c=='.'||c=='_');
+        if(c>='0'&&c<='9'){contain_num=true;}
+        else if(c>='a'&&c<='z'){contain_english=true;}
+        else if(c>='A'&&c<='Z'){contain_english=true;}
         else
             return false;
     }
-    return true;
+    return contain_english&&contain_num;
 }
 
 bool LoginWindowPopUpForm::validName(QString name){
-    bool contain_english=false;
+    bool contain_english=false,contain_num=false;
     if(name.length()<6||name.length()>12)
         return false;
     for(auto& c:name)   {
-        if(c>='0'&&c<='9');
+        if(c>='0'&&c<='9'){contain_num=true;}
         else if(c>='a'&&c<='z'){contain_english=true;}
         else if(c>='A'&&c<='Z'){contain_english=true;}
         else if(c=='.'||c=='_');
         else
             return false;
     }
-    return contain_english;
+    return contain_english&&contain_num;
 }
 void LoginWindowPopUpForm::on_btn_return_clicked()
 {
@@ -297,7 +326,6 @@ void LoginWindowPopUpForm::on_btn_return_clicked()
 
 void LoginWindowPopUpForm::on_lineedit_ID_selectionChanged()
 {
-
     ui->lineedit_ID->setReadOnly(0);
 }
 
@@ -377,7 +405,25 @@ void LoginWindowPopUpForm::reset_error_labels()
     ui->s_error_password_label->hide();
     ui->s_error_username_label->hide();
 }
+void LoginWindowPopUpForm::initialize_lineedits()
+{
+    //set initial display of login
+    ui->lineedit_ID->setPlaceholderText("Account or ID");
+    ui->lineedit_ID->setReadOnly(1);
+    ui->lineedit_password->setPlaceholderText("Password");
+    ui->lineedit_password->setReadOnly(1);
+    ui->commandLinkButton->hide();
+    ui->stackedWidget->setCurrentIndex(0);
 
+
+    //signup tabs echomode
+    ui->c_password->setEchoMode(QLineEdit::Password);
+    ui->c_password2->setEchoMode(QLineEdit::Password);
+    ui->s_password->setEchoMode(QLineEdit::Password);
+    ui->s_password2->setEchoMode(QLineEdit::Password);
+
+
+}
 void LoginWindowPopUpForm::on_tabWidget_tabBarClicked(int index)
 {
     if(index==1){
@@ -394,5 +440,10 @@ void LoginWindowPopUpForm::on_tabWidget_tabBarClicked(int index)
         ui->s_password->clear();
         ui->s_password2->clear();
     }
+}
+void LoginWindowPopUpForm::logout(){
+    login_success=false;
+    reset_error_labels();
+
 }
 

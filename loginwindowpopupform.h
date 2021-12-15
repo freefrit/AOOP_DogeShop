@@ -2,9 +2,13 @@
 #define LOGINWINDOWPOPUPFORM_H
 
 #include <QWidget>
+#include <QSqlResult>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <qstackedwidget.h>
-#include <customer.h>
-#include <seller.h>
+#include "customer.h"
+#include "seller.h"
 
 enum state{
     login_,signup_
@@ -26,6 +30,12 @@ public:
     void syncpage(QStackedWidget* pages){
        mypage=pages;
     }
+    void syncdatabase(QSqlDatabase& db){
+        database=db;
+    }
+    void sync_C_S_pointer(Customer*cp,Seller*sp){
+        c=cp;   s=sp;
+    }
     void setprePage(int n){
         prePage=n;
     }
@@ -33,16 +43,17 @@ public:
         return login_success;
     };
     void signOrLog(state);
+    void logout();
 signals:
     void cusLoggedin();
     void selLoggedin();
     void manLoggedin();
 private:
-    MainWindow *main_ui;
     Ui::LoginWindowPopUpForm *ui;
     QStackedWidget* mypage;
-    QDialog* note;
-    QString name_in, password_in;
+    QSqlDatabase database;
+    QSqlQuery *query;
+    QString name_in, password_in,sql_command;
     Customer* c;
     Seller* s;
     identity identity;
@@ -53,7 +64,13 @@ private:
     bool validName(QString);
     bool validPass(QString);
     void reset_error_labels();
-    void clear_lineedits();
+    void initialize_lineedits();
+    bool c_duplicate_username(QString);
+    bool s_duplicate_username(QString);
+
+
+
+
 
 private slots:
     void on_c_signup_button_clicked();
