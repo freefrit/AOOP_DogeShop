@@ -46,7 +46,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -409,7 +409,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement both with at least 2 elements&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement with at least english &amp;amp; number&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::MarkdownText</enum>
@@ -606,7 +606,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement both with at least 2 elements&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement with at least english &amp;amp; number&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::MarkdownText</enum>

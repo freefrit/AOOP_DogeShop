@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "loginwindowpopupform.h"
+#include <QDialog>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
-#include <QDialog>
 
 vector<Customer> customer_list;
 vector<Seller> seller_list;
@@ -14,21 +14,34 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //initalize display
+    //SQL connection
+    database = QSqlDatabase::addDatabase("QMYSQL");
+    database.setHostName("");
+    database.setDatabaseName("doge_shop"); // schema name
+    database.setUserName("testuser");
+    database.setPassword("password"); // your password
+    database.setPort(3306);
+    bool ok = database.open();
+    if(ok){
+        qDebug()<<"Successful Connection.";
+    }else{
+        qDebug()<<database.lastError();
+    }
+    query=new QSqlQuery(database);
 
-    ui->stackedWidget->setCurrentIndex(frontpage);
-    ui->menuMyInfo->menuAction()->setVisible(false);
-
-    //ui->actionLog_out_2->setVisible(false);
-    //ui->actionMy_Shop->setVisible(false);
-    ui->menuSeller_Center->menuAction()->setVisible(false);
-
-
+    //read in customer & seller lists
+    build_cus_list();
+    build_sel_list();
 
 
     m_login_window=new LoginWindowPopUpForm(this);
     m_login_window->syncpage(ui->stackedWidget);
+    m_login_window->sync_C_S_pointer(c,s);
+    m_login_window->syncdatabase(database);
     m_login_window->hide();
+
+    //initalize display
+    logout_display();
 
     //default message
     ui->lineedit_searchbar->setPlaceholderText("Search");
@@ -75,6 +88,7 @@ void MainWindow::on_actionmyInfo_triggered()
 {
     ui->stackedWidget->setCurrentIndex(c_info_page);
 }
+
 void MainWindow::popup_close_cus()
 {
     if(m_login_window->is_loggedin())
@@ -97,7 +111,42 @@ void MainWindow::popup_close_man()
         ui->menuSeller_Center->menuAction()->setVisible(true);
     }
 }
+void MainWindow::on_actionLog_out_triggered()
+{
+    m_login_window->logout();
+    logout_display();
 
+
+}
+void MainWindow::on_actionLog_out_2_triggered()
+{
+    on_actionLog_out_triggered();
+}
+void MainWindow::logout_display()
+{
+    ui->stackedWidget->setCurrentIndex(frontpage);
+    ui->menuMyInfo->menuAction()->setVisible(false);
+    ui->menuSeller_Center->menuAction()->setVisible(false);
+    ui->menuGuest->menuAction()->setVisible(true);
+}
+void MainWindow::build_cus_list()
+{
+    query->exec("SELECT * FROM customer_list ");
+    while(query->next()){
+        QString tmpName=query->value(1).toString(),tmpPass=query->value(2).toString();
+        c=new Customer(query->value(0).toInt(),tmpName,tmpPass);
+        customer_list.push_back(*c);
+    }
+}
+void MainWindow::build_sel_list()
+{
+    query->exec("SELECT * FROM seller_list ");
+    while(query->next()){
+        QString tmpName=query->value(1).toString(),tmpPass=query->value(2).toString();
+        s=new Seller(query->value(0).toInt(),tmpName,tmpPass);
+        seller_list.push_back(*s);
+    }
+}
 
 void MainWindow::on_actionRelease_Card_triggered()
 {
@@ -111,4 +160,3 @@ void MainWindow::on_actionRelease_Card_triggered()
 
     delete load_window;
 }
-

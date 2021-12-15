@@ -11,7 +11,7 @@ private:
     //Money money;
 
 public:
-    Seller(QString&name,QString&pass):Person(name,pass){};
+    Seller(int _id,QString&name,QString&pass):Person(_id,name,pass){};
     //bool Earnmoney();
 
 };
