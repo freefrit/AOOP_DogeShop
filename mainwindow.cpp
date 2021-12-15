@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "loginwindowpopupform.h"
+#include "header/loading_window.h"
+#include "header/addgoods_window.h"
 #include <QDialog>
 
 vector<Customer> customer_list;
 vector<Seller> seller_list;
-
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -96,5 +96,19 @@ void MainWindow::popup_close_man()
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuSeller_Center->menuAction()->setVisible(true);
     }
+}
+
+
+void MainWindow::on_actionRelease_Card_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    AddGoods_window *add_window = new AddGoods_window(this);
+    add_window->setWindowTitle("卡片上架");
+    add_window->show();
+
+    delete load_window;
 }
 
