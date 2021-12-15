@@ -36,8 +36,7 @@ AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddGoods_window)
 {
-    if(!flag)
-        delete ui;
+
 }
 
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
@@ -120,6 +119,7 @@ void AddGoods_window::reject()
 {
     Csv *csvObj = new Csv;
     csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
+    delete csvObj;
 
     QDialog::reject();
 }

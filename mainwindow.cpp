@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
+#include "header/shop_window.h"
 
 vector<Customer> customer_list;
 vector<Seller> seller_list;
@@ -160,3 +161,17 @@ void MainWindow::on_actionRelease_Card_triggered()
 
     delete load_window;
 }
+
+void MainWindow::on_actionDOGE_SHOP_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    Shop_window *shop_window = new Shop_window(this);
+    shop_window->setWindowTitle("卡片購買");
+    shop_window->show();
+
+    delete load_window;
+}
+

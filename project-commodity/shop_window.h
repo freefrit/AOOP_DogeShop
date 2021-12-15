@@ -20,6 +20,8 @@ public:
 private:
     Ui::Shop_window *ui;
 
+    void reject() override;
+
 };
 
 #endif // SHOP_WINDOW_H

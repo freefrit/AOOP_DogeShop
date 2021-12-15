@@ -47,6 +47,8 @@ private slots:
     
     void on_actionRelease_Card_triggered();
 
+    void on_actionDOGE_SHOP_triggered();
+
 private:
     int prePage;
     Ui::MainWindow *ui;
