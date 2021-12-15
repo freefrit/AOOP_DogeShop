@@ -1,22 +1,10 @@
 #include"customer.h"
-
-bool Register(vector<Customer> &list, QString id_in, QString password_in)
-{
-    Customer t;
-    if(!t.Edit(id_in, password_in))
-        return false;
-
-    list.push_back(t);
-
-    return true;
-}
-
-int Dulplicate_idx(vector<Customer> &list, QString id_in)
-{
-    for(int i = 0; i < (int)list.size(); i++)
+bool Customer::purchase_cash(int price){
+    if(money.isaffordable(price))
     {
-        if(list[i].Cmp_id(id_in))
-            return i; //there is dulpicate id in the list
+        money.spendCash(price);
+        return true;
     }
-    return -1;
+    return false;
 }
+

@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,16 +10,20 @@ CONFIG += c++11
 
 SOURCES += \
     customer.cpp \
+    customerbag.cpp \
     loginwindowpopupform.cpp \
     main.cpp \
     mainwindow.cpp \
+    money.cpp \
     person.cpp \
     seller.cpp
 
 HEADERS += \
     customer.h \
+    customerbag.h \
     loginwindowpopupform.h \
     mainwindow.h \
+    money.h \
     person.h \
     seller.h
 
@@ -31,3 +35,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    ui_icon.qrc

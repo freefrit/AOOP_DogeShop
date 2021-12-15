@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>return_btn_icon.png</file>
+    </qresource>
+</RCC>

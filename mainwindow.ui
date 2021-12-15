@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>960</width>
     <height>600</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>MV Boli</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -17,39 +22,310 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
+      <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_welcome">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>210</y>
-          <width>111</width>
+          <x>160</x>
+          <y>250</y>
+          <width>611</width>
           <height>151</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <pointsize>50</pointsize>
+          <family>MV Boli</family>
+          <pointsize>32</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Hi</string>
+         <string>Welcome back,
+Checkout what's new !!</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineedit_searchbar">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>110</y>
+          <width>521</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Normal</enum>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
         </property>
        </widget>
       </widget>
       <widget class="QWidget" name="page_2">
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_c_info">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>281</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MV Boli</family>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>My Profile:</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>260</y>
+          <width>411</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MV Boli</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>personal info</string>
+        </property>
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>100</y>
+           <width>121</width>
+           <height>23</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_c_cellphone">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>130</y>
+           <width>77</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cellphone:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_sex">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>70</y>
+           <width>121</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="currentText">
+          <string>男</string>
+         </property>
+         <item>
           <property name="text">
-           <string>Costomer Signned up!</string>
+           <string>男</string>
           </property>
-         </widget>
-        </item>
-       </layout>
+         </item>
+         <item>
+          <property name="text">
+           <string>女</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>其他</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="label_c_sex">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>70</y>
+           <width>32</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sex:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_c_birthday">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>100</y>
+           <width>71</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Birthday:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_2">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>130</y>
+           <width>121</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_c_infoupdate">
+         <property name="geometry">
+          <rect>
+           <x>310</x>
+           <y>200</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Update</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>50</y>
+          <width>411</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MV Boli</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>member info</string>
+        </property>
+        <widget class="QLabel" name="label_c_username">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>80</y>
+           <width>80</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Username:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_c_username_2">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>40</y>
+           <width>80</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>ID:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>40</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>80</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Username</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QCommandLinkButton" name="commandLinkButton">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>180</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Manage Password and Username</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="page_3">
        <layout class="QGridLayout" name="gridLayout_5">
@@ -88,47 +364,118 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="enabled">
-    <bool>true</bool>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>960</width>
+     <height>26</height>
+    </rect>
    </property>
-   <property name="windowTitle">
-    <string>toolBar</string>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
-   <property name="movable">
+   <property name="defaultUp">
     <bool>false</bool>
    </property>
-   <property name="iconSize">
-    <size>
-     <width>30</width>
-     <height>30</height>
-    </size>
-   </property>
-   <property name="floatable">
-    <bool>true</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionLogin"/>
-   <addaction name="separator"/>
-   <addaction name="actionWhat_s_New"/>
-   <addaction name="separator"/>
+   <widget class="QMenu" name="menuCustomer_Center">
+    <property name="title">
+     <string>MENU</string>
+    </property>
+    <widget class="QMenu" name="menuMyInfo">
+     <property name="title">
+      <string>Customer Center</string>
+     </property>
+     <addaction name="actionmyInfo"/>
+     <addaction name="actionNotifycation"/>
+     <addaction name="separator"/>
+     <addaction name="actionLog_out"/>
+    </widget>
+    <addaction name="actionHome"/>
+    <addaction name="separator"/>
+    <addaction name="menuMyInfo"/>
+   </widget>
+   <widget class="QMenu" name="menuSeller_Center">
+    <property name="title">
+     <string>Seller Center</string>
+    </property>
+    <addaction name="actionMy_Shop"/>
+    <addaction name="separator"/>
+    <addaction name="actionLog_out_2"/>
+   </widget>
+   <widget class="QMenu" name="menuCatogory">
+    <property name="title">
+     <string>Catogory</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuGuest">
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="title">
+     <string>Guest</string>
+    </property>
+    <addaction name="actionLogin"/>
+    <addaction name="actionSignup"/>
+   </widget>
+   <addaction name="menuCustomer_Center"/>
+   <addaction name="menuSeller_Center"/>
+   <addaction name="menuGuest"/>
+   <addaction name="menuCatogory"/>
   </widget>
   <action name="actionLogin">
    <property name="text">
-    <string>Login</string>
+    <string>Log In</string>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CLICK!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
-  <action name="actionWhat_s_New">
+  <action name="actionSignup">
    <property name="text">
-    <string>What's New</string>
+    <string>Sign UP!</string>
+   </property>
+   <property name="toolTip">
+    <string>SIGN UP NOW!!!</string>
+   </property>
+  </action>
+  <action name="actionmyInfo">
+   <property name="text">
+    <string>MyInfo</string>
+   </property>
+  </action>
+  <action name="actionHome">
+   <property name="text">
+    <string>Home Page</string>
+   </property>
+   <property name="toolTip">
+    <string>check it out!</string>
+   </property>
+  </action>
+  <action name="actionLog_out">
+   <property name="text">
+    <string>Log out</string>
+   </property>
+  </action>
+  <action name="actionNotifycation">
+   <property name="text">
+    <string>Notification</string>
+   </property>
+  </action>
+  <action name="actionMy_Shop">
+   <property name="text">
+    <string>My Shop</string>
+   </property>
+  </action>
+  <action name="actionLog_out_2">
+   <property name="text">
+    <string>Log out</string>
+   </property>
+  </action>
+  <action name="actionprofile">
+   <property name="text">
+    <string>profile</string>
    </property>
   </action>
  </widget>
