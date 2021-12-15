@@ -6,34 +6,287 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>960</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>MV Boli</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowOpacity">
+   <double>0.000000000000000</double>
+  </property>
+  <property name="toolTipDuration">
+   <number>-1</number>
+  </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>20</y>
-     <width>211</width>
-     <height>271</height>
+     <x>120</x>
+     <y>90</y>
+     <width>700</width>
+     <height>400</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MV Boli</family>
+     <pointsize>8</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="toolTipDuration">
+    <number>-1</number>
    </property>
    <property name="currentIndex">
     <number>1</number>
    </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Log In </string>
+    </attribute>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>700</width>
+       <height>370</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(0xDF,0xD5,0xA5);</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <property name="font">
+       <font>
+        <family>MV Boli</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(0xDF,0xD5,0xA5);</string>
+      </property>
+      <widget class="QLineEdit" name="lineedit_ID">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>160</y>
+         <width>291</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MV Boli</family>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="Login_button">
+       <property name="geometry">
+        <rect>
+         <x>500</x>
+         <y>290</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MV Boli</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>60</y>
+         <width>221</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;DOGE  SHOP&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_error">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>210</y>
+         <width>281</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QCommandLinkButton" name="commandLinkButton">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>290</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SIGN UP?</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>500</x>
+         <y>160</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Customer</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>test</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Seller</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QPushButton" name="btn_return">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>31</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>«</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_error_pass">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>210</y>
+         <width>291</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineedit_password">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>140</y>
+         <width>291</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MV Boli</family>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="Login_button_pass">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>300</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MV Boli</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_identity">
+       <property name="geometry">
+        <rect>
+         <x>204</x>
+         <y>59</y>
+         <width>281</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
    <widget class="QWidget" name="cLoginTab">
     <attribute name="title">
-     <string>買家登入</string>
+     <string>Customer</string>
     </attribute>
     <widget class="QLineEdit" name="c_id">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>50</y>
+       <x>150</x>
+       <y>70</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -45,8 +298,8 @@
     <widget class="QLineEdit" name="c_password">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>120</y>
+       <x>150</x>
+       <y>150</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -58,61 +311,48 @@
     <widget class="QLabel" name="cAcc">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>20</y>
+       <x>20</x>
+       <y>70</y>
        <width>86</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>帳號(ID):</string>
+      <string>Username:</string>
      </property>
     </widget>
     <widget class="QLabel" name="cPass">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>90</y>
-       <width>96</width>
+       <x>20</x>
+       <y>150</y>
+       <width>131</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>密碼(Password):</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="c_login_button">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>200</y>
-       <width>90</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Log In</string>
+      <string>Password:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="c_signup_button">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>90</width>
-       <height>28</height>
+       <x>480</x>
+       <y>270</y>
+       <width>100</width>
+       <height>25</height>
       </rect>
      </property>
      <property name="text">
       <string>Sign Up</string>
      </property>
     </widget>
-    <widget class="QLabel" name="c_error_label">
+    <widget class="QLabel" name="c_error_password_label">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>145</y>
-       <width>138</width>
+       <x>150</x>
+       <y>240</y>
+       <width>140</width>
        <height>31</height>
       </rect>
      </property>
@@ -120,16 +360,113 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLineEdit" name="c_password2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>210</y>
+       <width>137</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="cPass_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>210</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Retype Pasword:</string>
+     </property>
+    </widget>
+    <widget class="QCommandLinkButton" name="commandLinkButton_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>300</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Already have an account?</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>60</y>
+       <width>311</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement both with at least 2 elements&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::MarkdownText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="c_error_username_label">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>90</y>
+       <width>140</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolbtn_c_revealPass">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>150</y>
+       <width>27</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolbtn_c_revealPass2">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>210</y>
+       <width>27</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="sLoginTab">
     <attribute name="title">
-     <string>賣家登入</string>
+     <string>Seller</string>
     </attribute>
     <widget class="QLineEdit" name="s_id">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>50</y>
+       <x>150</x>
+       <y>70</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -141,8 +478,8 @@
     <widget class="QLineEdit" name="s_password">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>120</y>
+       <x>150</x>
+       <y>150</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -154,14 +491,14 @@
     <widget class="QLabel" name="sPass">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>90</y>
+       <x>20</x>
+       <y>150</y>
        <width>96</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>密碼(Password):</string>
+      <string>Password:</string>
      </property>
     </widget>
     <widget class="QLabel" name="sAcc">
@@ -170,52 +507,29 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>20</y>
+       <x>20</x>
+       <y>70</y>
        <width>86</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>帳號(ID):</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="s_login_button">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>200</y>
-       <width>90</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-       <underline>false</underline>
-       <kerning>true</kerning>
-      </font>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string>Log In</string>
+      <string>Username:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="s_signup_button">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>90</width>
-       <height>28</height>
+       <x>480</x>
+       <y>270</y>
+       <width>100</width>
+       <height>25</height>
       </rect>
      </property>
      <property name="font">
       <font>
+       <family>MV Boli</family>
+       <pointsize>8</pointsize>
        <weight>50</weight>
        <italic>false</italic>
        <bold>false</bold>
@@ -230,12 +544,12 @@
       <string>Sign Up</string>
      </property>
     </widget>
-    <widget class="QLabel" name="s_error_label">
+    <widget class="QLabel" name="s_error_password_label">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>145</y>
-       <width>138</width>
+       <x>150</x>
+       <y>230</y>
+       <width>140</width>
        <height>31</height>
       </rect>
      </property>
@@ -243,7 +557,117 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLineEdit" name="s_password2">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>210</y>
+       <width>137</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="cPass_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>210</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Retype Pasword:</string>
+     </property>
+    </widget>
+    <widget class="QCommandLinkButton" name="commandLinkButton_3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>300</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Already have an account?</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>60</y>
+       <width>311</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Username&lt;/span&gt; accepts alphabetic chars,numbers,&lt;/p&gt;&lt;p&gt;dot'.' and dash'_'&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Password&lt;/span&gt; accepts only alphabetic chars,numbers&lt;/p&gt;&lt;p&gt;(Please implement both with at least 2 elements&lt;/p&gt;&lt;p&gt;and length between 6 to 12 units)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::MarkdownText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="s_error_username_label">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>90</y>
+       <width>140</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolbtn_s_revealPass2">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>210</y>
+       <width>27</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolbtn_s_revealPass">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>150</y>
+       <width>27</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="to_main_btn">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>90</y>
+     <width>31</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X</string>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -6,11 +6,15 @@
 class Customer: public Person
 {
 private:
+
     //CustomerBag bag;
     //Cart cart;
-    //Money money;
+
 public:
+    Customer(QString&name,QString&pass):Person(name,pass){};
     //bool Earnmoney();
+    bool purchase_cash(int);
+
 };
 
 
