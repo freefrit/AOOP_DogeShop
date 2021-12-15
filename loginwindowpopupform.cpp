@@ -76,7 +76,7 @@ void LoginWindowPopUpForm::signOrLog(enum state s)
     if(s==login_)
     {
         ui->lineedit_password->clear();
-        ui->tabWidget->setCurrentIndex(0);
+        ui->stackedWidget->setCurrentIndex(0);
         ui->tabWidget->setTabVisible(0,true);
         ui->tabWidget->setTabVisible(1,false);
         ui->tabWidget->setTabVisible(2,false);

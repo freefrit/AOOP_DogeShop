@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
-    database.setHostName("");
+    database.setHostName("172.17.43.69");
     database.setDatabaseName("doge_shop"); // schema name
     database.setUserName("testuser");
     database.setPassword("password"); // your password
