@@ -12,25 +12,25 @@ CONFIG += c++11
 SOURCES += \
     addgoods_window.cpp \
     card.cpp \
+    carddetail_window.cpp \
     csv.cpp \
     loading_window.cpp \
     main.cpp \
-    mainwindow.cpp \
-    shop_window.cpp
+    mainwindow.cpp
 
 HEADERS += \
     addgoods_window.h \
     card.h \
+    carddetail_window.h \
     csv.h \
     loading_window.h \
-    mainwindow.h \
-    shop_window.h
+    mainwindow.h
 
 FORMS += \
     addgoods_window.ui \
+    carddetail_window.ui \
     loading_window.ui \
-    mainwindow.ui \
-    shop_window.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

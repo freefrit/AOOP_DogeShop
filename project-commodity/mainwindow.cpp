@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "shop_window.h"
 #include "loading_window.h"
 #include "csv.h"
 #include "card.h"
@@ -31,10 +30,9 @@ void MainWindow::on_pushButton_clicked()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    //Shop_window *shop_window = new Shop_window(this);
-    AddGoods_window *shop_window = new AddGoods_window(this);
-    shop_window->setWindowTitle("可以色色");
-    shop_window->show();
+    AddGoods_window *add_window = new AddGoods_window(this);
+    add_window->setWindowTitle("卡片上架");
+    add_window->show();
 
     delete load_window;
 }

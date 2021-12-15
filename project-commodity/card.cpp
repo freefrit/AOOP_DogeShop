@@ -1,4 +1,5 @@
-#include <card.h>
+#include "card.h"
+#include "carddetail_window.h"
 #include <QEventLoop>
 
 void Card::load_pic(const string &strPicUrl, QLabel &lable, int height)
@@ -20,11 +21,23 @@ void Card::load_pic(const string &strPicUrl, QLabel &lable, int height)
                  lable.clear();
                  lable.setPixmap(pixmap.scaledToHeight(height));
             }
+            else
+                lable.setText("No Image");
         }
-     loop.quit();
-   });
+        else
+            qDebug() << "Network error!";
+        loop.quit();
+    });
 
    loop.exec();
+}
+
+void Card::detail()
+{
+    CardDetail_window *detail_window = new CardDetail_window;
+    detail_window->setWindowTitle("卡片詳細");
+    detail_window->set_layout(this->name, this->type, this->url);
+    detail_window->show();
 }
 
 void Card_block_sell::set_layout()

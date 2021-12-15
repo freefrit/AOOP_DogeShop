@@ -19,6 +19,7 @@ public:
     string url;
 
     void load_pic(const string &strPicUrl, QLabel &lable, int height);
+    void detail();
 };
 
 class Card_block_sell: public Card
