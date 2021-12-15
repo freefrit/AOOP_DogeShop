@@ -16,8 +16,11 @@ class AddGoods_window : public QDialog
 public:
     int page;
     int row_cards;
+    vector<Card> all_card;
+    vector<Card_in_shop> shop_v;
 
     explicit AddGoods_window(QWidget *parent = nullptr);
+    AddGoods_window(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx);
     void clear_layout(QLayout* layout);
@@ -32,9 +35,10 @@ private slots:
 
 private:
     Ui::AddGoods_window *ui;
-    vector<Card> all_card;
     vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
+
+    void reject() override;
 };
 
 #endif // ADDGOODS_WINDOW_H

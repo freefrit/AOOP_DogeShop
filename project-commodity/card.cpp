@@ -39,3 +39,12 @@ void Card::detail()
     detail_window->set_layout(this->name, this->type, this->url);
     detail_window->show();
 }
+
+void Card_in_shop::set_data(Card x, int num, int price)
+{
+    this->name = x.name;
+    this->type = x.type;
+    this->url = x.url;
+    this->num = num;
+    this->price = price;
+}

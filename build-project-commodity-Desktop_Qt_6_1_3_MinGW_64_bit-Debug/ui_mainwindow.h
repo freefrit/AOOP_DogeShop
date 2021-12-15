@@ -24,6 +24,7 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QPushButton *pushButton;
+    QPushButton *pushButton_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -37,6 +38,9 @@ public:
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setGeometry(QRect(290, 250, 93, 28));
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(290, 300, 93, 28));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -54,7 +58,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "shop", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "add", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "shop", nullptr));
     } // retranslateUi
 
 };

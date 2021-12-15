@@ -12,7 +12,8 @@ class Csv
 {
 public:
     vector<Card> read_csv(string);
-    void save_csv(vector<Card>, string);
+    vector<Card_in_shop> read_shop(string);
+    void save_shop_csv(vector<Card_in_shop>, string);
 };
 
 #endif // CSV_H

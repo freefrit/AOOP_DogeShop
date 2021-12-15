@@ -2,12 +2,11 @@
 #include "ui_mainwindow.h"
 #include "loginwindowpopupform.h"
 #include <QDialog>
-
+#include "header/loading_window.h"
+#include "header/addgoods_window.h"
 
 vector<Customer> customer_list;
 vector<Seller> seller_list;
-
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -147,4 +146,17 @@ void MainWindow::build_sel_list()
         s=new Seller(query->value(0).toInt(),tmpName,tmpPass);
         seller_list.push_back(*s);
     }
+}
+
+void MainWindow::on_actionRelease_Card_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    AddGoods_window *add_window = new AddGoods_window(this);
+    add_window->setWindowTitle("卡片上架");
+    add_window->show();
+
+    delete load_window;
 }

@@ -16,7 +16,8 @@ SOURCES += \
     csv.cpp \
     loading_window.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    shop_window.cpp
 
 HEADERS += \
     addgoods_window.h \
@@ -24,13 +25,15 @@ HEADERS += \
     carddetail_window.h \
     csv.h \
     loading_window.h \
-    mainwindow.h
+    mainwindow.h \
+    shop_window.h
 
 FORMS += \
     addgoods_window.ui \
     carddetail_window.ui \
     loading_window.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    shop_window.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

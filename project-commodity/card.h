@@ -21,19 +21,14 @@ public:
     void load_pic(const string &strPicUrl, QLabel &lable, int height);
     void detail();
 };
-/*
-class Card_block_sell: public Card
+
+class Card_in_shop: public Card
 {
 public:
-    int index;
-    QLabel *pic_label;
-    QLabel *name_label;
-    QLabel *num_label, *price_label;
-    QLineEdit *num_edit, *price_edit;
-    QPushButton *info_butt;
+    int num;
+    int price;
 
-    //void set_ui(QLabel *, QLabel *, QLabel *, );
-    void set_layout();
+    void set_data(Card x, int num, int price);
 };
-*/
+
 #endif // CARD_H

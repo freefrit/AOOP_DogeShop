@@ -2,6 +2,7 @@
 #include "ui_addgoods_window.h"
 #include "loading_window.h"
 #include "csv.h"
+#include <QIntValidator>
 
 using namespace std;
 
@@ -31,6 +32,14 @@ AddGoods_window::AddGoods_window(QWidget *parent) :
     card_grid_layout(row_cards, ui->down_gridLayout, 1);
 }
 
+AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AddGoods_window)
+{
+    if(!flag)
+        delete ui;
+}
+
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
 {
     grid->setRowMinimumHeight(0, 180);
@@ -56,6 +65,8 @@ void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         num->setAlignment(Qt::AlignRight);
         price->setAlignment(Qt::AlignRight);
         QLineEdit *num_in = new QLineEdit, *price_in = new QLineEdit;
+        num_in->setValidator(new QIntValidator(0, 1000, this));
+        price_in->setValidator(new QIntValidator(0, 10000, this));
         num_in_v.push_back(num_in);
         price_in_v.push_back(price_in);
         QHBoxLayout *hBoxLayout = new QHBoxLayout;
@@ -105,6 +116,14 @@ AddGoods_window::~AddGoods_window()
     delete ui;
 }
 
+void AddGoods_window::reject()
+{
+    Csv *csvObj = new Csv;
+    csvObj->save_shop_csv(shop_v, "../src/shop.csv");
+
+    QDialog::reject();
+}
+
 void AddGoods_window::on_next_page_clicked()
 {
     page++;
@@ -151,20 +170,39 @@ void AddGoods_window::on_previous_page_clicked()
 
 void AddGoods_window::on_add_clicked()
 {
+    Card_in_shop *temp;
+    int count = 0;
+
     for(int i = 0; i < (int)num_in_v.size(); i++)
     {
-        if(num_in_v[i]->text() != "")
-            qDebug() << 2*row_cards*page + i << num_in_v[i]->text();
-        if(price_in_v[i]->text() != "")
-            qDebug() << 2*row_cards*page + i << price_in_v[i]->text();
+        int idx = 2*row_cards*page + i;
+
+        if(num_in_v[i]->text() != "" && price_in_v[i]->text() != "")
+        {
+            temp = new Card_in_shop;
+            temp->set_data(all_card[idx], num_in_v[i]->text().toInt(), price_in_v[i]->text().toInt());
+            shop_v.push_back(*temp);
+            count++;
+        }
 
         num_in_v[i]->clear();
         price_in_v[i]->clear();
     }
 
     Loading_window *load_window = new Loading_window(this);
-    load_window->setWindowTitle("上架成功");
-    load_window->set_text("SUCCESS");
+    if(count)
+    {
+        load_window->setWindowTitle("上架成功");
+        load_window->set_text("SUCCESS");
+        qDebug() << shop_v.size();
+        qDebug() << QString::fromStdString(shop_v.back().name) << shop_v.back().num << shop_v.back().price;
+    }
+    else
+    {
+        load_window->setWindowTitle("上架失敗");
+        load_window->set_text("FAILED");
+        qDebug() << shop_v.size();
+    }
     load_window->show();
 }
 

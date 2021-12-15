@@ -401,6 +401,7 @@ Checkout what's new !!</string>
      <string>Seller Center</string>
     </property>
     <addaction name="actionMy_Shop"/>
+    <addaction name="actionRelease_Card"/>
     <addaction name="separator"/>
     <addaction name="actionLog_out_2"/>
    </widget>
@@ -470,6 +471,11 @@ Checkout what's new !!</string>
   <action name="actionprofile">
    <property name="text">
     <string>profile</string>
+   </property>
+  </action>
+  <action name="actionRelease_Card">
+   <property name="text">
+    <string>Release Card</string>
    </property>
   </action>
  </widget>

@@ -8,6 +8,8 @@
 
 #include <memory>
 #include "../../project-commodity/shop_window.h"
+#include <QtGui/qtextcursor.h>
+#include <QtNetwork/QSslError>
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
@@ -61,7 +63,7 @@ void Shop_window::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 }
 
 const QMetaObject Shop_window::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<AddGoods_window::staticMetaObject>(),
     qt_meta_stringdata_Shop_window.offsetsAndSize,
     qt_meta_data_Shop_window,
     qt_static_metacall,
@@ -81,12 +83,12 @@ void *Shop_window::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_Shop_window.stringdata0))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return AddGoods_window::qt_metacast(_clname);
 }
 
 int Shop_window::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = AddGoods_window::qt_metacall(_c, _id, _a);
     return _id;
 }
 QT_WARNING_POP

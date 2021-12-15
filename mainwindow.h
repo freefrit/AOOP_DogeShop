@@ -44,6 +44,8 @@ private slots:
     void on_actionLog_out_triggered();
 
     void on_actionLog_out_2_triggered();
+    
+    void on_actionRelease_Card_triggered();
 
 private:
     int prePage;
