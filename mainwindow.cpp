@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dialog.h"
 #include "loginwindowpopupform.h"
 #include <QDialog>
 
@@ -97,17 +96,5 @@ void MainWindow::popup_close_man()
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuSeller_Center->menuAction()->setVisible(true);
     }
-}
-
-
-
-void MainWindow::on_pushButton_clicked()
-{
-    //QDialog *dlg = new QDialog(this);
-    //dlg->show();
-
-    Dialog *test = new Dialog(this);
-    test->show();
-    //delete test;
 }
 

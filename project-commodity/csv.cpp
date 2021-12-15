@@ -23,13 +23,14 @@ vector<Card> Csv::read_csv(string path)
         temp->type = lineList[1].toStdString();
         temp->url = lineList[2].toStdString();
 
-        //qDebug() << QString::fromStdString(temp->name);
-        //qDebug() << QString::fromStdString(temp->type);
-        //qDebug() << QString::fromStdString(temp->url);
-
         out.push_back(*temp);
     }
     file.close();
 
     return out;
+}
+
+void Csv::save_csv(vector<Card>, string)
+{
+
 }

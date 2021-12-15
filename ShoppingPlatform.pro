@@ -28,7 +28,6 @@ HEADERS += \
     seller.h
 
 FORMS += \
-    dialog.ui \
     loginwindowpopupform.ui \
     mainwindow.ui
 
