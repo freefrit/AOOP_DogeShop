@@ -85,3 +85,15 @@ void Shop_window::reject()
 {
     QDialog::reject();
 }
+
+void Shop_window::on_next_page_clicked()
+{
+
+}
+
+
+void Shop_window::on_previous_page_clicked()
+{
+
+}
+

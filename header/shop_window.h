@@ -15,7 +15,12 @@ class Shop_window : public AddGoods_window
 public:
     explicit Shop_window(QWidget *parent = nullptr);
     ~Shop_window();
-    void card_grid_layout(int q, QGridLayout *grid, int row_idx);
+    void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
+
+private slots:
+    void on_next_page_clicked() override;
+
+    void on_previous_page_clicked() override;
 
 private:
     Ui::Shop_window *ui;
