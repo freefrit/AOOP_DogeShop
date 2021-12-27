@@ -73,6 +73,7 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
 void LoginWindowPopUpForm::signOrLog(enum state s)
 {
     reset_error_labels();
+    initialize_lineedits();
     if(s==login_)
     {
         ui->lineedit_password->clear();
@@ -417,6 +418,10 @@ void LoginWindowPopUpForm::initialize_lineedits()
 
 
     //signup tabs echomode
+    ui->c_password->clear();
+    ui->c_password2->clear();
+    ui->s_password->clear();
+    ui->s_password2->clear();
     ui->c_password->setEchoMode(QLineEdit::Password);
     ui->c_password2->setEchoMode(QLineEdit::Password);
     ui->s_password->setEchoMode(QLineEdit::Password);
