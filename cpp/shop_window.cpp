@@ -1,5 +1,6 @@
 #include "header/shop_window.h"
 #include "ui_shop_window.h"
+#include "header/loading_window.h"
 #include "header/csv.h"
 #include <QIntValidator>
 
@@ -57,12 +58,17 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + row_cards*idx].price));
         num->setAlignment(Qt::AlignRight);
         price->setAlignment(Qt::AlignLeft);
-        //QLineEdit *num_in = new QLineEdit;
-        //num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
+        num->setStyleSheet("font:bold; color:red");
+        price->setStyleSheet("font:bold; color:red");
+        QLabel *num2 = new QLabel("輸入數量");
+        QLineEdit *num_in = new QLineEdit;
+        num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
         //num_in_v.push_back(num_in);
-        QHBoxLayout *hBoxLayout = new QHBoxLayout;
-        hBoxLayout->addWidget(num, Qt::AlignLeft);
-        hBoxLayout->addWidget(price, Qt::AlignLeft);
+        QGridLayout *hBoxLayout = new QGridLayout;
+        hBoxLayout->addWidget(num, 0, 0, Qt::AlignLeft);
+        hBoxLayout->addWidget(price, 0, 1, Qt::AlignLeft);
+        hBoxLayout->addWidget(num2, 1, 0, Qt::AlignLeft);
+        hBoxLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
         hBoxLayout->setSpacing(2);
         grid->addLayout(hBoxLayout, 3, i, Qt::AlignCenter);
 
@@ -84,4 +90,54 @@ Shop_window::~Shop_window()
 void Shop_window::reject()
 {
     QDialog::reject();
+}
+
+void Shop_window::on_add_clicked()
+{
+
+}
+
+
+void Shop_window::on_next_page_clicked()
+{
+    page++;
+    if(page > (int)shop_v.size() / (2*row_cards))
+        page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
+}
+
+
+
+void Shop_window::on_previous_page_clicked()
+{
+    page--;
+    if(page < 0)
+        page = (int)shop_v.size() / (2*row_cards);
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
 }
