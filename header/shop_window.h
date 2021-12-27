@@ -22,6 +22,13 @@ private slots:
 
     void on_previous_page_clicked() override;
 
+private slots:
+    void on_add_clicked();
+
+    void on_previous_page_clicked();
+
+    void on_next_page_clicked();
+
 private:
     Ui::Shop_window *ui;
 
