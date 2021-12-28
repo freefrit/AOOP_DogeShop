@@ -56,17 +56,20 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
 
         QLabel *num = new QLabel("庫存" + QString::number(shop_v[2*q*page + i + row_cards*idx].num));
         QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + row_cards*idx].price));
-        num->setAlignment(Qt::AlignRight);
-        price->setAlignment(Qt::AlignLeft);
+        num->setAlignment(Qt::AlignCenter);
+        price->setAlignment(Qt::AlignCenter);
         num->setStyleSheet("font:bold; color:red");
         price->setStyleSheet("font:bold; color:red");
+
         QLabel *num2 = new QLabel("輸入數量");
         QLineEdit *num_in = new QLineEdit;
         num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
-        //num_in_v.push_back(num_in);
+        connect(num_in, &QLineEdit::returnPressed, this, [=](){this->on_add_clicked();});
+        num_in_v.push_back(num_in);
+
         QGridLayout *hBoxLayout = new QGridLayout;
-        hBoxLayout->addWidget(num, 0, 0, Qt::AlignLeft);
-        hBoxLayout->addWidget(price, 0, 1, Qt::AlignLeft);
+        hBoxLayout->addWidget(num, 0, 0, Qt::AlignCenter);
+        hBoxLayout->addWidget(price, 0, 1, Qt::AlignCenter);
         hBoxLayout->addWidget(num2, 1, 0, Qt::AlignLeft);
         hBoxLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
         hBoxLayout->setSpacing(2);
@@ -88,31 +91,52 @@ Shop_window::~Shop_window()
 }
 
 void Shop_window::reject()
-{
+{ 
+    remove("../AOOP_DogeShop/src/shop.csv");
+
+    Csv *csvObj = new Csv;
+    csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
+    delete csvObj;
+
     QDialog::reject();
 }
 
-<<<<<<< HEAD
-void Shop_window::on_next_page_clicked()
-{
-
-}
-
-
-void Shop_window::on_previous_page_clicked()
-{
-
-}
-
-=======
 void Shop_window::on_add_clicked()
 {
+    //qDebug() << "hi2";
+    //Card_in_shop *temp;
+    //int count = 0;
 
+    for(int i = 0; i < (int)num_in_v.size(); i++)
+    {
+        int idx = 2*row_cards*page + i;
+
+        if(num_in_v[i]->text() != "" && num_in_v[i]->text().toInt() <= shop_v[idx].num)
+        {
+            qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
+            shop_v[idx].num -= num_in_v[i]->text().toInt();
+        }
+
+        num_in_v[i]->clear();
+    }
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
 }
 
 
 void Shop_window::on_next_page_clicked()
 {
+    //qDebug() << "hi";
     page++;
     if(page > (int)shop_v.size() / (2*row_cards))
         page = 0;
@@ -154,4 +178,4 @@ void Shop_window::on_previous_page_clicked()
 
     delete load_window;
 }
->>>>>>> c1ee6b0b6bc3f1cc9fbc0ff4bea51a253c7ceb1c
+

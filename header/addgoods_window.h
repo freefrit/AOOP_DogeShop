@@ -18,6 +18,7 @@ public:
     int row_cards;
     vector<Card> all_card;
     vector<Card_in_shop> shop_v;
+    vector<QLineEdit *> num_in_v;
 
     explicit AddGoods_window(QWidget *parent = nullptr);
     AddGoods_window(int flag = 0, QWidget *parent = nullptr);
@@ -35,7 +36,6 @@ private slots:
 
 private:
     Ui::AddGoods_window *ui;
-    vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
 
     void reject() override;

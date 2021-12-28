@@ -36,7 +36,8 @@ AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddGoods_window)
 {
-
+    if(flag == 0)
+        qDebug() << "construct for shop window";
 }
 
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
@@ -126,6 +127,7 @@ void AddGoods_window::reject()
 
 void AddGoods_window::on_next_page_clicked()
 {
+    //qDebug() << "oh";
     page++;
     if(page > (int)all_card.size() / (2*row_cards))
         page = 0;

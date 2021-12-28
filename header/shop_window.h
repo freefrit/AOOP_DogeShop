@@ -17,20 +17,12 @@ public:
     ~Shop_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 
-private slots:
-    void on_next_page_clicked() override;
-
-    void on_previous_page_clicked() override;
-
-private slots:
-    void on_add_clicked();
-
-    void on_previous_page_clicked();
-
-    void on_next_page_clicked();
-
 private:
     Ui::Shop_window *ui;
+
+    void on_next_page_clicked() override;
+    void on_previous_page_clicked() override;
+    void on_add_clicked() override;
 
     void reject() override;
 };
