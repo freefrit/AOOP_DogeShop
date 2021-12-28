@@ -36,8 +36,8 @@ AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddGoods_window)
 {
-    if(!flag)
-        delete ui;
+    //if(!flag)
+        //delete ui;
 }
 
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)

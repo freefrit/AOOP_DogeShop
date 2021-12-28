@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
+#include "header/shop_window.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -159,6 +160,7 @@ void MainWindow::on_actionRelease_Card_triggered()
 
     delete load_window;
 }
+
 void MainWindow::myinfo_default(){
     ui->comboBox_gender->setCurrentIndex(-1);
     ui->comboBox_house->setCurrentIndex(-1);
@@ -182,5 +184,3 @@ void MainWindow::customer_info_callin()
             ui->comboBox_house->setCurrentIndex(query->value("house").toInt());
     }
 }
-
-

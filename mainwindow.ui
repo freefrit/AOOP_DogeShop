@@ -447,6 +447,7 @@ Checkout what's new !!</string>
      </property>
      <addaction name="actionmyInfo"/>
      <addaction name="actionNotifycation"/>
+     <addaction name="actionDOGE_SHOP"/>
      <addaction name="separator"/>
      <addaction name="actionLog_out"/>
     </widget>
@@ -548,6 +549,7 @@ Checkout what's new !!</string>
     <string>Release Card</string>
    </property>
   </action>
+
   <action name="actionCustomer_List">
    <property name="text">
     <string>Customer List</string>
@@ -566,6 +568,7 @@ Checkout what's new !!</string>
   <action name="actionAuthorization_Code">
    <property name="text">
     <string>Authorization Code</string>
+
    </property>
   </action>
  </widget>

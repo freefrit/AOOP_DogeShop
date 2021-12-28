@@ -40,7 +40,6 @@ vector<Card_in_shop> Csv::read_shop(string path)
         return out;
     }
 
-    file.readLine();    //skip first line
     while(!file.atEnd())
     {
         QString line = file.readLine();

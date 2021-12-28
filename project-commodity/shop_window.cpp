@@ -76,6 +76,11 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
     delete cardObj;
 }
 
+void Shop_window::reject()
+{
+    QDialog::reject();
+}
+
 Shop_window::~Shop_window()
 {
     delete ui;
