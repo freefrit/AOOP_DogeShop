@@ -6,13 +6,15 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include "changepwd_dialog.h"
 
 
 class LoginWindowPopUpForm;
+
 class Customer;
 class Seller;
 
-enum stackpage{emptypage,frontpage,c_info_page,c_register_page,
+enum stackpage{emptypage,frontpage,c_info_page,c_wallet_page,
                        s_login_success,s_register_page};
 
 QT_BEGIN_NAMESPACE
@@ -48,6 +50,8 @@ private slots:
     void on_lineEdit_cellphone_selectionChanged();
 
     void on_actionDOGE_SHOP_triggered();
+
+    void on_commandLinkButton_clicked();
 
 private:
     int prePage;

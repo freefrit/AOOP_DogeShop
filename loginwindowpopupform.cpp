@@ -4,7 +4,6 @@
 #include "mainwindow.h"
 #include "seller.h"
 #include "customer.h"
-#include <QKeyEvent>
 #include <QMessageBox>
 #include <random>
 
@@ -17,6 +16,8 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
 
     //open if you want an overpower testuser!!
     ui->comboBox->addItem("test");
+    //open if you want manager;
+    ui->comboBox->addItem("Manager");
 
     query=new QSqlQuery(database);
 
@@ -167,7 +168,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
 
         //sql insert
         sql_command="INSERT INTO seller_list VALUES("+QString::number(random_generate_id)+",'"+
-                name_in+"','"+password_in+"',0,0);";
+                name_in+"','"+password_in+"',1000,10);";
         query->exec(sql_command);
     }
     else
@@ -244,12 +245,12 @@ void LoginWindowPopUpForm::on_Login_button_clicked()
             retrieve_seller(name_in);
         }
     }
-    else if(!QString::compare(x,"Manager"))
+    else if(!(QString::compare(x,"Manager")||QString::compare(name_in,"manager")))
     {
         identity=man;
         valid_user=1;
     }
-    else if(!QString::compare(x,"test"))
+    else if(!(QString::compare(x,"test")||QString::compare(name_in,"test")))
     {
         identity=test;
         valid_user=1;
@@ -309,7 +310,7 @@ void LoginWindowPopUpForm::on_lineedit_ID_returnPressed()
 void LoginWindowPopUpForm::on_Login_button_pass_clicked()
 {
     password_in=ui->lineedit_password->text();
-    qDebug()<<c->getName();
+
     if(identity==cus&&c->login(password_in))
     {
         login_success=true;
@@ -338,6 +339,7 @@ void LoginWindowPopUpForm::on_Login_button_pass_clicked()
     else
     {
         ui->label_error_pass->setText("Password error, please try again.");
+        ui->label_error_pass->show();
     }
 }
 void LoginWindowPopUpForm::on_lineedit_password_returnPressed()

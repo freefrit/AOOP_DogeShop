@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
-    database.setHostName("127.0.0.1");
+    database.setHostName("172.17.40.95");
     database.setDatabaseName("doge_shop"); // schema name
     database.setUserName("testuser");
     database.setPassword("password"); // your password
@@ -161,6 +161,19 @@ void MainWindow::on_actionRelease_Card_triggered()
     delete load_window;
 }
 
+void MainWindow::on_actionDOGE_SHOP_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    Shop_window *shop_window = new Shop_window(this);
+    shop_window->setWindowTitle("卡片購買");
+    shop_window->show();
+
+    delete load_window;
+}
+
 void MainWindow::myinfo_default(){
     ui->comboBox_gender->setCurrentIndex(-1);
     ui->comboBox_house->setCurrentIndex(-1);
@@ -170,7 +183,7 @@ void MainWindow::myinfo_default(){
 }
 void MainWindow::customer_info_callin()
 {
-    sql_command="SELECT * FROM customer_list WHERE username = '"+c->getName()+"';";
+    sql_command="SELECT * FROM customer_info WHERE username = '"+c->getName()+"';";
     query->exec(sql_command);
     if(query->next())
     {
@@ -184,3 +197,11 @@ void MainWindow::customer_info_callin()
             ui->comboBox_house->setCurrentIndex(query->value("house").toInt());
     }
 }
+
+void MainWindow::on_commandLinkButton_clicked()
+{
+    ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
+    dialog->show();
+
+}
+

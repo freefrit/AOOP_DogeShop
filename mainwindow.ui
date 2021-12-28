@@ -386,15 +386,7 @@ Checkout what's new !!</string>
        </widget>
       </widget>
       <widget class="QWidget" name="page_3">
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Costomer Logged In page!</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <layout class="QGridLayout" name="gridLayout_5"/>
       </widget>
       <widget class="QWidget" name="page_4">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -446,14 +438,17 @@ Checkout what's new !!</string>
       <string>Customer Center</string>
      </property>
      <addaction name="actionmyInfo"/>
+     <addaction name="actionMyWallet"/>
      <addaction name="actionNotifycation"/>
      <addaction name="actionDOGE_SHOP"/>
      <addaction name="separator"/>
      <addaction name="actionLog_out"/>
     </widget>
     <addaction name="actionHome"/>
+    <addaction name="actionDoge_Cart"/>
     <addaction name="separator"/>
     <addaction name="menuMyInfo"/>
+    <addaction name="actionCustomer_Service"/>
    </widget>
    <widget class="QMenu" name="menuSeller_Center">
     <property name="title">
@@ -549,7 +544,6 @@ Checkout what's new !!</string>
     <string>Release Card</string>
    </property>
   </action>
-
   <action name="actionCustomer_List">
    <property name="text">
     <string>Customer List</string>
@@ -568,7 +562,26 @@ Checkout what's new !!</string>
   <action name="actionAuthorization_Code">
    <property name="text">
     <string>Authorization Code</string>
-
+   </property>
+  </action>
+  <action name="actionDOGE_SHOP">
+   <property name="text">
+    <string>DOGE SHOP</string>
+   </property>
+  </action>
+  <action name="actionMyWallet">
+   <property name="text">
+    <string>MyWallet</string>
+   </property>
+  </action>
+  <action name="actionCustomer_Service">
+   <property name="text">
+    <string>Customer Service</string>
+   </property>
+  </action>
+  <action name="actionDoge_Cart">
+   <property name="text">
+    <string>Doge Cart</string>
    </property>
   </action>
  </widget>

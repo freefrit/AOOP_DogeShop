@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    changepwd_dialog.cpp \
     cpp/addgoods_window.cpp \
     cpp/card.cpp \
     cpp/carddetail_window.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     seller.cpp
 
 HEADERS += \
+    changepwd_dialog.h \
     customer.h \
     customerbag.h \
     header/addgoods_window.h \
@@ -40,6 +42,7 @@ HEADERS += \
     seller.h
 
 FORMS += \
+    changepwd_dialog.ui \
     loginwindowpopupform.ui \
     mainwindow.ui \
     ui/addgoods_window.ui \
