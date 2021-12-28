@@ -130,6 +130,9 @@ background-color: rgb(61, 61, 61);</string>
    <property name="text">
     <string>上一頁</string>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="next_page">
    <property name="geometry">
@@ -149,6 +152,9 @@ background-color: rgb(61, 61, 61);</string>
    </property>
    <property name="text">
     <string>下一頁</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>
