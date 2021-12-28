@@ -46,7 +46,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -65,7 +65,7 @@
       <string notr="true">background-color:rgb(0xDF,0xD5,0xA5);</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="font">
@@ -174,11 +174,6 @@
        <item>
         <property name="text">
          <string>Customer</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>test</string>
         </property>
        </item>
        <item>

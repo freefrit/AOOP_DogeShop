@@ -16,6 +16,7 @@ public:
         money.addCash(c).addPoint(p);
     };
     //bool Earnmoney();
+
     bool purchase_cash(int);
 
 };

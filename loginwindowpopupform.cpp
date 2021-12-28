@@ -8,37 +8,15 @@
 #include <QMessageBox>
 #include <random>
 
-int Dulplicate_idx(vector<Customer> &list, QString id_in)
-{
-    for(int i = 0; i < (int)list.size(); i++)
-    {
-        if(list[i].Cmp_id(id_in))
-            return i; //there is dulpicate id in the list
-    }
-    return -1;
-}
-
-
-int Dulplicate_idx(vector<Seller> &list, QString id_in)
-{
-    for(int i = 0; i < (int)list.size(); i++)
-    {
-        if(list[i].Cmp_id(id_in))
-            return i; //there is dulpicate id in the list
-    }
-    return -1;
-}
-
-extern vector<Customer> customer_list;
-extern vector<Seller> seller_list;
-
-
 LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::LoginWindowPopUpForm)
 {
     ui->setupUi(this);
     login_success=false;
+
+    //open if you want an overpower testuser!!
+    ui->comboBox->addItem("test");
 
     query=new QSqlQuery(database);
 
@@ -69,6 +47,9 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
     reset_error_labels();
     //line_edit placeholder
     initialize_lineedits();
+    c=NULL;
+    s=NULL;
+
 }
 void LoginWindowPopUpForm::signOrLog(enum state s)
 {
@@ -118,7 +99,7 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         ui->c_error_password_label->show();
         ui->c_password2->clear();
     }
-    else if(!c_duplicate_username(name_in)) //no dulplicate
+    else if(!c_duplicate_username(name_in)) // no dulplicate
     {
         qDebug()<<"register ok";
         QMessageBox::information(this," ","Congratulation!\nYou are now our member.\nPlease relogin after this message.");
@@ -128,9 +109,10 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         query->next();
         int x=query->value(0).toInt();
         int random_generate_id=(int)((rand()/(RAND_MAX+1.)*1000)+1e8+x*1e6);
-        //local vec insert
+
+        //customer pointer is linked with mainwindow
         c=new Customer(random_generate_id,name_in,password_in);
-        customer_list.push_back(*c);
+
         //sql insert
         sql_command="INSERT INTO customer_list VALUES("+QString::number(random_generate_id)+",'"+
                 name_in+"','"+password_in+"',0,0);";
@@ -141,6 +123,7 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         ui->c_error_username_label->setText("That ID is taken.\nPlease try another.");
         ui->c_error_username_label->show();
         ui->c_password->clear();
+        ui->c_password2->clear();
         ui->c_id->clear();
         qDebug("error: dulpicate id!\n");
     }
@@ -178,9 +161,10 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         query->next();
         int x=query->value(0).toInt();
         int random_generate_id=(int)((rand()/(RAND_MAX+1.)*1000)+2e8+x*1e6);
-        //local vec insert
+
+        //pointer is linked with mainwindow
         s=new Seller(random_generate_id,name_in,password_in);
-        seller_list.push_back(*s);
+
         //sql insert
         sql_command="INSERT INTO seller_list VALUES("+QString::number(random_generate_id)+",'"+
                 name_in+"','"+password_in+"',0,0);";
@@ -191,6 +175,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         ui->s_error_username_label->setText("That ID is taken.\nPlease try another.");
         ui->s_error_username_label->show();
         ui->s_password->clear();
+        ui->s_password2->clear();
         ui->s_id->clear();
         qDebug("error: dulpicate id!\n");
     }
@@ -212,36 +197,79 @@ bool LoginWindowPopUpForm::s_duplicate_username(QString username)
 void LoginWindowPopUpForm::on_Login_button_clicked()
 {
     QString x=ui->comboBox->currentText();
-    current_user=-1;
+    valid_user=0;
     name_in= ui->lineedit_ID->text();
+    qDebug()<<name_in.toInt();
+    //using ID to login find in data and translate to username
+    if(name_in.toInt()){
+        qDebug()<<name_in.toInt()/(int)1e8;
+        if(name_in.toInt()/(int)1e8==1){
+            query->exec("select username from customer_list where id = "+QString::number(name_in.toInt())+";");
+            x="Customer";
+        }
+        else{
+            query->exec("select username from seller_list where id = "+QString::number(name_in.toInt())+";");
+            x="Seller";
+        }
+        if(query->next()){
+            name_in=query->value(0).toString();
+        }
+        else
+            name_in='0';
+    }
+    qDebug()<<name_in;
     if(!QString::compare(x,"Customer"))
     {
         identity=cus;
-        current_user=Dulplicate_idx(customer_list,name_in);
+        if((valid_user=c_duplicate_username(name_in))){
+            if(c)
+            {
+                Customer* t=c;
+                delete t;
+            }
+            retrieve_customer(name_in);
+            //implement codes to retrieve basic data for customer;
+        }
     }
     else if(!QString::compare(x,"Seller"))
     {
         identity=sel;
-        current_user=Dulplicate_idx(seller_list,name_in);
+
+        if((valid_user=s_duplicate_username(name_in))){
+            if(s)
+            {
+                Seller* t=s;
+                delete t;
+            }
+            retrieve_seller(name_in);
+        }
     }
-    else{
-        if(!QString::compare(x,"test"))identity=man;
-        current_user=0;
+    else if(!QString::compare(x,"Manager"))
+    {
+        identity=man;
+        valid_user=1;
     }
-    if(current_user!=-1)
+    else if(!QString::compare(x,"test"))
+    {
+        identity=test;
+        valid_user=1;
+    }
+    if(valid_user)
     {
         if(identity==cus)
             ui->label_identity->setText("Login as Customer...");
         else if(identity==sel)
             ui->label_identity->setText("Login as Seller...");
+        else if(identity==man)
+            ui->label_identity->setText("Login as Manager...");
         else
-            ui->label_identity->setText("Login Test..");
+            ui->label_identity->setText("Test...");
         ui->stackedWidget->setCurrentIndex(1);
     }
     else
     {
         if(validName(name_in)){
-            ui->label_error->setText("Account or ID does not exist.\nDo you want to Sign up?");
+            ui->label_error->setText("Account does not exist.\nDo you want to Sign up?");
             ui->label_error->show();
             ui->commandLinkButton->show();
         }
@@ -250,11 +278,30 @@ void LoginWindowPopUpForm::on_Login_button_clicked()
             ui->label_error->setText("Invalid Account or ID.");
             ui->label_error->show();
         }
-
     }
-
 }
+void LoginWindowPopUpForm::retrieve_customer(QString user)
+{
+    sql_command="SELECT * FROM customer_list WHERE username = '"+user+"';";
+    query->exec(sql_command);
+    //qDebug()<<query->size();
+    query->next();
 
+    int id=query->value(0).toInt();
+    QString pass=query->value(2).toString();
+    int cash=query->value(3).toInt();
+    double point=query->value(4).toDouble();
+    c=new Customer(id,user,pass,cash,point);
+}
+void LoginWindowPopUpForm::retrieve_seller(QString user)
+{
+    sql_command="SELECT * FROM seller_list WHERE username = '"+user+"';";
+    query->exec(sql_command);
+    query->next();
+    int id=query->value(0).toInt();
+    QString pass=query->value(2).toString();
+    s=new Seller(id,user,pass);
+}
 void LoginWindowPopUpForm::on_lineedit_ID_returnPressed()
 {
     on_Login_button_clicked();
@@ -262,25 +309,30 @@ void LoginWindowPopUpForm::on_lineedit_ID_returnPressed()
 void LoginWindowPopUpForm::on_Login_button_pass_clicked()
 {
     password_in=ui->lineedit_password->text();
-
-    if(identity==cus&&customer_list[current_user].login(password_in))
+    qDebug()<<c->getName();
+    if(identity==cus&&c->login(password_in))
     {
-
         login_success=true;
         emit cusLoggedin();
         close();
     }
-    else if(identity==sel&&seller_list[current_user].login(password_in))
+    else if(identity==sel&&s->login(password_in))
     {
 
         login_success=true;
         emit selLoggedin();
         close();
     }
-    else if(identity==man&&!QString::compare(password_in,"test"))
+    else if(identity==man&&!QString::compare(password_in,"123456"))
     {
         login_success=true;
         emit manLoggedin();
+        close();
+    }
+    else if(identity==test&&!QString::compare(password_in,"test"))
+    {
+        login_success=true;
+        emit testLoggedin();
         close();
     }
     else
@@ -288,7 +340,10 @@ void LoginWindowPopUpForm::on_Login_button_pass_clicked()
         ui->label_error_pass->setText("Password error, please try again.");
     }
 }
-
+void LoginWindowPopUpForm::on_lineedit_password_returnPressed()
+{
+    on_Login_button_pass_clicked();
+}
 bool LoginWindowPopUpForm::validPass(QString pass){
     bool contain_english=false,contain_num=false;
     if(pass.length()<6||pass.length()>12)
@@ -449,6 +504,7 @@ void LoginWindowPopUpForm::on_tabWidget_tabBarClicked(int index)
 void LoginWindowPopUpForm::logout(){
     login_success=false;
     reset_error_labels();
-
 }
+
+
 

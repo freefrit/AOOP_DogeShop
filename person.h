@@ -28,7 +28,8 @@ public:
     bool edit_username(const QString);
     bool edit_password(const QString,const QString);
     bool Cmp_id(const QString);
-
+    const QString getName()const;
+    int getID()const;
 };
 
 
