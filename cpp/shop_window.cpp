@@ -103,7 +103,7 @@ void Shop_window::reject()
 
 void Shop_window::on_add_clicked()
 {
-    //qDebug() << "hi2";
+    qDebug() << "hi2";
     //Card_in_shop *temp;
     //int count = 0;
 
@@ -131,6 +131,7 @@ void Shop_window::on_add_clicked()
     card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
 
     delete load_window;
+    qDebug() << "hi3";
 }
 
 

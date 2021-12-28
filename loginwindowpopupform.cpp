@@ -309,7 +309,7 @@ void LoginWindowPopUpForm::on_lineedit_ID_returnPressed()
 void LoginWindowPopUpForm::on_Login_button_pass_clicked()
 {
     password_in=ui->lineedit_password->text();
-    qDebug()<<c->getName();
+
     if(identity==cus&&c->login(password_in))
     {
         login_success=true;

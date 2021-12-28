@@ -549,7 +549,6 @@ Checkout what's new !!</string>
     <string>Release Card</string>
    </property>
   </action>
-
   <action name="actionCustomer_List">
    <property name="text">
     <string>Customer List</string>
@@ -568,7 +567,11 @@ Checkout what's new !!</string>
   <action name="actionAuthorization_Code">
    <property name="text">
     <string>Authorization Code</string>
-
+   </property>
+  </action>
+  <action name="actionDOGE_SHOP">
+   <property name="text">
+    <string>DOGE SHOP</string>
    </property>
   </action>
  </widget>
