@@ -32,6 +32,9 @@
    <property name="text">
     <string>下一頁</string>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="previous_page">
    <property name="geometry">
@@ -51,6 +54,9 @@
    </property>
    <property name="text">
     <string>上一頁</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="add">
@@ -72,6 +78,9 @@
    </property>
    <property name="text">
     <string>輸入數量後一併加入購物車</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="shop_title">
