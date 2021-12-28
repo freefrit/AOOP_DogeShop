@@ -14,7 +14,7 @@ enum state{
     login_,signup_
 };
 enum identity{
-    cus,sel,man
+    cus,sel,man,test
 };
 namespace Ui {
 class LoginWindowPopUpForm;
@@ -33,8 +33,8 @@ public:
     void syncdatabase(QSqlDatabase& db){
         database=db;
     }
-    void sync_C_S_pointer(Customer*cp,Seller*sp){
-        c=cp;   s=sp;
+    void sync_C_S_pointer(Customer*&cp,Seller*&sp){
+        cp=c;   sp=s;
     }
     void setprePage(int n){
         prePage=n;
@@ -48,6 +48,7 @@ signals:
     void cusLoggedin();
     void selLoggedin();
     void manLoggedin();
+    void testLoggedin();
 private:
     Ui::LoginWindowPopUpForm *ui;
     QStackedWidget* mypage;
@@ -57,8 +58,8 @@ private:
     Customer* c;
     Seller* s;
     identity identity;
-    int prePage,current_user;
-    bool login_success;
+    int prePage;
+    bool login_success,valid_user;
 
 
     bool validName(QString);
@@ -67,9 +68,8 @@ private:
     void initialize_lineedits();
     bool c_duplicate_username(QString);
     bool s_duplicate_username(QString);
-
-
-
+    void retrieve_customer(QString);
+    void retrieve_seller(QString);
 
 
 private slots:
@@ -94,6 +94,7 @@ private slots:
     void on_toolbtn_s_revealPass2_pressed();
     void on_toolbtn_s_revealPass2_released();
     void on_tabWidget_tabBarClicked(int index);
+    void on_lineedit_password_returnPressed();
 };
 
 #endif // LOGINWINDOWPOPUPFORM_H

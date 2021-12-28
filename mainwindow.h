@@ -36,16 +36,16 @@ private slots:
     void popup_close_cus();
     void popup_close_sel();
     void popup_close_man();
+    void popup_close_test();
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
     void on_lineedit_searchbar_selectionChanged();
     void on_actionmyInfo_triggered();
     void on_actionLog_out_triggered();
-
-    void on_actionLog_out_2_triggered();
-    
+    void on_actionLog_out_2_triggered();  
     void on_actionRelease_Card_triggered();
+    void on_lineEdit_cellphone_selectionChanged();
 
     void on_actionDOGE_SHOP_triggered();
 
@@ -54,12 +54,16 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase database;
     QSqlQuery *query;
+    QString sql_command;
     Seller* s;
     Customer* c;
     LoginWindowPopUpForm* m_login_window;
+    bool edit_not_finish;
     void logout_display();
     void build_cus_list();
     void build_sel_list();
+    void myinfo_default();
+    void customer_info_callin();
 
 };
 

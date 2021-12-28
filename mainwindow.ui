@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,13 +13,19 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="font">
    <font>
     <family>MV Boli</family>
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Doge_shop</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -26,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -111,8 +120,8 @@ Checkout what's new !!</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="geometry">
           <rect>
-           <x>210</x>
-           <y>100</y>
+           <x>220</x>
+           <y>90</y>
            <width>121</width>
            <height>23</height>
           </rect>
@@ -121,8 +130,8 @@ Checkout what's new !!</string>
         <widget class="QLabel" name="label_c_cellphone">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>130</y>
+           <x>60</x>
+           <y>120</y>
            <width>77</width>
            <height>22</height>
           </rect>
@@ -137,40 +146,40 @@ Checkout what's new !!</string>
           <string>Cellphone:</string>
          </property>
         </widget>
-        <widget class="QComboBox" name="comboBox_sex">
+        <widget class="QComboBox" name="comboBox_gender">
          <property name="geometry">
           <rect>
-           <x>210</x>
-           <y>70</y>
+           <x>220</x>
+           <y>60</y>
            <width>121</width>
            <height>23</height>
           </rect>
          </property>
          <property name="currentText">
-          <string>男</string>
+          <string>male</string>
          </property>
          <item>
           <property name="text">
-           <string>男</string>
+           <string>male</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>女</string>
+           <string>female</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>其他</string>
+           <string>other</string>
           </property>
          </item>
         </widget>
         <widget class="QLabel" name="label_c_sex">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>70</y>
-           <width>32</width>
+           <x>60</x>
+           <y>60</y>
+           <width>61</width>
            <height>22</height>
           </rect>
          </property>
@@ -181,14 +190,14 @@ Checkout what's new !!</string>
           </font>
          </property>
          <property name="text">
-          <string>Sex:</string>
+          <string>Gender:</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_c_birthday">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>100</y>
+           <x>60</x>
+           <y>90</y>
            <width>71</width>
            <height>22</height>
           </rect>
@@ -203,11 +212,11 @@ Checkout what's new !!</string>
           <string>Birthday:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="lineEdit_cellphone">
          <property name="geometry">
           <rect>
-           <x>210</x>
-           <y>130</y>
+           <x>220</x>
+           <y>120</y>
            <width>121</width>
            <height>23</height>
           </rect>
@@ -228,6 +237,55 @@ Checkout what's new !!</string>
          <property name="text">
           <string>Update</string>
          </property>
+        </widget>
+        <widget class="QLabel" name="label_c_cellphone_2">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>150</y>
+           <width>77</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>MV Boli</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>House:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_house">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>150</y>
+           <width>121</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>GRYFFINDOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RAVENCLAW</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>HUFFLEPUFF</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SLYTHERIN</string>
+          </property>
+         </item>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_2">
@@ -286,7 +344,7 @@ Checkout what's new !!</string>
           <string>ID:</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_memberinfo_id">
          <property name="geometry">
           <rect>
            <x>200</x>
@@ -299,7 +357,7 @@ Checkout what's new !!</string>
           <string>ID</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="label_memberinfo_name">
          <property name="geometry">
           <rect>
            <x>200</x>
@@ -416,9 +474,21 @@ Checkout what's new !!</string>
     <addaction name="actionLogin"/>
     <addaction name="actionSignup"/>
    </widget>
+   <widget class="QMenu" name="menuBack_End_Manage">
+    <property name="title">
+     <string>Back-End-Manage</string>
+    </property>
+    <addaction name="actionCustomer_List"/>
+    <addaction name="actionStaff_List"/>
+    <addaction name="separator"/>
+    <addaction name="actionAuthorization_Code"/>
+    <addaction name="separator"/>
+    <addaction name="actionLog_Out"/>
+   </widget>
    <addaction name="menuCustomer_Center"/>
    <addaction name="menuSeller_Center"/>
    <addaction name="menuGuest"/>
+   <addaction name="menuBack_End_Manage"/>
   </widget>
   <action name="actionLogin">
    <property name="text">
@@ -479,9 +549,26 @@ Checkout what's new !!</string>
     <string>Release Card</string>
    </property>
   </action>
-  <action name="actionDOGE_SHOP">
+
+  <action name="actionCustomer_List">
    <property name="text">
-    <string>DOGE SHOP</string>
+    <string>Customer List</string>
+   </property>
+  </action>
+  <action name="actionStaff_List">
+   <property name="text">
+    <string>Staff List</string>
+   </property>
+  </action>
+  <action name="actionLog_Out">
+   <property name="text">
+    <string>Log Out</string>
+   </property>
+  </action>
+  <action name="actionAuthorization_Code">
+   <property name="text">
+    <string>Authorization Code</string>
+
    </property>
   </action>
  </widget>

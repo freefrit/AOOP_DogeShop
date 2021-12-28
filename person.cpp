@@ -34,3 +34,12 @@ bool Person::Cmp_id(const QString id_in)
 {
     return !QString::compare(id_in, username);
 }
+const QString Person::getName()const
+{
+    return username;
+}
+int Person::getID()const
+{
+    return id;
+}
+
