@@ -183,7 +183,7 @@ void MainWindow::myinfo_default(){
 }
 void MainWindow::customer_info_callin()
 {
-    sql_command="SELECT * FROM customer_list WHERE username = '"+c->getName()+"';";
+    sql_command="SELECT * FROM customer_info WHERE username = '"+c->getName()+"';";
     query->exec(sql_command);
     if(query->next())
     {
@@ -197,3 +197,11 @@ void MainWindow::customer_info_callin()
             ui->comboBox_house->setCurrentIndex(query->value("house").toInt());
     }
 }
+
+void MainWindow::on_commandLinkButton_clicked()
+{
+    ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
+    dialog->show();
+
+}
+
