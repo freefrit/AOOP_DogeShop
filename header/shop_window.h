@@ -32,6 +32,7 @@ private:
     void on_previous_page_clicked() override;
     void on_add_clicked() override;
     void on_sort_box_currentTextChanged(const QString &arg1) override;
+    void on_rownum_box_currentTextChanged(const QString &arg1) override;
 
     void reject() override;
 };

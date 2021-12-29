@@ -291,3 +291,29 @@ void Shop_window::on_sort_box_currentTextChanged(const QString &arg1)
 
     delete load_window;
 }
+
+void Shop_window::on_rownum_box_currentTextChanged(const QString &arg1)
+{
+    if(arg1 == "16/page")
+        row_cards = 8;
+    else if(arg1 == "12/page")
+        row_cards = 6;
+    else if(arg1 == "8/page")
+        row_cards = 4;
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
+}
