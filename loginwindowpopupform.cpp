@@ -116,7 +116,7 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
 
         //sql insert
         sql_command="INSERT INTO customer_list VALUES("+QString::number(random_generate_id)+",'"+
-                name_in+"','"+password_in+"',0,0);";
+                name_in+"','"+password_in+"',1000,100);";
         query->exec(sql_command);
     }
     else
@@ -168,7 +168,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
 
         //sql insert
         sql_command="INSERT INTO seller_list VALUES("+QString::number(random_generate_id)+",'"+
-                name_in+"','"+password_in+"',1000,10);";
+                name_in+"','"+password_in+"');";
         query->exec(sql_command);
     }
     else
