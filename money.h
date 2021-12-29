@@ -15,6 +15,7 @@ public:
     void exchange(double);//exchange point to cash
     int getCash();
     double getPoint();
+    void setPoint(double);
     bool isaffordable(int);
 };
 

@@ -18,10 +18,13 @@ public:
         money.addCash(c).addPoint(p);
     };
     ~Customer(){};
-    //bool Earnmoney();
-
+    void earnPoint();
+    void exchangePoint(int);
     bool purchase(int);
     void addToBag(Card_in_bag*);
+    int get_money_cash(){return money.getCash();}
+    double get_money_point(){return money.getPoint();}
+    void set_point(double);
 };
 
 

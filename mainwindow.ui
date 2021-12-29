@@ -35,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -429,7 +429,7 @@ HORNY DOGE SHOP !!</string>
         </property>
         <property name="font">
          <font>
-          <family>Agency FB</family>
+          <family>Segoe UI</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -467,7 +467,7 @@ HORNY DOGE SHOP !!</string>
          <property name="geometry">
           <rect>
            <x>82</x>
-           <y>200</y>
+           <y>130</y>
            <width>109</width>
            <height>29</height>
           </rect>
@@ -546,7 +546,7 @@ HORNY DOGE SHOP !!</string>
          <property name="geometry">
           <rect>
            <x>230</x>
-           <y>200</y>
+           <y>130</y>
            <width>121</width>
            <height>29</height>
           </rect>
@@ -565,33 +565,33 @@ HORNY DOGE SHOP !!</string>
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>100</y>
+           <y>210</y>
            <width>171</width>
            <height>41</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
+           <family>Segoe UI</family>
            <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Add credit</string>
+          <string>Earn Points</string>
          </property>
         </widget>
         <widget class="QCommandLinkButton" name="btn_cus_change_pwd_3">
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>240</y>
-           <width>221</width>
+           <y>250</y>
+           <width>271</width>
            <height>41</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
+           <family>Segoe UI</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -706,7 +706,7 @@ HORNY DOGE SHOP !!</string>
      </property>
      <addaction name="actionmyInfo"/>
      <addaction name="actionMyWallet"/>
-     <addaction name="actionNotifycation"/>
+     <addaction name="actionMyBag"/>
      <addaction name="actionDOGE_SHOP"/>
      <addaction name="separator"/>
      <addaction name="actionLog_out"/>
@@ -725,6 +725,8 @@ HORNY DOGE SHOP !!</string>
     </property>
     <addaction name="actionShop_Manage"/>
     <addaction name="actionRelease_Card"/>
+    <addaction name="separator"/>
+    <addaction name="actionManage_Password"/>
     <addaction name="separator"/>
     <addaction name="actionLog_out_2"/>
    </widget>
@@ -818,7 +820,7 @@ HORNY DOGE SHOP !!</string>
     </font>
    </property>
   </action>
-  <action name="actionNotifycation">
+  <action name="actionMyBag">
    <property name="text">
     <string>MyBag</string>
    </property>
@@ -947,6 +949,17 @@ HORNY DOGE SHOP !!</string>
   <action name="actionDoge_Cart">
    <property name="text">
     <string>Doge Cart</string>
+   </property>
+  </action>
+  <action name="actionManage_Password">
+   <property name="text">
+    <string>Manage Password</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>
