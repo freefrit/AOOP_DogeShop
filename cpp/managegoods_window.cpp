@@ -14,6 +14,7 @@ ManageGoods_window::ManageGoods_window(QWidget *parent) :
     row_cards = 8;
     Csv *csvObj = new Csv;
     shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
+    sub_v = shop_v;
     delete csvObj;
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
@@ -98,7 +99,7 @@ void ManageGoods_window::reject()
     remove("../AOOP_DogeShop/src/shop.csv");
 
     Csv *csvObj = new Csv;
-    csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
+    csvObj->save_shop_csv(sub_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
     QDialog::reject();
@@ -178,6 +179,22 @@ void ManageGoods_window::on_add_clicked()
 
     if(count)
     {
+        //更新到本體
+        int pos = 0;
+        for(int i = 0; i < (int)shop_v.size(); i++)
+        {
+            for(int j = pos; j < (int)sub_v.size(); j++)
+            {
+                if(shop_v[i].name == sub_v[j].name)
+                {
+                    pos = j + 1;
+                    sub_v[j].num = shop_v[i].num;
+                    sub_v[j].price = shop_v[i].price;
+                    break;
+                }
+            }
+        }
+
         Loading_window *load_window = new Loading_window(this);
         load_window->setWindowTitle("修改成功");
         load_window->set_text("SUCCESS, UPDATE SHOP");
@@ -197,4 +214,68 @@ void ManageGoods_window::on_add_clicked()
         load_window->setWindowTitle("修改失敗");
         load_window->set_text("FAILED");
     }
+}
+
+void ManageGoods_window::on_sort_box_currentTextChanged(const QString &arg1)
+{
+    while(shop_v.size())
+        shop_v.pop_back();
+
+    if(arg1 == "monster")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "monster")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "magic")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "magic")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "trap")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "trap")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "new")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "NEW")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "hot")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "HOT")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "cut")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "CUT")
+                shop_v.push_back(sub_v[i]);
+    }
+    else
+        shop_v = sub_v;
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout);
+    clear_layout(ui->down_gridLayout);
+    card_grid_layout(row_cards, ui->up_gridLayout, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout, 1);
+
+    delete load_window;
 }

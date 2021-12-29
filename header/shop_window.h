@@ -21,10 +21,12 @@ public:
 
 private:
     Ui::Shop_window *ui;
+    vector<Card_in_shop> sub_v;
 
     void on_next_page_clicked() override;
     void on_previous_page_clicked() override;
     void on_add_clicked() override;
+    void on_sort_box_currentTextChanged(const QString &arg1) override;
 
     void reject() override;
 };
