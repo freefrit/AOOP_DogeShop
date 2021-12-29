@@ -114,9 +114,15 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         //customer pointer is linked with mainwindow
         c=new Customer(random_generate_id,name_in,password_in);
 
-        //sql insert
+        //sql insert to customer_list
         sql_command="INSERT INTO customer_list VALUES("+QString::number(random_generate_id)+",'"+
                 name_in+"','"+password_in+"',1000,100);";
+        query->exec(sql_command);
+        //sql insert to customer info
+        sql_command="INSERT INTO customer_info VALUES("+name_in+",NULL,NULL,NULL,NULL);";
+        query->exec(sql_command);
+        //sql create customer bag
+        sql_command="CREATE TABLE "+name_in+"(card_name nvarchar(50),count int);";
         query->exec(sql_command);
     }
     else
@@ -166,7 +172,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         //pointer is linked with mainwindow
         s=new Seller(random_generate_id,name_in,password_in);
 
-        //sql insert
+        //sql insert to seller list
         sql_command="INSERT INTO seller_list VALUES("+QString::number(random_generate_id)+",'"+
                 name_in+"','"+password_in+"');";
         query->exec(sql_command);

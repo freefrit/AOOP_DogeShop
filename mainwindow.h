@@ -14,7 +14,7 @@ class Customer;
 class Seller;
 
 enum stackpage{emptypage,frontpage,c_info_page,c_wallet_page,
-                       s_login_success,s_register_page};
+                       c_bag_page,s_register_page};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,20 +42,16 @@ private slots:
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
-    void on_lineedit_searchbar_selectionChanged();
     void on_actionmyInfo_triggered();
     void on_actionLog_out_triggered();
     void on_actionLog_out_2_triggered();  
     void on_actionRelease_Card_triggered();
     void on_lineEdit_cellphone_selectionChanged();
-
     void on_actionDOGE_SHOP_triggered();
-
     void on_btn_cus_change_pwd_clicked();
-
     void on_actionMyWallet_triggered();
-
     void on_actionShop_Manage_triggered();
+    void on_actionNotifycation_triggered();
 
 private:
     int prePage;

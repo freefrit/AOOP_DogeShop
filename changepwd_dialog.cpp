@@ -33,7 +33,7 @@ void ChangePwd_Dialog::on_btn_update_clicked()
         ui->lineEdit_passConfirm->clear();
         return;
     }
-    if(QString::compare(ui->lineEdit_newPwd1->text(),ui->lineEdit_passConfirm->text()))
+    if(!QString::compare(ui->lineEdit_newPwd1->text(),ui->lineEdit_passConfirm->text()))
     {
         ui->label->setText("New password shouldn't be identical to old one.");
         ui->label->show();

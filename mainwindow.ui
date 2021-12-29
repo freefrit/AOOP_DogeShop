@@ -21,7 +21,7 @@
   </property>
   <property name="font">
    <font>
-    <family>MV Boli</family>
+    <family>Agency FB</family>
    </font>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -43,39 +43,23 @@
         <property name="geometry">
          <rect>
           <x>160</x>
-          <y>250</y>
+          <y>180</y>
           <width>611</width>
           <height>151</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <family>MV Boli</family>
-          <pointsize>32</pointsize>
+          <family>Agency FB</family>
+          <pointsize>40</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Welcome back,
-Checkout what's new !!</string>
+         <string>Welcome back
+HORNY DOGE SHOP !!</string>
         </property>
-       </widget>
-       <widget class="QLineEdit" name="lineedit_searchbar">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>110</y>
-          <width>521</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="dragEnabled">
-         <bool>false</bool>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </widget>
@@ -91,12 +75,13 @@ Checkout what's new !!</string>
         </property>
         <property name="font">
          <font>
-          <family>MV Boli</family>
-          <pointsize>16</pointsize>
+          <family>Agency FB</family>
+          <pointsize>26</pointsize>
+          <underline>true</underline>
          </font>
         </property>
         <property name="text">
-         <string>My Profile:</string>
+         <string>My Profile :</string>
         </property>
        </widget>
        <widget class="QGroupBox" name="groupBox">
@@ -110,12 +95,12 @@ Checkout what's new !!</string>
         </property>
         <property name="font">
          <font>
-          <family>MV Boli</family>
-          <pointsize>9</pointsize>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="title">
-         <string>Personal info</string>
+         <string>   Personal info</string>
         </property>
         <widget class="QDateEdit" name="dateEdit">
          <property name="geometry">
@@ -125,6 +110,12 @@ Checkout what's new !!</string>
            <width>121</width>
            <height>23</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
         </widget>
         <widget class="QLabel" name="label_c_cellphone">
@@ -138,8 +129,12 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">
@@ -154,6 +149,12 @@ Checkout what's new !!</string>
            <width>121</width>
            <height>23</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="currentText">
           <string>male</string>
@@ -185,8 +186,12 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">
@@ -204,8 +209,12 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">
@@ -221,6 +230,12 @@ Checkout what's new !!</string>
            <height>23</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -233,6 +248,12 @@ Checkout what's new !!</string>
            <width>93</width>
            <height>28</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>Update</string>
@@ -249,8 +270,12 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">
@@ -265,6 +290,12 @@ Checkout what's new !!</string>
            <width>121</width>
            <height>23</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <item>
           <property name="text">
@@ -299,12 +330,12 @@ Checkout what's new !!</string>
         </property>
         <property name="font">
          <font>
-          <family>MV Boli</family>
-          <pointsize>9</pointsize>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="title">
-         <string>Member info</string>
+         <string>   Member info</string>
         </property>
         <widget class="QLabel" name="label_c_username">
          <property name="geometry">
@@ -317,8 +348,10 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -336,8 +369,10 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>10</pointsize>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -353,6 +388,12 @@ Checkout what's new !!</string>
            <height>21</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>ID</string>
          </property>
@@ -366,6 +407,12 @@ Checkout what's new !!</string>
            <height>21</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Username</string>
          </property>
@@ -376,9 +423,15 @@ Checkout what's new !!</string>
          <rect>
           <x>260</x>
           <y>190</y>
-          <width>171</width>
+          <width>191</width>
           <height>41</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Change Password </string>
@@ -421,8 +474,10 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>14</pointsize>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -440,8 +495,10 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>14</pointsize>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -459,8 +516,8 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>14</pointsize>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
           </font>
          </property>
          <property name="layoutDirection">
@@ -496,8 +553,8 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>MV Boli</family>
-           <pointsize>14</pointsize>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
           </font>
          </property>
          <property name="text">
@@ -515,9 +572,8 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>Franklin Gothic Book</family>
-           <pointsize>8</pointsize>
-           <italic>false</italic>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -535,9 +591,8 @@ Checkout what's new !!</string>
          </property>
          <property name="font">
           <font>
-           <family>Franklin Gothic Book</family>
-           <pointsize>8</pointsize>
-           <italic>false</italic>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
@@ -556,25 +611,47 @@ Checkout what's new !!</string>
         </property>
         <property name="font">
          <font>
-          <family>MV Boli</family>
-          <pointsize>16</pointsize>
+          <family>Agency FB</family>
+          <pointsize>26</pointsize>
+          <underline>true</underline>
          </font>
         </property>
         <property name="text">
-         <string>My Wallet:</string>
+         <string>My Wallet :</string>
         </property>
        </widget>
       </widget>
       <widget class="QWidget" name="page_4">
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Seller Signned Up!</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="label_c_info_3">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>20</y>
+          <width>231</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>26</pointsize>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>My Bag :</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listWidget">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>30</y>
+          <width>601</width>
+          <height>461</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="page_5">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -597,8 +674,16 @@ Checkout what's new !!</string>
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
    </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
@@ -611,6 +696,11 @@ Checkout what's new !!</string>
      <string>MENU</string>
     </property>
     <widget class="QMenu" name="menuMyInfo">
+     <property name="font">
+      <font>
+       <family>Agency FB</family>
+      </font>
+     </property>
      <property name="title">
       <string>Customer Center</string>
      </property>
@@ -627,6 +717,9 @@ Checkout what's new !!</string>
     <addaction name="actionCustomer_Service"/>
    </widget>
    <widget class="QMenu" name="menuSeller_Center">
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="title">
      <string>Seller Center</string>
     </property>
@@ -668,6 +761,12 @@ Checkout what's new !!</string>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CLICK!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionSignup">
    <property name="text">
@@ -676,10 +775,22 @@ Checkout what's new !!</string>
    <property name="toolTip">
     <string>SIGN UP NOW!!!</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionmyInfo">
    <property name="text">
     <string>MyInfo</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionHome">
@@ -689,25 +800,55 @@ Checkout what's new !!</string>
    <property name="toolTip">
     <string>check it out!</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionLog_out">
    <property name="text">
     <string>Log out</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionNotifycation">
    <property name="text">
-    <string>Notification</string>
+    <string>MyBag</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionShop_Manage">
    <property name="text">
     <string>Shop Manage</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionLog_out_2">
    <property name="text">
     <string>Log out</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionprofile">
@@ -719,40 +860,88 @@ Checkout what's new !!</string>
    <property name="text">
     <string>Release Card</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionCustomer_List">
    <property name="text">
     <string>Customer List</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionStaff_List">
    <property name="text">
     <string>Staff List</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionLog_Out">
    <property name="text">
     <string>Log Out</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionAuthorization_Code">
    <property name="text">
     <string>Authorization Code</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionDOGE_SHOP">
    <property name="text">
     <string>DOGE SHOP</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionMyWallet">
    <property name="text">
     <string>MyWallet</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionCustomer_Service">
    <property name="text">
     <string>Customer Service</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionDoge_Cart">

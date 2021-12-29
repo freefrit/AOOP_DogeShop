@@ -2,12 +2,14 @@
 #define CUSTOMER_H
 
 #include "person.h"
+#include "customerbag.h"
+#include "header/card.h"
 
 class Customer: public Person
 {
 private:
 
-    //CustomerBag bag;
+    CustomerBag bag;
     //Cart cart;
 
 public:
@@ -18,8 +20,8 @@ public:
     ~Customer(){};
     //bool Earnmoney();
 
-    bool purchase_cash(int);
-
+    bool purchase(int);
+    void addToBag(Card_in_bag*);
 };
 
 
