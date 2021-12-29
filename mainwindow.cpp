@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {           
     ui->setupUi(this);
-
+    is_test = false;
 
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
@@ -102,6 +102,7 @@ void MainWindow::popup_close_cus()
         customer_wallet_callin();
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
+        is_test = false;
     }
 }
 void MainWindow::popup_close_sel()
@@ -110,6 +111,7 @@ void MainWindow::popup_close_sel()
         m_login_window->sync_S_pointer(s);
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
+        is_test = false;
     }
 }
 void MainWindow::popup_close_test()
@@ -117,6 +119,7 @@ void MainWindow::popup_close_test()
     if(m_login_window->is_loggedin()){
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuSeller_Center->menuAction()->setVisible(true);
+        is_test = true;
     }
 }
 void MainWindow::popup_close_man()
@@ -124,6 +127,7 @@ void MainWindow::popup_close_man()
     if(m_login_window->is_loggedin()){
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
          ui->menuGuest->menuAction()->setVisible(false);
+         is_test = false;
     }
 }
 void MainWindow::update_password(QString q)
@@ -182,8 +186,16 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    Shop_window *shop_window = new Shop_window(this);
+    if(is_test)
+    {
+        QString name = "test", pass = "test";
+        c = new Customer(0, name, pass, 81000, 81000);
+    }
+    Shop_window *shop_window = new Shop_window(c, this);
     shop_window->setWindowTitle("卡片購買");
+    shop_window->syncdatabase(database);
+    //qDebug() << c->getName();
+    //shop_window->sync_C_pointer(c);
     shop_window->show();
 
     delete load_window;
@@ -250,8 +262,54 @@ void MainWindow::on_actionMyWallet_triggered()
     ui->stackedWidget->setCurrentIndex(c_wallet_page);
 }
 
+void MainWindow::clear_layout(QLayout* layout)
+{
+    QLayoutItem *item;
+    while((item = layout->takeAt(0)))
+    {
+        if(QWidget* widget = item->widget())
+            delete widget;
+        if(QLayout* childLayout = item->layout())
+            clear_layout(childLayout);
+    }
+}
+
 void MainWindow::on_actionNotifycation_triggered()
 {
+    clear_layout(ui->bag_gridLayout);
+
+    for(int i = 0; i < c->get_deck_in_bag_size(); i++)
+    {
+        //c->mybag()[i];
+        QLabel *name = new QLabel;
+        name->setText(QString::fromStdString(c->mybag()[i].name));
+        name->setAlignment(Qt::AlignCenter);
+        name->setMinimumWidth(234);
+        if(c->mybag()[i].type == "monster")
+            name->setStyleSheet("QLabel{background-color:rgb(197, 152, 75); color:white; border:2px solid; font:bold;}");
+        else if(c->mybag()[i].type == "magic")
+            name->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white; border:2px solid; font:bold;}");
+        else if(c->mybag()[i].type == "trap")
+            name->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white; border:2px solid; font:bold;}");
+        ui->bag_gridLayout->addWidget(name, i, 0, 1, 4, Qt::AlignCenter);
+
+        QLabel *num = new QLabel;
+        num->setText(QString::number(c->mybag()[i].num));
+        num->setAlignment(Qt::AlignCenter);
+        num->setMinimumWidth(117);
+        num->setStyleSheet("border:2px solid; font:bold;");
+        ui->bag_gridLayout->addWidget(num, i, 4, 1, 2, Qt::AlignCenter);
+
+        QPushButton *button = new QPushButton(" 點此查看卡片詳細 ");
+        button->setAutoDefault(false);
+        button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
+                              color:white; border-radius:0px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
+        connect(button, &QPushButton::clicked, this, [=](){c->mybag()[i].detail();});
+        ui->bag_gridLayout->addWidget(button, i, 6, 1, 4, Qt::AlignCenter);
+    }
+    ui->bag_gridLayout->setSpacing(0);
+
     ui->stackedWidget->setCurrentIndex(c_bag_page);
 }
 

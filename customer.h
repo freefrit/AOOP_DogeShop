@@ -22,6 +22,9 @@ public:
 
     bool purchase(int);
     void addToBag(Card_in_bag*);
+    int get_deck_in_bag_size(){return bag.deck_size();}
+    int get_money_cash(){qDebug()<<"hi"; return money.getCash();}
+    vector<Card_in_bag> mybag(){return bag.getdeck();}
 };
 
 

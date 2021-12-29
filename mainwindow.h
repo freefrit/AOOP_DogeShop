@@ -54,6 +54,7 @@ private slots:
     void on_actionNotifycation_triggered();
 
 private:
+    bool is_test;
     int prePage;
     Ui::MainWindow *ui;
     QSqlDatabase database;
@@ -69,6 +70,7 @@ private:
     void myinfo_default();
     void customer_info_callin();
     void customer_wallet_callin();
+    void clear_layout(QLayout* layout);
 
 };
 
