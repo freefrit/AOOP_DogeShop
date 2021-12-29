@@ -18,12 +18,14 @@ public:
         money.addCash(c).addPoint(p);
     };
     ~Customer(){};
-    //bool Earnmoney();
-
+    void earnPoint();
+    void exchangePoint(int);
     bool purchase(int);
     void addToBag(Card_in_bag*);
+    int get_money_cash(){return money.getCash();}
+    double get_money_point(){return money.getPoint();}
+    void set_point(double);
     int get_deck_in_bag_size(){return bag.deck_size();}
-    int get_money_cash(){qDebug()<<"hi"; return money.getCash();}
     vector<Card_in_bag> mybag(){return bag.getdeck();}
 };
 

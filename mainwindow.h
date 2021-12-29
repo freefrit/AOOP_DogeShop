@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include "changepwd_dialog.h"
+#include"exchange_popup.h"
 
 
 class LoginWindowPopUpForm;
@@ -39,6 +40,7 @@ private slots:
     void popup_close_man();
     void popup_close_test();
     void update_password(QString);
+    void update_money();
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -51,7 +53,15 @@ private slots:
     void on_btn_cus_change_pwd_clicked();
     void on_actionMyWallet_triggered();
     void on_actionShop_Manage_triggered();
-    void on_actionNotifycation_triggered();
+    void on_actionMyBag_triggered();
+
+    void on_btn_cus_change_pwd_2_clicked();
+
+    void on_btn_cus_change_pwd_3_clicked();
+
+    void on_actionManage_Password_triggered();
+
+    void on_btn_c_infoupdate_clicked();
 
 private:
     bool is_test;

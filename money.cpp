@@ -27,6 +27,10 @@ double Money::getPoint()
 {
     return point;
 }
+void Money::setPoint(double p)
+{
+    point=p;
+}
 bool Money::isaffordable(int price)
 {
     return !(price>cash);

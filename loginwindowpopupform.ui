@@ -57,7 +57,7 @@
       <string notr="true">background-color:rgb(0xDF,0xD5,0xA5);</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="font">
@@ -79,7 +79,8 @@
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
+         <family>Agency FB</family>
+         <pointsize>10</pointsize>
         </font>
        </property>
        <property name="text">
@@ -145,6 +146,12 @@ p, li { white-space: pre-wrap; }
          <height>31</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -160,7 +167,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="font">
         <font>
-         <family>Agency FB</family>
+         <family>Segoe UI</family>
          <pointsize>12</pointsize>
         </font>
        </property>
@@ -226,6 +233,12 @@ p, li { white-space: pre-wrap; }
          <height>31</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -241,7 +254,8 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
+         <family>Agency FB</family>
+         <pointsize>10</pointsize>
         </font>
        </property>
        <property name="text">
@@ -278,6 +292,12 @@ p, li { white-space: pre-wrap; }
          <width>281</width>
          <height>41</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>11</pointsize>
+        </font>
        </property>
        <property name="text">
         <string/>
@@ -411,7 +431,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="font">
       <font>
-       <family>Agency FB</family>
+       <family>Segoe UI</family>
        <pointsize>10</pointsize>
        <weight>50</weight>
        <italic>false</italic>
@@ -617,7 +637,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="font">
       <font>
-       <family>Agency FB</family>
+       <family>Segoe UI</family>
        <pointsize>10</pointsize>
        <weight>50</weight>
        <italic>false</italic>

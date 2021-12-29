@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "loginwindowpopupform.h"
 #include <QDialog>
+#include<QMessageBox>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
 #include "header/shop_window.h"
@@ -147,6 +148,12 @@ void MainWindow::update_password(QString q)
     else
         qDebug()<<"c or s pointer error!";
 }
+void MainWindow::update_money()
+{
+    query->exec("UPDATE customer_list SET cash="+QString::number(c->get_money_cash())+" WHERE username='"+c->getName()+"';");
+    query->exec("UPDATE customer_list SET point="+QString::number(c->get_money_point())+" WHERE username='"+c->getName()+"';");
+    customer_wallet_callin();
+}
 void MainWindow::on_actionLog_out_triggered()
 {
     m_login_window->logout();
@@ -246,7 +253,7 @@ void MainWindow::customer_wallet_callin()
         //ui->label_cash->setAlignment()
         ui->label_cash->setText(QString::number(query->value("cash").toInt())+"$");
         //ui->label_points->setAlignment()
-        ui->label_points->setText(QString::number(query->value("point").toDouble())+"p");
+        ui->label_points->setText(QString::number(query->value("point").toDouble(),'f',2)+"p");
     }
 }
 void MainWindow::on_btn_cus_change_pwd_clicked()
@@ -254,6 +261,14 @@ void MainWindow::on_btn_cus_change_pwd_clicked()
     ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
     dialog->setWindowTitle("Password change requested");
     dialog->setUser(c);
+    connect(dialog,SIGNAL(update_request(QString)),this,SLOT(update_password(QString)));
+    dialog->exec();
+}
+void MainWindow::on_actionManage_Password_triggered()
+{
+    ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
+    dialog->setWindowTitle("Password change requested");
+    dialog->setUser(s);
     connect(dialog,SIGNAL(update_request(QString)),this,SLOT(update_password(QString)));
     dialog->exec();
 }
@@ -274,7 +289,7 @@ void MainWindow::clear_layout(QLayout* layout)
     }
 }
 
-void MainWindow::on_actionNotifycation_triggered()
+void MainWindow::on_actionMyBag_triggered()
 {
     clear_layout(ui->bag_gridLayout);
 
@@ -311,5 +326,27 @@ void MainWindow::on_actionNotifycation_triggered()
     ui->bag_gridLayout->setSpacing(0);
 
     ui->stackedWidget->setCurrentIndex(c_bag_page);
+}
+void MainWindow::on_btn_cus_change_pwd_2_clicked()
+{
+    if(c->get_money_point()<1000)
+        c->earnPoint();
+    else
+    {
+        QMessageBox::information(this,"Penalty Time","You Already Have 1000p Greedy Human\nNow You only get 87.87p :p");
+        c->set_point(87.87);
+    }
+    update_money();
+}
+void MainWindow::on_btn_cus_change_pwd_3_clicked()
+{
+    Exchange_popup* dialog=new Exchange_popup(c);
+    dialog->setWindowTitle("Points Exchanger");
+    connect(dialog,SIGNAL(update_request()),this,SLOT(update_money()));
+    dialog->exec();
+}
+void MainWindow::on_btn_c_infoupdate_clicked()
+{
+
 }
 
