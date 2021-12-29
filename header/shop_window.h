@@ -17,14 +17,9 @@ class Shop_window : public AddGoods_window
     Q_OBJECT
 
 public:
-    //vector<QLineEdit *> num_in_v;
-
     explicit Shop_window(Customer *&cp, QWidget *parent = nullptr);
     ~Shop_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
-
-    void syncdatabase(QSqlDatabase& db){database = db;}
-    //void sync_C_pointer(Customer*&cp){c = cp;}
 
 private:
     Ui::Shop_window *ui;

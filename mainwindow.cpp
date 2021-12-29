@@ -182,6 +182,8 @@ void MainWindow::on_actionRelease_Card_triggered()
 
     AddGoods_window *add_window = new AddGoods_window(this);
     add_window->setWindowTitle("卡片上架");
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
     add_window->show();
 
     delete load_window;
@@ -191,6 +193,7 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
 {
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
+    ui->stackedWidget->setCurrentIndex(frontpage);
     load_window->show();
 
     if(is_test)
@@ -200,9 +203,8 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     }
     Shop_window *shop_window = new Shop_window(c, this);
     shop_window->setWindowTitle("卡片購買");
-    shop_window->syncdatabase(database);
-    //qDebug() << c->getName();
-    //shop_window->sync_C_pointer(c);
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
     shop_window->show();
 
     delete load_window;
@@ -216,6 +218,8 @@ void MainWindow::on_actionShop_Manage_triggered()
 
     ManageGoods_window *manage_window = new ManageGoods_window(this);
     manage_window->setWindowTitle("商品管理");
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
     manage_window->show();
 
     delete load_window;
