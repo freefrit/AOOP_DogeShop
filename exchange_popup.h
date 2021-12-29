@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::Exchange_popup *ui;
     Customer* x;
+    int ratio;
 };
 
 #endif // EXCHANGE_POPUP_H

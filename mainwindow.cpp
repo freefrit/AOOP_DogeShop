@@ -101,6 +101,7 @@ void MainWindow::popup_close_cus()
         myinfo_default();
         customer_info_callin();
         customer_wallet_callin();
+        customer_bag_calltobag();
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
@@ -154,6 +155,19 @@ void MainWindow::update_money()
     query->exec("UPDATE customer_list SET point="+QString::number(c->get_money_point())+" WHERE username='"+c->getName()+"';");
     customer_wallet_callin();
 }
+void MainWindow::update_bag()
+{
+    query->exec("TRUNCATE TABLE "+c->getName()+";");
+    for (auto x :c->mybag()) {
+        QString boolbit="false";
+        if(x.star) boolbit="true";
+        query->exec("INSERT INTO "+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
+                                                        "','"+QString::fromStdString(x.type)+
+                                                        "','"+QString::fromStdString(x.url)+
+                                                        "',"+QString::number(x.num)+","+boolbit+");");
+    }
+
+}
 void MainWindow::on_actionLog_out_triggered()
 {
     m_login_window->logout();
@@ -203,6 +217,9 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     }
     Shop_window *shop_window = new Shop_window(c, this);
     shop_window->setWindowTitle("卡片購買");
+
+    connect(shop_window,SIGNAL(update_money_reqquest()),this,SLOT(update_money()));
+    connect(shop_window,SIGNAL(update_bag_request()),this,SLOT(update_bag()));
 
     ui->stackedWidget->setCurrentIndex(frontpage);
     shop_window->show();
@@ -260,6 +277,20 @@ void MainWindow::customer_wallet_callin()
         ui->label_points->setText(QString::number(query->value("point").toDouble(),'f',2)+"p");
     }
 }
+void MainWindow::customer_bag_calltobag()
+{
+    sql_command="SELECT * FROM "+c->getName()+";";
+    query->exec(sql_command);
+    while(query->next())
+    {
+        Card_in_bag* cib=new Card_in_bag(query->value(0).toString().toStdString(),
+                                         query->value(1).toString().toStdString(),
+                                         query->value(2).toString().toStdString(),
+                                         query->value(3).toInt(),query->value(4).toBool());
+        c->addToBag(cib);
+    }
+
+}
 void MainWindow::on_btn_cus_change_pwd_clicked()
 {
     ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
@@ -278,6 +309,8 @@ void MainWindow::on_actionManage_Password_triggered()
 }
 void MainWindow::on_actionMyWallet_triggered()
 {
+    update_money();
+    customer_wallet_callin();
     ui->stackedWidget->setCurrentIndex(c_wallet_page);
 }
 

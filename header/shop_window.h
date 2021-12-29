@@ -21,6 +21,10 @@ public:
     ~Shop_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 
+signals:
+    void update_money_request();
+    void update_bag_request();
+
 private:
     Ui::Shop_window *ui;
     vector<Card_in_shop> sub_v;
