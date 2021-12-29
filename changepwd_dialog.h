@@ -24,8 +24,6 @@ public:
 signals:
     void update_request(QString);
 private slots:
-    void on_lineEdit_passConfirm_selectionChanged();
-    void on_lineEdit_passConfirm_returnPressed();
     void on_btn_update_clicked();
     bool validPass(QString pass);
     void on_toolbtn_revealPass1_pressed();

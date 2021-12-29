@@ -42,10 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //initalize display
     logout_display();
-
-    //default message
-    ui->lineedit_searchbar->setPlaceholderText("Search");
-    ui->lineedit_searchbar->setReadOnly(1);
+    ui->menuCustomer_Center->setUpdatesEnabled(true);
+    ui->menuCustomer_Center->setFont(ui->menuBar->font());
 
     //popup window signals
     connect(m_login_window,SIGNAL(cusLoggedin()),this,SLOT(popup_close_cus()));
@@ -82,10 +80,7 @@ void MainWindow::on_actionHome_triggered()
 void MainWindow::returnPage(){
     ui->stackedWidget->setCurrentIndex(prePage);
 }
-void MainWindow::on_lineedit_searchbar_selectionChanged()
-{
-    ui->lineedit_searchbar->setReadOnly(0);
-}
+
 void MainWindow::on_lineEdit_cellphone_selectionChanged()
 {
     ui->lineEdit_cellphone->setReadOnly(0);
@@ -212,7 +207,6 @@ void MainWindow::myinfo_default(){
     ui->comboBox_house->setCurrentIndex(-1);
     ui->dateEdit->setCalendarPopup(1);
     ui->lineEdit_cellphone->setPlaceholderText("0900-000-000");
-    ui->lineedit_searchbar->setReadOnly(1);
 }
 void MainWindow::customer_info_callin()
 {
@@ -255,3 +249,9 @@ void MainWindow::on_actionMyWallet_triggered()
 {
     ui->stackedWidget->setCurrentIndex(c_wallet_page);
 }
+
+void MainWindow::on_actionNotifycation_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(c_bag_page);
+}
+

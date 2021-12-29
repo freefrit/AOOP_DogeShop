@@ -31,5 +31,10 @@ public:
 
     void set_data(Card x, int num, int price);
 };
-
+class Card_in_bag: public Card
+{
+public:
+    int num;
+    bool star;
+};
 #endif // CARD_H
