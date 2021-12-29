@@ -157,6 +157,46 @@ background-color: rgb(61, 61, 61);</string>
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QComboBox" name="sort_box">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>90</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>all</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>monster</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>magic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>trap</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
  <connections/>

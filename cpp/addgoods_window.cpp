@@ -16,6 +16,7 @@ AddGoods_window::AddGoods_window(QWidget *parent) :
     row_cards = 8;
     Csv *csvObj = new Csv;
     all_card = csvObj->read_csv("../AOOP_DogeShop/src/cards.csv");
+    sub_v = all_card;
     delete csvObj;
     csvObj = new Csv;
     shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
@@ -221,5 +222,99 @@ void AddGoods_window::on_add_clicked()
         //qDebug() << shop_v.size();
     }
     load_window->show();
+}
+
+/*
+void AddGoods_window::on_sort_box_activated(const QString &arg1)
+{
+    qDebug() << arg1;
+
+    QString mode = ui->sort_box->currentText();
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout);
+    clear_layout(ui->down_gridLayout);
+
+    if(mode == "all")
+    {
+        card_grid_layout(row_cards, ui->up_gridLayout, 0);
+        card_grid_layout(row_cards, ui->down_gridLayout, 1);
+    }
+
+}
+*/
+/*
+void AddGoods_window::advance_grid_layout(int q, QGridLayout *grid, int idx)
+{
+    //vector<Card> sub_v;
+    if(ui->sort_box->currentText() == "monster")
+    {
+        for(int i = 0; i < (int)all_card.size(); i++)
+        {
+            if(all_card[i].type == "monster")
+                sub_v.push_back(all_card[i]);
+        }
+    }
+
+    grid->setRowMinimumHeight(0, 180);
+
+    Card_in_shop *cardObj = new Card_in_shop;
+    for(int i = 0; i < q && (2*q*page + i + row_cards*idx) < (int)sub_v.size(); i++)
+    {
+
+    }
+}
+*/
+void AddGoods_window::on_sort_box_currentTextChanged(const QString &arg1)
+{
+    qDebug() << arg1;
+
+    while(all_card.size())
+        all_card.pop_back();
+
+    if(arg1 == "monster")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(all_card[i].type == "monster")
+                all_card.push_back(sub_v[i]);
+    }
+    else if(arg1 == "magic")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(all_card[i].type == "magic")
+                all_card.push_back(sub_v[i]);
+    }
+    else if(arg1 == "trap")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(all_card[i].type == "trap")
+                all_card.push_back(sub_v[i]);
+    }
+    else
+        all_card = sub_v;
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout);
+    clear_layout(ui->down_gridLayout);
+    card_grid_layout(row_cards, ui->up_gridLayout, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout, 1);
+
+    delete load_window;
 }
 
