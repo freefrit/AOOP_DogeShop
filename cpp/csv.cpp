@@ -53,6 +53,7 @@ vector<Card_in_shop> Csv::read_shop(string path)
         temp->url = lineList[2].toStdString();
         temp->num = lineList[3].toInt();
         temp->price = lineList[4].toInt();
+        temp->state = lineList[5];
 
         out.push_back(*temp);
     }
@@ -70,7 +71,8 @@ void Csv::save_shop_csv(vector<Card_in_shop> shop, string path)
         temp += shop[i].type + ",";
         temp += shop[i].url + ",";
         temp += to_string(shop[i].num) + ",";
-        temp += to_string(shop[i].price) + "\n";
+        temp += to_string(shop[i].price) + ",";
+        temp += shop[i].state.toStdString() + "\n";
     }
 
     QFile file(QString::fromStdString(path));

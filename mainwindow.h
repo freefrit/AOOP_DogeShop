@@ -53,6 +53,8 @@ private slots:
 
     void on_commandLinkButton_clicked();
 
+    void on_actionShop_Manage_triggered();
+
 private:
     int prePage;
     Ui::MainWindow *ui;

@@ -27,6 +27,7 @@ class Card_in_shop: public Card
 public:
     int num;
     int price;
+    QString state;
 
     void set_data(Card x, int num, int price);
 };

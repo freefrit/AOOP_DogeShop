@@ -5,6 +5,7 @@
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
 #include "header/shop_window.h"
+#include "header/managegoods_window.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
-    database.setHostName("172.17.40.95");
+    database.setHostName("140.113.89.173");
     database.setDatabaseName("doge_shop"); // schema name
     database.setUserName("testuser");
     database.setPassword("password"); // your password
@@ -174,6 +175,19 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     delete load_window;
 }
 
+void MainWindow::on_actionShop_Manage_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    ManageGoods_window *manage_window = new ManageGoods_window(this);
+    manage_window->setWindowTitle("商品管理");
+    manage_window->show();
+
+    delete load_window;
+}
+
 void MainWindow::myinfo_default(){
     ui->comboBox_gender->setCurrentIndex(-1);
     ui->comboBox_house->setCurrentIndex(-1);
@@ -204,4 +218,3 @@ void MainWindow::on_commandLinkButton_clicked()
     dialog->show();
 
 }
-

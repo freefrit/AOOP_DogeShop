@@ -1,26 +1,27 @@
-#ifndef SHOP_WINDOW_H
-#define SHOP_WINDOW_H
+#ifndef MANAGEGOODS_WINDOW_H
+#define MANAGEGOODS_WINDOW_H
 
 #include <QDialog>
 #include "addgoods_window.h"
 
 namespace Ui {
-class Shop_window;
+class ManageGoods_window;
 }
 
-class Shop_window : public AddGoods_window
+class ManageGoods_window : public AddGoods_window
 {
     Q_OBJECT
 
 public:
     //vector<QLineEdit *> num_in_v;
+    //vector<QLineEdit *> price_in_v;
 
-    explicit Shop_window(QWidget *parent = nullptr);
-    ~Shop_window();
+    explicit ManageGoods_window(QWidget *parent = nullptr);
+    ~ManageGoods_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 
 private:
-    Ui::Shop_window *ui;
+    Ui::ManageGoods_window *ui;
 
     void on_next_page_clicked() override;
     void on_previous_page_clicked() override;
@@ -29,4 +30,4 @@ private:
     void reject() override;
 };
 
-#endif // SHOP_WINDOW_H
+#endif // MANAGEGOODS_WINDOW_H

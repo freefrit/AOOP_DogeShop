@@ -47,4 +47,5 @@ void Card_in_shop::set_data(Card x, int num, int price)
     this->url = x.url;
     this->num = num;
     this->price = price;
+    this->state = "NEW";
 }

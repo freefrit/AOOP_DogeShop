@@ -454,7 +454,7 @@ Checkout what's new !!</string>
     <property name="title">
      <string>Seller Center</string>
     </property>
-    <addaction name="actionMy_Shop"/>
+    <addaction name="actionShop_Manage"/>
     <addaction name="actionRelease_Card"/>
     <addaction name="separator"/>
     <addaction name="actionLog_out_2"/>
@@ -524,9 +524,9 @@ Checkout what's new !!</string>
     <string>Notification</string>
    </property>
   </action>
-  <action name="actionMy_Shop">
+  <action name="actionShop_Manage">
    <property name="text">
-    <string>My Shop</string>
+    <string>Shop Manage</string>
    </property>
   </action>
   <action name="actionLog_out_2">

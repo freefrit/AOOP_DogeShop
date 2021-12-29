@@ -15,6 +15,7 @@ SOURCES += \
     cpp/carddetail_window.cpp \
     cpp/csv.cpp \
     cpp/loading_window.cpp \
+    cpp/managegoods_window.cpp \
     cpp/shop_window.cpp \
     customer.cpp \
     customerbag.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     header/csv.h \
     header/loading_window.h \
     header/shop_window.h \
+    header/managegoods_window.h \
     loginwindowpopupform.h \
     mainwindow.h \
     money.h \
@@ -43,6 +45,7 @@ HEADERS += \
 
 FORMS += \
     changepwd_dialog.ui \
+    ui/managegoods_window.ui \
     loginwindowpopupform.ui \
     mainwindow.ui \
     ui/addgoods_window.ui \

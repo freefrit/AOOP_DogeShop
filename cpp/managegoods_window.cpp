@@ -1,12 +1,12 @@
-#include "header/shop_window.h"
-#include "ui_shop_window.h"
+#include "header/managegoods_window.h"
+#include "ui_managegoods_window.h"
 #include "header/loading_window.h"
 #include "header/csv.h"
 #include <QIntValidator>
 
-Shop_window::Shop_window(QWidget *parent) :
-    AddGoods_window(0, parent),
-    ui(new Ui::Shop_window)
+ManageGoods_window::ManageGoods_window(QWidget *parent) :
+    AddGoods_window(1, parent),
+    ui(new Ui::ManageGoods_window)
 {
     ui->setupUi(this);
 
@@ -18,7 +18,7 @@ Shop_window::Shop_window(QWidget *parent) :
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
-    ui->shop_title->setText("DOGE SHOP");
+    ui->shop_title->setText("DOGE SHOP - Manage");
     ui->add->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%); color:white; border-radius:0px;}"
                            "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
     ui->next_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
@@ -26,11 +26,11 @@ Shop_window::Shop_window(QWidget *parent) :
     ui->previous_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
                                      "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
 
-    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
-    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+    card_grid_layout(row_cards, ui->up_gridLayout, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout, 1);
 }
 
-void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
+void ManageGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
 {
     grid->setRowMinimumHeight(0, 180);
 
@@ -46,23 +46,10 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         name->setStyleSheet("border:2px solid; font:bold;");
         grid->addWidget(name, 1, i, Qt::AlignCenter);
 
-        QHBoxLayout *hBoxLayout = new QHBoxLayout;
         QLabel *type = new QLabel;
         type->setText(QString::fromStdString(shop_v[2*q*page + i + row_cards*idx].type));
         type->setStyleSheet("font:bold;");
-        type->setAlignment(Qt::AlignCenter);
-        hBoxLayout->addWidget(type, 4, Qt::AlignCenter);
-
-        if(shop_v[2*q*page + i + row_cards*idx].state != " ")
-        {
-            QLabel *state = new QLabel(shop_v[2*q*page + i + row_cards*idx].state);
-            if(state->text() == "NEW") state->setStyleSheet("font:bold; border:1px solid green; color:green; font-size:8px;");
-            else if(state->text() == "HOT") state->setStyleSheet("font:bold; border:1px solid red; color:red; font-size:8px;");
-            else if(state->text() == "CUT") state->setStyleSheet("font:bold; border:1px solid blue; color:blue; font-size:8px;");
-            state->setAlignment(Qt::AlignCenter);
-            hBoxLayout->addWidget(state, 1, Qt::AlignCenter);
-        }
-        grid->addLayout(hBoxLayout, 2, i, Qt::AlignCenter);
+        grid->addWidget(type, 2, i, Qt::AlignCenter);
 
         QLabel *num = new QLabel("庫存" + QString::number(shop_v[2*q*page + i + row_cards*idx].num));
         QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + row_cards*idx].price));
@@ -71,18 +58,22 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         num->setStyleSheet("font:bold; color:red");
         price->setStyleSheet("font:bold; color:red");
 
-        QLabel *num2 = new QLabel("輸入數量");
-        QLineEdit *num_in = new QLineEdit;
-        num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
-        num_in->disconnect();
-        //connect(num_in1, &QLineEdit::returnPressed, this, [=](){this->on_add_clicked(); qDebug() << "hi4";});
+        QLabel *num2 = new QLabel("補貨"), *price2 = new QLabel("改價");
+        num2->setAlignment(Qt::AlignRight);
+        price2->setAlignment(Qt::AlignRight);
+        QLineEdit *num_in = new QLineEdit, *price_in = new QLineEdit;
+        num_in->setValidator(new QIntValidator(-(shop_v[2*q*page + i + row_cards*idx].num), 1000, this));
+        price_in->setValidator(new QIntValidator(0, 10000, this));
         num_in_v.push_back(num_in);
+        price_in_v.push_back(price_in);
 
         QGridLayout *subLayout = new QGridLayout;
-        subLayout->addWidget(num, 0, 0, Qt::AlignCenter);
-        subLayout->addWidget(price, 0, 1, Qt::AlignCenter);
+        subLayout->addWidget(num, 0, 0, 1, 2, Qt::AlignCenter);
+        subLayout->addWidget(price, 0, 2, 1, 2, Qt::AlignCenter);
         subLayout->addWidget(num2, 1, 0, Qt::AlignLeft);
         subLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
+        subLayout->addWidget(price2, 1, 2, Qt::AlignLeft);
+        subLayout->addWidget(price_in, 1, 3, Qt::AlignLeft);
         subLayout->setSpacing(2);
         grid->addLayout(subLayout, 3, i, Qt::AlignCenter);
 
@@ -97,19 +88,15 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
     delete cardObj;
 }
 
-Shop_window::~Shop_window()
+ManageGoods_window::~ManageGoods_window()
 {
     delete ui;
 }
 
-void Shop_window::reject()
-{ 
+void ManageGoods_window::reject()
+{
     remove("../AOOP_DogeShop/src/shop.csv");
-    /*
-    for(int i = 0; i < (int)shop_v.size(); i++)
-        if(shop_v[i].state == "NEW")
-            shop_v[i].state = " ";
-    */
+
     Csv *csvObj = new Csv;
     csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
@@ -117,9 +104,8 @@ void Shop_window::reject()
     QDialog::reject();
 }
 
-void Shop_window::on_next_page_clicked()
+void ManageGoods_window::on_next_page_clicked()
 {
-    //qDebug() << "hihi";
     page++;
     if(page > (int)shop_v.size() / (2*row_cards))
         page = 0;
@@ -131,39 +117,36 @@ void Shop_window::on_next_page_clicked()
     load_window->show();
 
     clear_lineEdit_v();
-    clear_layout(ui->up_gridLayout_shop);
-    clear_layout(ui->down_gridLayout_shop);
-    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
-    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+    clear_layout(ui->up_gridLayout);
+    clear_layout(ui->down_gridLayout);
+    card_grid_layout(row_cards, ui->up_gridLayout, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout, 1);
 
     delete load_window;
 }
 
-
-
-void Shop_window::on_previous_page_clicked()
+void ManageGoods_window::on_previous_page_clicked()
 {
-    //qDebug() << "hihihi";
     page--;
     if(page < 0)
         page = (int)shop_v.size() / (2*row_cards);
     ui->how_many->setText("第[" + QString::number(page + 1) +
-                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+                          "]頁，全[" + QString::number(all_card.size()) + "]種商品");
 
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
     clear_lineEdit_v();
-    clear_layout(ui->up_gridLayout_shop);
-    clear_layout(ui->down_gridLayout_shop);
-    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
-    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+    clear_layout(ui->up_gridLayout);
+    clear_layout(ui->down_gridLayout);
+    card_grid_layout(row_cards, ui->up_gridLayout, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout, 1);
 
     delete load_window;
 }
 
-void Shop_window::on_add_clicked()
+void ManageGoods_window::on_add_clicked()
 {
     int count = 0;
 
@@ -171,36 +154,47 @@ void Shop_window::on_add_clicked()
     {
         int idx = 2*row_cards*page + i;
 
-        if(num_in_v[i]->text() != "" && num_in_v[i]->text().toInt() <= shop_v[idx].num)
+        if(num_in_v[i]->text() != "")
         {
-            qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
-            shop_v[idx].num -= num_in_v[i]->text().toInt();
+            qDebug() << "add" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
+            shop_v[idx].num += num_in_v[i]->text().toInt();
+            count++;
+        }
+
+        if(price_in_v[i]->text() != "")
+        {
+            if(shop_v[idx].price > price_in_v[i]->text().toInt())
+                shop_v[idx].state = "CUT";
+            else
+                shop_v[idx].state = "HOT";
+            qDebug() << "change price" << QString::fromStdString(shop_v[idx].name) << price_in_v[i]->text();
+            shop_v[idx].price = price_in_v[i]->text().toInt();
             count++;
         }
 
         num_in_v[i]->clear();
+        price_in_v[i]->clear();
     }
-
 
     if(count)
     {
         Loading_window *load_window = new Loading_window(this);
-        load_window->setWindowTitle("購買成功");
+        load_window->setWindowTitle("修改成功");
         load_window->set_text("SUCCESS, UPDATE SHOP");
         load_window->show();
 
         clear_lineEdit_v();
-        clear_layout(ui->up_gridLayout_shop);
-        clear_layout(ui->down_gridLayout_shop);
-        card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
-        card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+        clear_layout(ui->up_gridLayout);
+        clear_layout(ui->down_gridLayout);
+        card_grid_layout(row_cards, ui->up_gridLayout, 0);
+        card_grid_layout(row_cards, ui->down_gridLayout, 1);
 
         delete load_window;
     }
     else
     {
         Loading_window *load_window = new Loading_window(this);
-        load_window->setWindowTitle("購買失敗");
+        load_window->setWindowTitle("修改失敗");
         load_window->set_text("FAILED");
     }
 }

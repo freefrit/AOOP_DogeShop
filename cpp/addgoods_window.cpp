@@ -17,6 +17,16 @@ AddGoods_window::AddGoods_window(QWidget *parent) :
     Csv *csvObj = new Csv;
     all_card = csvObj->read_csv("../AOOP_DogeShop/src/cards.csv");
     delete csvObj;
+    csvObj = new Csv;
+    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
+    delete csvObj;
+
+    //清除上次上架的"NEW"
+    for(int i = 0; i < (int)shop_v.size(); i++)
+        if(shop_v[i].state == "NEW")
+            shop_v[i].state = " ";
+    //while(this->shop_v.size())
+    //    shop_v.pop_back();
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(all_card.size()) + "]種商品");
@@ -38,6 +48,8 @@ AddGoods_window::AddGoods_window(int flag, QWidget *parent) :
 {
     if(flag == 0)
         qDebug() << "construct for shop window";
+    else if(flag == 1)
+        qDebug() << "construct for manage window";
 }
 
 void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
@@ -82,6 +94,7 @@ void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         grid->addLayout(hBoxLayout, 3, i, Qt::AlignCenter);
 
         QPushButton *button = new QPushButton(" 點此查看卡片詳細 ");
+        button->setAutoDefault(false);
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
                               color:white; border-radius:0px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
@@ -118,6 +131,8 @@ AddGoods_window::~AddGoods_window()
 
 void AddGoods_window::reject()
 {
+    remove("../AOOP_DogeShop/src/shop.csv");
+
     Csv *csvObj = new Csv;
     csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
