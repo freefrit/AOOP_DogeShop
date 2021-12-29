@@ -33,8 +33,11 @@ public:
     void syncdatabase(QSqlDatabase& db){
         database=db;
     }
-    void sync_C_S_pointer(Customer*&cp,Seller*&sp){
-        cp=c;   sp=s;
+    void sync_C_pointer(Customer*&cp){
+        cp=c;
+    }
+    void sync_S_pointer(Seller*&sp){
+        sp=s;
     }
     void setprePage(int n){
         prePage=n;

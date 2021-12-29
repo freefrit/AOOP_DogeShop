@@ -23,13 +23,6 @@ bool Person::edit_password(const QString oldPass,const QString newPass){
     }
     return false;
 }
-bool Person::edit_username(const QString newName){
-    if(!Cmp_id(newName)){
-        username=newName;
-        return true;
-    }
-    return false;
-}
 bool Person::Cmp_id(const QString id_in)
 {
     return !QString::compare(id_in, username);

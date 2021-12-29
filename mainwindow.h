@@ -10,7 +10,6 @@
 
 
 class LoginWindowPopUpForm;
-
 class Customer;
 class Seller;
 
@@ -39,6 +38,7 @@ private slots:
     void popup_close_sel();
     void popup_close_man();
     void popup_close_test();
+    void update_password(QString);
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -51,7 +51,9 @@ private slots:
 
     void on_actionDOGE_SHOP_triggered();
 
-    void on_commandLinkButton_clicked();
+    void on_btn_cus_change_pwd_clicked();
+
+    void on_actionMyWallet_triggered();
 
 private:
     int prePage;
@@ -68,6 +70,7 @@ private:
     void build_sel_list();
     void myinfo_default();
     void customer_info_callin();
+    void customer_wallet_callin();
 
 };
 
