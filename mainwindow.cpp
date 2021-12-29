@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     //default set to empty record
     myinfo_default();
 
-
+    //login popup
     m_login_window=new LoginWindowPopUpForm(this);
     m_login_window->syncpage(ui->stackedWidget);
     m_login_window->syncdatabase(database);
@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_login_window,SIGNAL(selLoggedin()),this,SLOT(popup_close_sel()));
     connect(m_login_window,SIGNAL(manLoggedin()),this,SLOT(popup_close_man()));
     connect(m_login_window,SIGNAL(testLoggedin()),this,SLOT(popup_close_test()));
+
 }
 
 MainWindow::~MainWindow()
@@ -98,11 +99,12 @@ void MainWindow::popup_close_cus()
 {
     if(m_login_window->is_loggedin())
     {
-        m_login_window->sync_C_S_pointer(c,s);
+        m_login_window->sync_C_pointer(c);
         ui->label_memberinfo_id->setText(QString::number(c->getID()));
         ui->label_memberinfo_name->setText(c->getName());
         myinfo_default();
         customer_info_callin();
+        customer_wallet_callin();
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
     }
@@ -110,7 +112,7 @@ void MainWindow::popup_close_cus()
 void MainWindow::popup_close_sel()
 {
     if(m_login_window->is_loggedin()){
-        m_login_window->sync_C_S_pointer(c,s);
+        m_login_window->sync_S_pointer(s);
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
     }
@@ -128,6 +130,23 @@ void MainWindow::popup_close_man()
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
          ui->menuGuest->menuAction()->setVisible(false);
     }
+}
+void MainWindow::update_password(QString q)
+{
+    if(c)
+    {
+        query->exec("UPDATE customer_list SET password='"+q+"' WHERE username='"+c->getName()+"';");
+        m_login_window->logout();
+        logout_display();
+    }
+    else if(s)
+    {
+        query->exec("UPDATE seller_list SET password='"+q+"' WHERE username='"+s->getName()+"';");
+        m_login_window->logout();
+        logout_display();
+    }
+    else
+        qDebug()<<"c or s pointer error!";
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -210,11 +229,29 @@ void MainWindow::customer_info_callin()
          if(!query->value("house").isNull())
             ui->comboBox_house->setCurrentIndex(query->value("house").toInt());
     }
-}
 
-void MainWindow::on_commandLinkButton_clicked()
+}
+void MainWindow::customer_wallet_callin()
+{
+    sql_command="SELECT * FROM customer_list WHERE username = '"+c->getName()+"';";
+    query->exec(sql_command);
+    if(query->next())
+    {
+        //ui->label_cash->setAlignment()
+        ui->label_cash->setText(QString::number(query->value("cash").toInt())+"$");
+        //ui->label_points->setAlignment()
+        ui->label_points->setText(QString::number(query->value("point").toDouble())+"p");
+    }
+}
+void MainWindow::on_btn_cus_change_pwd_clicked()
 {
     ChangePwd_Dialog* dialog=new ChangePwd_Dialog;
-    dialog->show();
-
+    dialog->setWindowTitle("Password change requested");
+    dialog->setUser(c);
+    connect(dialog,SIGNAL(update_request(QString)),this,SLOT(update_password(QString)));
+    dialog->exec();
+}
+void MainWindow::on_actionMyWallet_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(c_wallet_page);
 }

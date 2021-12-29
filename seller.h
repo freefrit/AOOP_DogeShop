@@ -12,6 +12,7 @@ private:
 
 public:
     Seller(int _id,QString&name,QString&pass):Person(_id,name,pass){};
+    ~Seller(){};
     //bool Earnmoney();
 
 };
