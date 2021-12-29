@@ -113,6 +113,8 @@ void Shop_window::reject()
     csvObj->save_shop_csv(sub_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
+    emit update_money_request();
+    emit update_bag_request();
     QDialog::reject();
 }
 

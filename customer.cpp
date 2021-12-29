@@ -19,7 +19,7 @@ void Customer::earnPoint()
 }
 void Customer::exchangePoint(int share)
 {
-    money.addPoint(share*(-10)).addCash(share);
+    money.addPoint(share*(-20)).addCash(share);
 }
 void Customer::set_point(double p)
 {

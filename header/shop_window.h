@@ -25,7 +25,9 @@ public:
 
     void syncdatabase(QSqlDatabase& db){database = db;}
     //void sync_C_pointer(Customer*&cp){c = cp;}
-
+signals:
+    void update_money_request();
+    void update_bag_request();
 private:
     Ui::Shop_window *ui;
     vector<Card_in_shop> sub_v;
