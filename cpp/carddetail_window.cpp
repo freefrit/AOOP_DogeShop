@@ -25,9 +25,9 @@ void CardDetail_window::set_layout(string name, string type, string url)
     ui->type->setText(QString::fromStdString(type));
     if(type == "monster")
         ui->type->setStyleSheet("QLabel{background-color:rgb(197, 152, 75); color:white;}");
-    if(type == "magic")
+    else if(type == "magic")
         ui->type->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white;}");
-    if(type == "trap")
+    else if(type == "trap")
         ui->type->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white;}");
 
     Card *cardObj = new Card;

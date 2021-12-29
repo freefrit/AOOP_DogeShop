@@ -47,10 +47,23 @@ void ManageGoods_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         name->setStyleSheet("border:2px solid; font:bold;");
         grid->addWidget(name, 1, i, Qt::AlignCenter);
 
+        QHBoxLayout *hBoxLayout = new QHBoxLayout;
         QLabel *type = new QLabel;
         type->setText(QString::fromStdString(shop_v[2*q*page + i + row_cards*idx].type));
         type->setStyleSheet("font:bold;");
-        grid->addWidget(type, 2, i, Qt::AlignCenter);
+        type->setAlignment(Qt::AlignCenter);
+        hBoxLayout->addWidget(type, 4, Qt::AlignCenter);
+
+        if(shop_v[2*q*page + i + row_cards*idx].state != " ")
+        {
+            QLabel *state = new QLabel(shop_v[2*q*page + i + row_cards*idx].state);
+            if(state->text() == "NEW") state->setStyleSheet("font:bold; border:1px solid green; color:green; font-size:8px;");
+            else if(state->text() == "HOT") state->setStyleSheet("font:bold; border:1px solid red; color:red; font-size:8px;");
+            else if(state->text() == "CUT") state->setStyleSheet("font:bold; border:1px solid blue; color:blue; font-size:8px;");
+            state->setAlignment(Qt::AlignCenter);
+            hBoxLayout->addWidget(state, 1, Qt::AlignCenter);
+        }
+        grid->addLayout(hBoxLayout, 2, i, Qt::AlignCenter);
 
         QLabel *num = new QLabel("庫存" + QString::number(shop_v[2*q*page + i + row_cards*idx].num));
         QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + row_cards*idx].price));

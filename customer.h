@@ -25,6 +25,8 @@ public:
     int get_money_cash(){return money.getCash();}
     double get_money_point(){return money.getPoint();}
     void set_point(double);
+    int get_deck_in_bag_size(){return bag.deck_size();}
+    vector<Card_in_bag> mybag(){return bag.getdeck();}
 };
 
 

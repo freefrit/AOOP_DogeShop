@@ -36,5 +36,7 @@ class Card_in_bag: public Card
 public:
     int num;
     bool star;
+
+    void set_data(Card_in_shop x, int num);
 };
 #endif // CARD_H

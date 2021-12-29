@@ -4,11 +4,12 @@
 #include "header/csv.h"
 #include <QIntValidator>
 
-Shop_window::Shop_window(QWidget *parent) :
+Shop_window::Shop_window(Customer *&cp, QWidget *parent) :
     AddGoods_window(0, parent),
     ui(new Ui::Shop_window)
 {
     ui->setupUi(this);
+    c = cp;
 
     page = 0;
     row_cards = 8;
@@ -29,6 +30,7 @@ Shop_window::Shop_window(QWidget *parent) :
 
     card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
     card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+    qDebug() << "now i have:" << c->get_money_cash();
 }
 
 void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
@@ -167,9 +169,20 @@ void Shop_window::on_add_clicked()
         int idx = 2*row_cards*page + i;
         if(num_in_v[i]->text() != "" && num_in_v[i]->text().toInt() <= shop_v[idx].num)
         {
-            qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
-            shop_v[idx].num -= num_in_v[i]->text().toInt();
-            count++;
+            if(c->purchase(shop_v[idx].price * num_in_v[i]->text().toInt()))
+            {
+                qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
+                shop_v[idx].num -= num_in_v[i]->text().toInt();
+                count++;
+                qDebug() << "now i have:" << c->get_money_cash();
+
+                Card_in_bag *card = new Card_in_bag;
+                card->set_data(shop_v[idx], num_in_v[i]->text().toInt());
+                c->addToBag(card);
+                qDebug() << c->get_deck_in_bag_size();
+            }
+            else
+                qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << "failed";
         }
         num_in_v[i]->clear();
     }

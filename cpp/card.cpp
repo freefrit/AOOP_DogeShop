@@ -49,3 +49,12 @@ void Card_in_shop::set_data(Card x, int num, int price)
     this->price = price;
     this->state = "NEW";
 }
+
+void Card_in_bag::set_data(Card_in_shop x, int num)
+{
+    this->name = x.name;
+    this->type = x.type;
+    this->url = x.url;
+    this->num = num;
+    this->star = false;
+}
