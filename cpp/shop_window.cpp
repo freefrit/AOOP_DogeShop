@@ -21,6 +21,7 @@ Shop_window::Shop_window(Customer *&cp, QWidget *parent) :
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
     ui->shop_title->setText("DOGE SHOP");
+    ui->money->setText( QString::number(c->get_money_cash()) + "$");
     ui->add->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%); color:white; border-radius:0px;}"
                            "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
     ui->next_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
@@ -177,6 +178,7 @@ void Shop_window::on_add_clicked()
                 shop_v[idx].num -= num_in_v[i]->text().toInt();
                 count++;
                 qDebug() << "now i have:" << c->get_money_cash();
+                ui->money->setText( QString::number(c->get_money_cash()) + "$");
 
                 Card_in_bag *card = new Card_in_bag;
                 card->set_data(shop_v[idx], num_in_v[i]->text().toInt());
@@ -274,6 +276,32 @@ void Shop_window::on_sort_box_currentTextChanged(const QString &arg1)
     }
     else
         shop_v = sub_v;
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
+}
+
+void Shop_window::on_rownum_box_currentTextChanged(const QString &arg1)
+{
+    if(arg1 == "16/page")
+        row_cards = 8;
+    else if(arg1 == "12/page")
+        row_cards = 6;
+    else if(arg1 == "8/page")
+        row_cards = 4;
 
     page = 0;
     ui->how_many->setText("第[" + QString::number(page + 1) +

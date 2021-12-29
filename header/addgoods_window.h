@@ -38,6 +38,8 @@ private slots:
 
     virtual void on_sort_box_currentTextChanged(const QString &arg1);
 
+    virtual void on_rownum_box_currentTextChanged(const QString &arg1);
+
 private:
     Ui::AddGoods_window *ui;
     vector<Card> sub_v;

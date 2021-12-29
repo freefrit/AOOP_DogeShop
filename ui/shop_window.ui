@@ -77,7 +77,7 @@
     </font>
    </property>
    <property name="text">
-    <string>輸入數量後一併加入購物車</string>
+    <string>輸入數量後一併購買</string>
    </property>
    <property name="autoDefault">
     <bool>true</bool>
@@ -209,6 +209,69 @@ background-color: rgb(61, 61, 61);</string>
    <item>
     <property name="text">
      <string>cut</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="money">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 215, 56);
+background-color: rgb(61, 61, 61);</string>
+   </property>
+   <property name="text">
+    <string>money</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="rownum_box">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>120</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>16/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>12/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8/page</string>
     </property>
    </item>
   </widget>

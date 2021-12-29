@@ -197,6 +197,41 @@ background-color: rgb(61, 61, 61);</string>
     </property>
    </item>
   </widget>
+  <widget class="QComboBox" name="rownum_box">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>120</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>16/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>12/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8/page</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
  <connections/>

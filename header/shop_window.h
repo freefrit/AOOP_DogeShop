@@ -17,17 +17,14 @@ class Shop_window : public AddGoods_window
     Q_OBJECT
 
 public:
-    //vector<QLineEdit *> num_in_v;
-
     explicit Shop_window(Customer *&cp, QWidget *parent = nullptr);
     ~Shop_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 
-    void syncdatabase(QSqlDatabase& db){database = db;}
-    //void sync_C_pointer(Customer*&cp){c = cp;}
 signals:
     void update_money_request();
     void update_bag_request();
+
 private:
     Ui::Shop_window *ui;
     vector<Card_in_shop> sub_v;
@@ -39,6 +36,7 @@ private:
     void on_previous_page_clicked() override;
     void on_add_clicked() override;
     void on_sort_box_currentTextChanged(const QString &arg1) override;
+    void on_rownum_box_currentTextChanged(const QString &arg1) override;
 
     void reject() override;
 };
