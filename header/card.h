@@ -37,6 +37,16 @@ public:
     int num;
     bool star;
 
+
+    Card_in_bag(){}
+    Card_in_bag(string SQLname,string SQLtype,string SQLurl,int amount,bool like)
+    {
+        name=SQLname;
+        type=SQLtype;
+        url=SQLurl;
+        num=amount;
+        star=like;
+    }
     void set_data(Card_in_shop x, int num);
 };
 #endif // CARD_H

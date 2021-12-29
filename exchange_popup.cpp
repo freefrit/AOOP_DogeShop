@@ -14,6 +14,7 @@ Exchange_popup::Exchange_popup(Customer* c,QWidget *parent) :
     ui->spinBox->setValue(0);
     ui->label_cash->setText(QString::number(x->get_money_cash())+"$");
     ui->label_point->setText(QString::number(x->get_money_point(),'f',2)+"p");
+    ui->label_exchange_rate->setText(QString::number(ratio)+" : 1");
 }
 Exchange_popup   ::~Exchange_popup   ()
 {

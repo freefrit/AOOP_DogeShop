@@ -101,7 +101,7 @@ void MainWindow::popup_close_cus()
         myinfo_default();
         customer_info_callin();
         customer_wallet_callin();
-        customer_bag_callin();
+        customer_bag_calltobag();
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;

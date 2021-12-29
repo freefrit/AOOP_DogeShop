@@ -41,6 +41,7 @@ private slots:
     void popup_close_test();
     void update_password(QString);
     void update_money();
+    void update_bag();
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -63,6 +64,7 @@ private slots:
 
     void on_btn_c_infoupdate_clicked();
 
+
 private:
     bool is_test;
     int prePage;
@@ -80,6 +82,7 @@ private:
     void myinfo_default();
     void customer_info_callin();
     void customer_wallet_callin();
+    void customer_bag_calltobag();
     void clear_layout(QLayout* layout);
 
 };
