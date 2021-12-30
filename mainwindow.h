@@ -13,9 +13,10 @@
 class LoginWindowPopUpForm;
 class Customer;
 class Seller;
+class Manager;
 
 enum stackpage{emptypage,frontpage,c_info_page,c_wallet_page,
-                       c_bag_page,s_register_page};
+                       c_bag_page,m_author_code_page};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -65,6 +66,10 @@ private slots:
     void on_btn_c_infoupdate_clicked();
 
 
+    void on_actionAuthorization_Code_triggered();
+
+    void on_actionLog_Out_triggered();
+
 private:
     bool is_test;
     int prePage;
@@ -74,6 +79,7 @@ private:
     QString sql_command;
     Seller* s;
     Customer* c;
+    Manager* m;
     LoginWindowPopUpForm* m_login_window;
     bool edit_not_finish;
     void logout_display();

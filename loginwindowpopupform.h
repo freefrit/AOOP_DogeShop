@@ -9,6 +9,7 @@
 #include <qstackedwidget.h>
 #include "customer.h"
 #include "seller.h"
+#include "manager.h"
 
 enum state{
     login_,signup_
