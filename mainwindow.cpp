@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     is_test = false;
 
+    c=NULL;
+    s=NULL;
+
     //error message color
     QPalette sample_palette_error;
     QColor color;
@@ -108,6 +111,7 @@ void MainWindow::popup_close_cus()
     if(m_login_window->is_loggedin())
     {
         m_login_window->sync_C_pointer(c);
+        s=NULL;
         ui->label_memberinfo_id->setText(QString::number(c->getID()));
         ui->label_memberinfo_name->setText(c->getName());
         myinfo_default();
@@ -125,6 +129,7 @@ void MainWindow::popup_close_sel()
 {
     if(m_login_window->is_loggedin()){
         m_login_window->sync_S_pointer(s);
+        c=NULL;
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
