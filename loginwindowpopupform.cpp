@@ -139,10 +139,12 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
 {
     ui->s_error_password_label->hide();
     ui->s_error_username_label->hide();
+    ui->s_error_code_label->hide();
 
     name_in= ui->s_id->text();
     password_in = ui->s_password->text();
     QString password_check =ui->s_password2->text();
+    QString code=ui->s_authorizationcode->text();
 
     if(!validName(name_in)){
         ui->s_error_username_label->setText("Username invalid.");
@@ -159,10 +161,17 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         ui->s_error_password_label->show();
         ui->s_password2->clear();
     }
+    else if((QString::compare(code,"0000")))
+    {
+        ui->s_error_code_label->setText("Please ask manager for Authorization code.");
+        ui->s_error_code_label->show();
+        ui->s_authorizationcode->clear();
+    }
     else if(!s_duplicate_username(name_in))
     {
         qDebug()<<"register ok";
         QMessageBox::information(this," ","Congratulation!\nYou are now our seller.\nPlease relogin after this message.");
+        ui->lineedit_ID->setText(name_in);
         signOrLog(login_);
         query->exec("SELECT COUNT(*) FROM seller_list;");
         query->next();
@@ -468,6 +477,7 @@ void LoginWindowPopUpForm::reset_error_labels()
     ui->c_error_username_label->hide();
     ui->s_error_password_label->hide();
     ui->s_error_username_label->hide();
+    ui->s_error_code_label->hide();
 }
 void LoginWindowPopUpForm::initialize_lineedits()
 {
@@ -485,10 +495,12 @@ void LoginWindowPopUpForm::initialize_lineedits()
     ui->c_password2->clear();
     ui->s_password->clear();
     ui->s_password2->clear();
+    ui->s_authorizationcode->clear();
     ui->c_password->setEchoMode(QLineEdit::Password);
     ui->c_password2->setEchoMode(QLineEdit::Password);
     ui->s_password->setEchoMode(QLineEdit::Password);
     ui->s_password2->setEchoMode(QLineEdit::Password);
+    ui->s_authorizationcode->setEchoMode(QLineEdit::Password);
 
 
 }

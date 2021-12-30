@@ -38,7 +38,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -509,7 +509,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>70</y>
+       <y>60</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -522,7 +522,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>150</y>
+       <y>140</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -535,7 +535,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>150</y>
+       <y>140</y>
        <width>96</width>
        <height>16</height>
       </rect>
@@ -551,7 +551,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
+       <y>60</y>
        <width>86</width>
        <height>16</height>
       </rect>
@@ -591,7 +591,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>230</y>
+       <y>220</y>
        <width>140</width>
        <height>31</height>
       </rect>
@@ -604,7 +604,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>210</y>
+       <y>200</y>
        <width>137</width>
        <height>22</height>
       </rect>
@@ -617,7 +617,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>210</y>
+       <y>200</y>
        <width>131</width>
        <height>16</height>
       </rect>
@@ -671,7 +671,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>90</y>
+       <y>80</y>
        <width>140</width>
        <height>31</height>
       </rect>
@@ -684,7 +684,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>210</y>
+       <y>200</y>
        <width>27</width>
        <height>22</height>
       </rect>
@@ -697,13 +697,52 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>150</y>
+       <y>140</y>
        <width>27</width>
        <height>22</height>
       </rect>
      </property>
      <property name="text">
       <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="s_authorizationcode">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>280</y>
+       <width>137</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="sCode">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>280</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Authorization Code:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="s_error_code_label">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>300</y>
+       <width>140</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
