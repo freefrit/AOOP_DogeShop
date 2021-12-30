@@ -17,6 +17,10 @@ ManageGoods_window::ManageGoods_window(QWidget *parent) :
     sub_v = shop_v;
     delete csvObj;
 
+    for(int i = 0; i < (int)shop_v.size(); i++)
+        if(shop_v[i].state == "HOT" || shop_v[i].state == "CUT")
+            shop_v[i].state = " ";
+
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
     ui->shop_title->setText("DOGE SHOP - Manage");
@@ -111,6 +115,10 @@ void ManageGoods_window::reject()
 {
     remove("../AOOP_DogeShop/src/shop.csv");
 
+    for(int i = 0; i < (int)sub_v.size(); i++)
+        if(sub_v[i].num == 0)
+            sub_v.erase(sub_v.begin() + i);
+
     Csv *csvObj = new Csv;
     csvObj->save_shop_csv(sub_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
@@ -121,7 +129,7 @@ void ManageGoods_window::reject()
 void ManageGoods_window::on_next_page_clicked()
 {
     page++;
-    if(page > (int)shop_v.size() / (2*row_cards))
+    if(page > (int)(shop_v.size()-0.5) / (2*row_cards))
         page = 0;
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
@@ -143,9 +151,9 @@ void ManageGoods_window::on_previous_page_clicked()
 {
     page--;
     if(page < 0)
-        page = (int)shop_v.size() / (2*row_cards);
+        page = (int)(shop_v.size()-0.5) / (2*row_cards);
     ui->how_many->setText("第[" + QString::number(page + 1) +
-                          "]頁，全[" + QString::number(all_card.size()) + "]種商品");
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
 
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
@@ -203,6 +211,7 @@ void ManageGoods_window::on_add_clicked()
                     pos = j + 1;
                     sub_v[j].num = shop_v[i].num;
                     sub_v[j].price = shop_v[i].price;
+                    sub_v[j].state = shop_v[i].state;
                     break;
                 }
             }
