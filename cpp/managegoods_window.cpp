@@ -17,6 +17,10 @@ ManageGoods_window::ManageGoods_window(QWidget *parent) :
     sub_v = shop_v;
     delete csvObj;
 
+    for(int i = 0; i < (int)shop_v.size(); i++)
+        if(shop_v[i].state == "HOT" || shop_v[i].state == "CUT")
+            shop_v[i].state = " ";
+
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
     ui->shop_title->setText("DOGE SHOP - Manage");
@@ -203,6 +207,7 @@ void ManageGoods_window::on_add_clicked()
                     pos = j + 1;
                     sub_v[j].num = shop_v[i].num;
                     sub_v[j].price = shop_v[i].price;
+                    sub_v[j].state = shop_v[i].state;
                     break;
                 }
             }
