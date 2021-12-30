@@ -80,6 +80,7 @@ private:
     void build_cus_list();
     void build_sel_list();
     void myinfo_default();
+    bool valid_phone_number(QString);
     void customer_info_callin();
     void customer_wallet_callin();
     void customer_bag_calltobag();

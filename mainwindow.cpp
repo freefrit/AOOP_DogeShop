@@ -16,6 +16,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     is_test = false;
 
+    //error message color
+    QPalette sample_palette_error;
+    QColor color;
+    color.setRgba(0x50FF0000);
+    sample_palette_error.setColor(QPalette::Window,color);
+    sample_palette_error.setColor(QPalette::WindowText, Qt::red);
+
+    ui->info_update__errorlabel->setAutoFillBackground(true);
+    ui->info_update__errorlabel->setPalette(sample_palette_error);
+    ui->info_update__errorlabel->hide();
+
+
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
     database.setHostName("140.113.89.173");
@@ -105,6 +117,8 @@ void MainWindow::popup_close_cus()
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
+        ui->btn_c_infoupdate->setEnabled(true);
+        ui->btn_cus_change_pwd->setEnabled(true);
     }
 }
 void MainWindow::popup_close_sel()
@@ -122,6 +136,10 @@ void MainWindow::popup_close_test()
         ui->menuMyInfo->menuAction()->setVisible(true);
         ui->menuSeller_Center->menuAction()->setVisible(true);
         is_test = true;
+        ui->btn_c_infoupdate->setEnabled(false);
+        ui->btn_cus_change_pwd->setEnabled(false);
+        ui->label_memberinfo_id->setText("0");
+        ui->label_memberinfo_name->setText("test");
     }
 }
 void MainWindow::popup_close_man()
@@ -158,7 +176,7 @@ void MainWindow::update_money()
 void MainWindow::update_bag()
 {
     query->exec("TRUNCATE TABLE "+c->getName()+";");
-    for (auto x :c->mybag()) {
+    for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
         query->exec("INSERT INTO "+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
@@ -384,6 +402,26 @@ void MainWindow::on_btn_cus_change_pwd_3_clicked()
 }
 void MainWindow::on_btn_c_infoupdate_clicked()
 {
+    query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_gender->currentIndex())+" WHERE username = '"+c->getName()+"';");
+    query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->text()+" WHERE username = '"+c->getName()+"';");
+    query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_house->currentIndex())+" WHERE username = '"+c->getName()+"';");
+    if(valid_phone_number(ui->lineEdit_cellphone->text())){
+        ui->info_update__errorlabel->setText("Invald number");
+        ui->info_update__errorlabel->show();
+        return;
+    }
+    query->exec("UPDATE customer_info SET gender="+ui->lineEdit_cellphone->text()+" WHERE username = '"+c->getName()+"';");
 
+}
+bool MainWindow::valid_phone_number(QString str)
+{
+    if(str.length()!=10||str.at(0)!='0')
+        return false;
+    for(auto &x:str)
+    {
+        if(x<'0'||x>'9')
+            return false;
+    }
+    return true;
 }
 

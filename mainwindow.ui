@@ -35,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -317,6 +317,19 @@ HORNY DOGE SHOP !!</string>
            <string>SLYTHERIN</string>
           </property>
          </item>
+        </widget>
+        <widget class="QLabel" name="info_update__errorlabel">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>190</y>
+           <width>161</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_2">
