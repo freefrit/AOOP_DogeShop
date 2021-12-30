@@ -241,7 +241,7 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     Shop_window *shop_window = new Shop_window(c, this);
     shop_window->setWindowTitle("卡片購買");
 
-    connect(shop_window,SIGNAL(update_money_reqquest()),this,SLOT(update_money()));
+    connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
     connect(shop_window,SIGNAL(update_bag_request()),this,SLOT(update_bag()));
 
     ui->stackedWidget->setCurrentIndex(frontpage);
