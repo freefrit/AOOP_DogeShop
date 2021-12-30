@@ -191,7 +191,7 @@ void MainWindow::update_bag()
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO "+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO c"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
                                                         "',"+QString::number(x.num)+","+boolbit+");");
@@ -309,7 +309,7 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM "+QString::number(c->getID())+";";
+    sql_command="SELECT * FROM c"+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
