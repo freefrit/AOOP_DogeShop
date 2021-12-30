@@ -16,6 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     is_test = false;
 
+    c=NULL;
+    s=NULL;
+    m=NULL;
+
+    //authorization code
+    ui->lineedit_newcode->setInputMask("0");
+
     //error message color
     QPalette sample_palette_error;
     QColor color;
@@ -108,6 +115,7 @@ void MainWindow::popup_close_cus()
     if(m_login_window->is_loggedin())
     {
         m_login_window->sync_C_pointer(c);
+        s=NULL;
         ui->label_memberinfo_id->setText(QString::number(c->getID()));
         ui->label_memberinfo_name->setText(c->getName());
         myinfo_default();
@@ -125,6 +133,7 @@ void MainWindow::popup_close_sel()
 {
     if(m_login_window->is_loggedin()){
         m_login_window->sync_S_pointer(s);
+        c=NULL;
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
@@ -145,9 +154,12 @@ void MainWindow::popup_close_test()
 void MainWindow::popup_close_man()
 {
     if(m_login_window->is_loggedin()){
+        QString m_name="manager",m_pass="manager";
+
+        m=new Manager(0,m_name,m_pass,"0000");
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
-         ui->menuGuest->menuAction()->setVisible(false);
-         is_test = false;
+        ui->menuGuest->menuAction()->setVisible(false);
+        is_test = false;
     }
 }
 void MainWindow::update_password(QString q)
@@ -179,7 +191,7 @@ void MainWindow::update_bag()
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO "+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO "+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
                                                         "',"+QString::number(x.num)+","+boolbit+");");
@@ -297,7 +309,7 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM "+c->getName()+";";
+    sql_command="SELECT * FROM "+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
@@ -423,5 +435,18 @@ bool MainWindow::valid_phone_number(QString str)
             return false;
     }
     return true;
+}
+void MainWindow::on_actionAuthorization_Code_triggered()
+{
+    ui->lcdNumber->display(m->getdigit(0));
+    ui->lcdNumber_2->display(m->getdigit(1));
+    ui->lcdNumber_3->display(m->getdigit(2));
+    ui->lcdNumber_4->display(m->getdigit(3));
+    ui->stackedWidget->setCurrentIndex(m_author_code_page);
+}
+void MainWindow::on_actionLog_Out_triggered()
+{
+    m_login_window->logout();
+    logout_display();
 }
 

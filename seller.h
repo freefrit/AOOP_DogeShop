@@ -7,7 +7,6 @@ class Seller: public Person
 {
 private:
     //CustomerBag bag;
-    //Cart cart;
     //Money money;
 
 public:

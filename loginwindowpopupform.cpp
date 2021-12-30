@@ -122,7 +122,7 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         sql_command="INSERT INTO customer_info VALUES("+name_in+",NULL,NULL,NULL,NULL);";
         query->exec(sql_command);
         //sql create customer bag
-        sql_command="CREATE TABLE "+name_in+"(card_name nvarchar(50),card_type varchar(7),card_url varchar(120),count int,star bool);";
+        sql_command="CREATE TABLE "+QString::number(random_generate_id)+"(card_name nvarchar(50),card_type varchar(7),card_url varchar(120),count int,star bool);";
         query->exec(sql_command);
     }
     else
@@ -339,7 +339,7 @@ void LoginWindowPopUpForm::on_Login_button_pass_clicked()
         emit selLoggedin();
         close();
     }
-    else if(identity==man&&!QString::compare(password_in,"123456"))
+    else if(identity==man&&!QString::compare(password_in,"manager"))
     {
         login_success=true;
         emit manLoggedin();

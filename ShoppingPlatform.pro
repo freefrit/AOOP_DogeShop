@@ -23,6 +23,7 @@ SOURCES += \
     loginwindowpopupform.cpp \
     main.cpp \
     mainwindow.cpp \
+    manager.cpp \
     money.cpp \
     person.cpp \
     seller.cpp
@@ -41,6 +42,7 @@ HEADERS += \
     header/managegoods_window.h \
     loginwindowpopupform.h \
     mainwindow.h \
+    manager.h \
     money.h \
     person.h \
     seller.h
