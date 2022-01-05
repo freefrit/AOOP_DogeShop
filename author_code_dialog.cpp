@@ -5,10 +5,12 @@ Author_code_dialog::Author_code_dialog(Manager* m,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Author_code_dialog)
 {
+    ui->setupUi(this);
     tmp=m;
+    qDebug()<<"ok here";
     ui->lineedit_newcode->setInputMask("9999");
     //ui->lineedit_newcode->setMaxLength(4);
-    ui->setupUi(this);
+
     update_lcd_display();
 }
 Author_code_dialog::~Author_code_dialog()
@@ -22,8 +24,7 @@ void Author_code_dialog::update_lcd_display()
     ui->lcdNumber_3->display(tmp->getdigit(2));
     ui->lcdNumber_4->display(tmp->getdigit(3));
 }
-
-void Author_code_dialog::on_btn_edit_code_clicked()
+void Author_code_dialog::on_lineedit_newcode_returnPressed()
 {
     tmp->edit_code(ui->lineedit_newcode->text());
     update_lcd_display();
