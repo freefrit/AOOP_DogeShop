@@ -72,6 +72,10 @@ private slots:
 
     void on_actionLog_Out_triggered();
 
+    void on_actionCustomer_List_triggered();
+
+    void on_actionStaff_List_triggered();
+
 private:
     bool is_test;
     int prePage;

@@ -438,5 +438,16 @@ void MainWindow::on_actionLog_Out_triggered()
     m_login_window->logout();
     logout_display();
 }
+void MainWindow::on_actionCustomer_List_triggered()
+{
+    ui->label_list_name->setText("Customer List:");
+    ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+}
 
+
+void MainWindow::on_actionStaff_List_triggered()
+{
+    ui->label_list_name->setText("Staff List: ");
+    ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+}
 
