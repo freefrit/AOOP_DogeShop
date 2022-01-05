@@ -109,9 +109,15 @@ void AddGoods_window::clear_layout(QLayout* layout)
     while((item = layout->takeAt(0)))
     {
         if(QWidget* widget = item->widget())
+        {
+            //qDebug() << "delete widget";
             delete widget;
+        }
         if(QLayout* childLayout = item->layout())
+        {
+            //qDebug() << "delete layout";
             clear_layout(childLayout);
+        }
     }
 }
 

@@ -50,6 +50,8 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         name->setStyleSheet("border:2px solid; font:bold;");
         grid->addWidget(name, 1, i, Qt::AlignCenter);
 
+        sub_layout(grid, idx, i);
+/*
         QHBoxLayout *hBoxLayout = new QHBoxLayout;
         QLabel *type = new QLabel;
         type->setText(QString::fromStdString(shop_v[2*q*page + i + row_cards*idx].type));
@@ -89,7 +91,7 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         subLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
         subLayout->setSpacing(2);
         grid->addLayout(subLayout, 3, i, Qt::AlignCenter);
-
+*/
         QPushButton *button = new QPushButton(" 點此查看卡片詳細 ");
         button->setAutoDefault(false);
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
@@ -99,6 +101,51 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         grid->addWidget(button, 4, i, Qt::AlignCenter);
     }
     delete cardObj;
+}
+
+
+void Shop_window::sub_layout(QGridLayout *grid, int idx, int i)
+{
+    int q = row_cards;
+
+    QHBoxLayout *hBoxLayout = new QHBoxLayout;
+    QLabel *type = new QLabel;
+    type->setText(QString::fromStdString(shop_v[2*q*page + i + q*idx].type));       //印卡片種類
+    type->setStyleSheet("font:bold;");
+    type->setAlignment(Qt::AlignCenter);
+    hBoxLayout->addWidget(type, 4, Qt::AlignCenter);        //加到hlayout, stretch = 4
+
+    if(shop_v[2*q*page + i + q*idx].state != " ")       //判斷有沒有HOT那些label
+    {
+        QLabel *state = new QLabel(shop_v[2*q*page + i + q*idx].state);
+        if(state->text() == "NEW") state->setStyleSheet("font:bold; border:1px solid green; color:green; font-size:8px;");
+        else if(state->text() == "HOT") state->setStyleSheet("font:bold; border:1px solid red; color:red; font-size:8px;");
+        else if(state->text() == "CUT") state->setStyleSheet("font:bold; border:1px solid blue; color:blue; font-size:8px;");
+        state->setAlignment(Qt::AlignCenter);
+        hBoxLayout->addWidget(state, 1, Qt::AlignCenter);   //有就加到hlayout, stretch = 1
+    }
+    grid->addLayout(hBoxLayout, 2, i, Qt::AlignCenter);     //把hlayout加入grid的第i行第2列(卡名下面)
+
+
+    QLabel *num = new QLabel("庫存" + QString::number(shop_v[2*q*page + i + q*idx].num));
+    QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + q*idx].price));
+    num->setAlignment(Qt::AlignCenter);
+    price->setAlignment(Qt::AlignCenter);
+    num->setStyleSheet("font:bold; color:red");
+    price->setStyleSheet("font:bold; color:red");
+
+    QLabel *num2 = new QLabel("輸入數量");
+    QLineEdit *num_in = new QLineEdit;
+    num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
+    num_in_v.push_back(num_in);
+
+    QGridLayout *subLayout = new QGridLayout;
+    subLayout->addWidget(num, 0, 0, Qt::AlignCenter);
+    subLayout->addWidget(price, 0, 1, Qt::AlignCenter);
+    subLayout->addWidget(num2, 1, 0, Qt::AlignLeft);
+    subLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
+    subLayout->setSpacing(2);
+    grid->addLayout(subLayout, 3, i, Qt::AlignCenter);      //把sublayout加入grid的第i行第3列
 }
 
 Shop_window::~Shop_window()
@@ -170,6 +217,8 @@ void Shop_window::on_add_clicked()
     for(int i = 0; i < (int)num_in_v.size(); i++)
     {
         int idx = 2*row_cards*page + i;
+        bool flag = 0;
+
         if(num_in_v[i]->text() != "" && num_in_v[i]->text().toInt() <= shop_v[idx].num)
         {
             if(c->purchase(shop_v[idx].price * num_in_v[i]->text().toInt()))
@@ -177,6 +226,8 @@ void Shop_window::on_add_clicked()
                 qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << num_in_v[i]->text();
                 shop_v[idx].num -= num_in_v[i]->text().toInt();
                 count++;
+                flag = 1;
+
                 qDebug() << "now i have:" << c->get_money_cash();
                 ui->money->setText( QString::number(c->get_money_cash()) + "$");
 
@@ -188,7 +239,50 @@ void Shop_window::on_add_clicked()
             else
                 qDebug() << "buy" << QString::fromStdString(shop_v[idx].name) << "failed";
         }
-        num_in_v[i]->clear();
+
+
+        num_in_v[i]->clear();       //清出輸入的東西
+
+        if(flag)    //有變動數量或價格
+        {
+            QLayoutItem *item;
+            if(i < row_cards)       //改動上面的grid
+            {
+                //保留被改動位置以外的line edits
+                vector<QLineEdit *> nums_before(num_in_v.begin(), num_in_v.begin() + i), nums_after(num_in_v.begin() + i + 1, num_in_v.end());
+                clear_lineEdit_v();
+
+                item = ui->up_gridLayout_shop->itemAtPosition(2, i);     //刪除第i行第二列的hlayout
+                clear_layout(item->layout());
+                delete item->layout();
+                item = ui->up_gridLayout_shop->itemAtPosition(3, i);     //刪除第i行第三列的subgrid
+                clear_layout(item->layout());
+                delete item->layout();
+                sub_layout(ui->up_gridLayout_shop, 0, i);        //重新布置剛剛被刪掉的東西
+
+                //把line edits組合回去
+                num_in_v.insert(num_in_v.begin(), nums_before.begin(), nums_before.end());
+                num_in_v.insert(num_in_v.end(), nums_after.begin(), nums_after.end());
+            }
+            else        //改動下面的grid
+            {
+                //保留被改動位置以外的line edits
+                vector<QLineEdit *> nums_before(num_in_v.begin(), num_in_v.begin() + i), nums_after(num_in_v.begin() + i + 1, num_in_v.end());
+                clear_lineEdit_v();
+
+                item = ui->down_gridLayout_shop->itemAtPosition(2, i - row_cards);       //刪除第i - row_cards行第二列的hlayout
+                clear_layout(item->layout());
+                delete item->layout();
+                item = ui->down_gridLayout_shop->itemAtPosition(3, i - row_cards);       //刪除第i - row_cards行第三列的subgrid
+                clear_layout(item->layout());
+                delete item->layout();
+                sub_layout(ui->down_gridLayout_shop, 1, i - row_cards);      //重新布置剛剛被刪掉的東西
+
+                //把line edits組合回去
+                num_in_v.insert(num_in_v.begin(), nums_before.begin(), nums_before.end());
+                num_in_v.insert(num_in_v.end(), nums_after.begin(), nums_after.end());
+            }
+        }
     }
 
 
@@ -211,22 +305,23 @@ void Shop_window::on_add_clicked()
 
         Loading_window *load_window = new Loading_window(this);
         load_window->setWindowTitle("購買成功");
-        load_window->set_text("SUCCESS, UPDATE SHOP");
+        load_window->set_text("SUCCESS");
         load_window->show();
-
+/*
         clear_lineEdit_v();
         clear_layout(ui->up_gridLayout_shop);
         clear_layout(ui->down_gridLayout_shop);
         card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
         card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
 
-        delete load_window;
+        delete load_window;*/
     }
     else
     {
         Loading_window *load_window = new Loading_window(this);
         load_window->setWindowTitle("購買失敗");
         load_window->set_text("FAILED");
+        load_window->show();
     }
 }
 
