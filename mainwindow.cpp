@@ -6,6 +6,7 @@
 #include<QIntValidator>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
+#include "header/addgoods_list.h"
 #include "header/shop_window.h"
 #include "header/managegoods_window.h"
 
@@ -13,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-{           
+{
     ui->setupUi(this);
     is_test = false;
 
@@ -426,12 +427,14 @@ void MainWindow::on_btn_c_infoupdate_clicked()
 }
 void MainWindow::on_actionAuthorization_Code_triggered()
 {
-
+    prePage=ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(emptypage);
     Author_code_dialog* dialog=new Author_code_dialog(m);
     dialog->setWindowTitle("Authorization Code");
 
     connect(dialog,SIGNAL(update_request()),this,SLOT(update_code()));
     dialog->exec();
+    ui->stackedWidget->setCurrentIndex(prePage);
 }
 void MainWindow::on_actionLog_Out_triggered()
 {
@@ -441,13 +444,78 @@ void MainWindow::on_actionLog_Out_triggered()
 void MainWindow::on_actionCustomer_List_triggered()
 {
     ui->label_list_name->setText("Customer List:");
+    ui->c_s_table->setRowCount(0);
+    ui->c_s_table->setColumnCount(4);
+    QStringList title;
+    title << "ID" << "Username" << "Cellphone" << "House";
+    ui->c_s_table->setHorizontalHeaderLabels(title);
+    QSqlQuery *query_for_info=new QSqlQuery(database);
+    query->exec("SELECT * FROM customer_list;");
+
+    while(query->next())
+    {
+        QString id_from_sql=query->value(0).toString();
+        QString name_from_sql=query->value(1).toString();
+        query_for_info->exec("SELECT cellphone,house FROM customer_info WHERE username='"+name_from_sql+"';");
+        query_for_info->next();
+        QString phone_from_sql,house_from_sql;
+        if(query_for_info->value(0).isNull())
+            phone_from_sql="---";
+        else
+            phone_from_sql=query_for_info->value(0).toString();
+        if(query_for_info->value(1).isNull())
+            house_from_sql="---";
+        else
+            house_from_sql=query_for_info->value(1).toString();
+        ui->c_s_table->insertRow(ui->c_s_table->rowCount());
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(phone_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_house,new QTableWidgetItem(house_from_sql));
+    }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+    delete query_for_info;
 }
 
 
 void MainWindow::on_actionStaff_List_triggered()
 {
     ui->label_list_name->setText("Staff List: ");
+    ui->c_s_table->setRowCount(0);
+    ui->c_s_table->setColumnCount(4);
+
+    QStringList title;
+    title << "ID" << "Username" << "Cellphone" << "House";
+    ui->c_s_table->setHorizontalHeaderLabels(title);
+    query->exec("SELECT * FROM seller_list;");
+    QString phone_from_sql="---",house_from_sql="----";
+    while(query->next())
+    {
+        QString id_from_sql=query->value(0).toString();
+        QString name_from_sql=query->value(1).toString();
+        ui->c_s_table->insertRow(ui->c_s_table->rowCount());
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(phone_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_house,new QTableWidgetItem(house_from_sql));
+    }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+
+}
+
+
+void MainWindow::on_actionFast_Release_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    AddGoods_list *add_window = new AddGoods_list(this);
+    add_window->setWindowTitle("卡片上架");
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
+    add_window->show();
+
+    delete load_window;
 }
 

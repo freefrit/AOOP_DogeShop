@@ -16,9 +16,12 @@ class Customer;
 class Seller;
 class Manager;
 
-enum stackpage{emptypage,frontpage,c_info_page,c_wallet_page,
-                       c_bag_page,m_account_manage_page};
-
+enum stackpage{
+    emptypage,frontpage,c_info_page,c_wallet_page,
+               c_bag_page,m_account_manage_page};
+enum column_num{
+    col_id,col_name,col_phone,col_house
+};
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -58,16 +61,10 @@ private slots:
     void on_actionMyWallet_triggered();
     void on_actionShop_Manage_triggered();
     void on_actionMyBag_triggered();
-
     void on_btn_cus_change_pwd_2_clicked();
-
     void on_btn_cus_change_pwd_3_clicked();
-
     void on_actionManage_Password_triggered();
-
     void on_btn_c_infoupdate_clicked();
-
-
     void on_actionAuthorization_Code_triggered();
 
     void on_actionLog_Out_triggered();
@@ -75,6 +72,8 @@ private slots:
     void on_actionCustomer_List_triggered();
 
     void on_actionStaff_List_triggered();
+
+    void on_actionFast_Release_triggered();
 
 private:
     bool is_test;

@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     author_code_dialog.cpp \
     changepwd_dialog.cpp \
+    cpp/addgoods_list.cpp \
     cpp/addgoods_window.cpp \
     cpp/card.cpp \
     cpp/carddetail_window.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     customer.h \
     customerbag.h \
     exchange_popup.h \
+    header/addgoods_list.h \
     header/addgoods_window.h \
     header/card.h \
     header/carddetail_window.h \
@@ -53,6 +55,7 @@ FORMS += \
     author_code_dialog.ui \
     changepwd_dialog.ui \
     exchange_popup.ui \
+    ui/addgoods_list.ui \
     ui/managegoods_window.ui \
     loginwindowpopupform.ui \
     mainwindow.ui \
