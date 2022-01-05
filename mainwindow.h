@@ -7,15 +7,17 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include "changepwd_dialog.h"
-#include"exchange_popup.h"
+#include "exchange_popup.h"
+#include "author_code_dialog.h"
 
 
 class LoginWindowPopUpForm;
 class Customer;
 class Seller;
+class Manager;
 
 enum stackpage{emptypage,frontpage,c_info_page,c_wallet_page,
-                       c_bag_page,s_register_page};
+                       c_bag_page,m_account_manage_page};
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,6 +44,7 @@ private slots:
     void update_password(QString);
     void update_money();
     void update_bag();
+    void update_code();
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -65,6 +68,10 @@ private slots:
     void on_btn_c_infoupdate_clicked();
 
 
+    void on_actionAuthorization_Code_triggered();
+
+    void on_actionLog_Out_triggered();
+
 private:
     bool is_test;
     int prePage;
@@ -74,13 +81,14 @@ private:
     QString sql_command;
     Seller* s;
     Customer* c;
+    Manager* m;
     LoginWindowPopUpForm* m_login_window;
     bool edit_not_finish;
     void logout_display();
     void build_cus_list();
     void build_sel_list();
     void myinfo_default();
-    bool valid_phone_number(QString);
+
     void customer_info_callin();
     void customer_wallet_callin();
     void customer_bag_calltobag();
