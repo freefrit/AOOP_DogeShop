@@ -467,7 +467,7 @@ void MainWindow::on_actionCustomer_List_triggered()
 
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
-        QString pwd_from_sql=query->value(1).toString();
+        QString pwd_from_sql=query->value(2).toString();
         qDebug()<<"1 sql ok";
         query_for_info->exec("SELECT cellphone FROM customer_info WHERE username='"+name_from_sql+"';");
         query_for_info->next();
@@ -491,10 +491,10 @@ void MainWindow::on_actionStaff_List_triggered()
 {
     ui->label_list_name->setText("Staff List: ");
     ui->c_s_table->setRowCount(0);
-    ui->c_s_table->setColumnCount(2);
+    ui->c_s_table->setColumnCount(3);
 
     QStringList title;
-    title << "ID" << "Username" ;
+    title << "ID" << "Username" <<"Password";
     ui->c_s_table->setHorizontalHeaderLabels(title);
     ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
     ui->c_s_table->horizontalHeaderItem(1)->setFont(font_record);
@@ -503,9 +503,11 @@ void MainWindow::on_actionStaff_List_triggered()
     {
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
+        QString pwd_from_sql=query->value(2).toString();
         ui->c_s_table->insertRow(ui->c_s_table->rowCount());
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(pwd_from_sql));
 
     }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
