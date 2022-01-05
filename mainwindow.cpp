@@ -201,6 +201,8 @@ void MainWindow::update_bag()
 void MainWindow::update_code()
 {
     //change authorization code
+
+
 }
 void MainWindow::on_actionLog_out_triggered()
 {

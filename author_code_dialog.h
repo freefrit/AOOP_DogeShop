@@ -20,8 +20,11 @@ signals:
 private slots:
     void on_btn_edit_code_clicked();
 
+
 private:
     Ui::Author_code_dialog *ui;
+    Manager* tmp;
+    void update_lcd_display();
 
 };
 
