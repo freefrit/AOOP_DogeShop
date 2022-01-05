@@ -14,5 +14,15 @@ void Manager::edit_code(int x)
     }
 }
 int Manager::getdigit(int pos){
-    return authorization_code[pos];
+
+    if(pos>=0&&pos<=3)
+        return authorization_code[pos];
+    else
+        return -1;
+}
+QString Manager::getcode(){
+   QString code;
+   for(int i=0;i<=3;i++)
+       code+=QString::number(authorization_code[i]);
+   return code;
 }

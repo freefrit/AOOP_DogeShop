@@ -2,8 +2,7 @@
 #include "loginwindowpopupform.h"
 #include "ui_loginwindowpopupform.h"
 #include "mainwindow.h"
-#include "seller.h"
-#include "customer.h"
+
 #include <QMessageBox>
 #include <random>
 
@@ -104,6 +103,8 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
     {
         qDebug()<<"register ok";
         QMessageBox::information(this," ","Congratulation!\nYou are now our member.\nPlease relogin after this message.");
+        ui->lineedit_ID->setText(name_in);
+        ui->comboBox->setCurrentIndex(0);
         signOrLog(login_);
 
         query->exec("SELECT COUNT(*) FROM customer_list;");
@@ -141,6 +142,11 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
     ui->s_error_username_label->hide();
     ui->s_error_code_label->hide();
 
+    query->exec("SELECT id FROM seller_list WHERE username='manager';");
+    query->next();
+    realcode=QString::number(query->value(0).toInt()+10000);
+    realcode.remove(0,1);
+    qDebug()<<realcode;
     name_in= ui->s_id->text();
     password_in = ui->s_password->text();
     QString password_check =ui->s_password2->text();
@@ -152,7 +158,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
     }
     else if(!validPass(password_in))
     {
-        ui->s_error_password_label->setText("Incorrect password.");
+        ui->s_error_password_label->setText("Password invaid.");
         ui->s_error_password_label->show();
     }
     else if(QString::compare(password_in,password_check))
@@ -161,7 +167,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         ui->s_error_password_label->show();
         ui->s_password2->clear();
     }
-    else if((QString::compare(code,"0000")))
+    else if((QString::compare(code,realcode)))
     {
         ui->s_error_code_label->setText("Please ask manager for Authorization code.");
         ui->s_error_code_label->show();
@@ -172,6 +178,7 @@ void LoginWindowPopUpForm::on_s_signup_button_clicked()
         qDebug()<<"register ok";
         QMessageBox::information(this," ","Congratulation!\nYou are now our seller.\nPlease relogin after this message.");
         ui->lineedit_ID->setText(name_in);
+        ui->comboBox->setCurrentIndex(1);
         signOrLog(login_);
         query->exec("SELECT COUNT(*) FROM seller_list;");
         query->next();
@@ -263,6 +270,17 @@ void LoginWindowPopUpForm::on_Login_button_clicked()
     else if(!(QString::compare(x,"Manager")||QString::compare(name_in,"manager")))
     {
         identity=man;
+        if(s)
+        {
+            Seller* t=s;
+            delete t;
+        }
+        query->exec("SELECT * FROM seller_list WHERE username = 'manager';");
+        query->next();
+        int code=query->value(0).toInt();
+        QString m_name=query->value("username").toString();
+        QString m_pass=query->value("password").toString();
+        s=new Manager(0,m_name,m_pass,code);
         valid_user=1;
     }
     else if(!(QString::compare(x,"test")||QString::compare(name_in,"test")))
@@ -339,7 +357,7 @@ void LoginWindowPopUpForm::on_Login_button_pass_clicked()
         emit selLoggedin();
         close();
     }
-    else if(identity==man&&!QString::compare(password_in,"manager"))
+    else if(identity==man&&s->login(password_in))/*!QString::compare(password_in,"manager")*/
     {
         login_success=true;
         emit manLoggedin();
@@ -392,6 +410,7 @@ bool LoginWindowPopUpForm::validName(QString name){
 void LoginWindowPopUpForm::on_btn_return_clicked()
 {
     ui->label_identity->clear();
+    reset_error_labels();
     ui->lineedit_password->clear();
     ui->lineedit_ID->clear();
     ui->stackedWidget->setCurrentIndex(0);

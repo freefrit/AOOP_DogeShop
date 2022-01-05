@@ -945,7 +945,6 @@ border:2px solid;</string>
     <addaction name="actionHome"/>
     <addaction name="separator"/>
     <addaction name="menuMyInfo"/>
-    <addaction name="actionCustomer_Service"/>
    </widget>
    <widget class="QMenu" name="menuSeller_Center">
     <property name="layoutDirection">
