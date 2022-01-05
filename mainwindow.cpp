@@ -3,6 +3,7 @@
 #include "loginwindowpopupform.h"
 #include <QDialog>
 #include<QMessageBox>
+#include<QIntValidator>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
 #include "header/shop_window.h"
@@ -21,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     m=NULL;
 
     //authorization code
-    ui->lineedit_newcode->setInputMask("0");
+    ui->lineEdit_cellphone->setInputMask("9999-999-999");
 
     //error message color
     QPalette sample_palette_error;
@@ -30,9 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     sample_palette_error.setColor(QPalette::Window,color);
     sample_palette_error.setColor(QPalette::WindowText, Qt::red);
 
-    ui->info_update__errorlabel->setAutoFillBackground(true);
-    ui->info_update__errorlabel->setPalette(sample_palette_error);
-    ui->info_update__errorlabel->hide();
 
 
     //SQL connection
@@ -107,6 +105,7 @@ void MainWindow::on_lineEdit_cellphone_selectionChanged()
 }
 void MainWindow::on_actionmyInfo_triggered()
 {
+    customer_info_callin();
     ui->stackedWidget->setCurrentIndex(c_info_page);
 }
 
@@ -154,9 +153,10 @@ void MainWindow::popup_close_test()
 void MainWindow::popup_close_man()
 {
     if(m_login_window->is_loggedin()){
-        QString m_name="manager",m_pass="manager";
 
-        m=new Manager(0,m_name,m_pass,"0000");
+
+
+//        m=new Manager(0,m_name,m_pass,"0857");
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
@@ -191,12 +191,16 @@ void MainWindow::update_bag()
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO c"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO "+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
                                                         "',"+QString::number(x.num)+","+boolbit+");");
     }
 
+}
+void MainWindow::update_code()
+{
+    //change authorization code
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -248,7 +252,7 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
     Shop_window *shop_window = new Shop_window(c, this);
     shop_window->setWindowTitle("卡片購買");
 
-    connect(shop_window,SIGNAL(update_money_reqquest()),this,SLOT(update_money()));
+    connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
     connect(shop_window,SIGNAL(update_bag_request()),this,SLOT(update_bag()));
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -309,7 +313,7 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM c"+QString::number(c->getID())+";";
+    sql_command="SELECT * FROM "+c->getName()+";";
     query->exec(sql_command);
     while(query->next())
     {
@@ -415,34 +419,17 @@ void MainWindow::on_btn_cus_change_pwd_3_clicked()
 void MainWindow::on_btn_c_infoupdate_clicked()
 {
     query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_gender->currentIndex())+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->text()+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_house->currentIndex())+" WHERE username = '"+c->getName()+"';");
-    if(valid_phone_number(ui->lineEdit_cellphone->text())){
-        ui->info_update__errorlabel->setText("Invald number");
-        ui->info_update__errorlabel->show();
-        return;
-    }
-    query->exec("UPDATE customer_info SET gender="+ui->lineEdit_cellphone->text()+" WHERE username = '"+c->getName()+"';");
+    query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->date().toString("yyyyMMdd")+" WHERE username = '"+c->getName()+"';");
+    query->exec("UPDATE customer_info SET cellphone='"+ui->lineEdit_cellphone->text()+"' WHERE username = '"+c->getName()+"';");
+    query->exec("UPDATE customer_info SET house="+QString::number(ui->comboBox_house->currentIndex())+" WHERE username = '"+c->getName()+"';");
 
-}
-bool MainWindow::valid_phone_number(QString str)
-{
-    if(str.length()!=10||str.at(0)!='0')
-        return false;
-    for(auto &x:str)
-    {
-        if(x<'0'||x>'9')
-            return false;
-    }
-    return true;
 }
 void MainWindow::on_actionAuthorization_Code_triggered()
 {
-    ui->lcdNumber->display(m->getdigit(0));
-    ui->lcdNumber_2->display(m->getdigit(1));
-    ui->lcdNumber_3->display(m->getdigit(2));
-    ui->lcdNumber_4->display(m->getdigit(3));
-    ui->stackedWidget->setCurrentIndex(m_author_code_page);
+    Author_code_dialog* dialog=new Author_code_dialog(m);
+    dialog->setWindowTitle("Authorization Code");
+    connect(dialog,SIGNAL(update_request()),this,SLOT(update_code()));
+    dialog->exec();
 }
 void MainWindow::on_actionLog_Out_triggered()
 {
