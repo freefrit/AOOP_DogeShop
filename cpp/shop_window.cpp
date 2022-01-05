@@ -122,7 +122,7 @@ void Shop_window::reject()
 void Shop_window::on_next_page_clicked()
 {
     page++;
-    if(page > (int)shop_v.size() / (2*row_cards))
+    if(page > (int)(shop_v.size()-0.5) / (2*row_cards))
         page = 0;
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
@@ -146,7 +146,7 @@ void Shop_window::on_previous_page_clicked()
 {
     page--;
     if(page < 0)
-        page = (int)shop_v.size() / (2*row_cards);
+        page = (int)(shop_v.size()-0.5) / (2*row_cards);
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
 
