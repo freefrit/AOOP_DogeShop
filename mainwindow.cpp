@@ -114,7 +114,7 @@ void MainWindow::popup_close_cus()
     if(m_login_window->is_loggedin())
     {
         m_login_window->sync_C_pointer(c);
-        s=NULL;
+        s=NULL,m=NULL;
         ui->label_memberinfo_id->setText(QString::number(c->getID()));
         ui->label_memberinfo_name->setText(c->getName());
         myinfo_default();
@@ -132,7 +132,7 @@ void MainWindow::popup_close_sel()
 {
     if(m_login_window->is_loggedin()){
         m_login_window->sync_S_pointer(s);
-        c=NULL;
+        c=NULL,m=NULL;
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
@@ -153,10 +153,8 @@ void MainWindow::popup_close_test()
 void MainWindow::popup_close_man()
 {
     if(m_login_window->is_loggedin()){
-
-
-
-//        m=new Manager(0,m_name,m_pass,"0857");
+        m_login_window->sync_M_pointer(m);
+        c=NULL,s=NULL;
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
@@ -201,8 +199,8 @@ void MainWindow::update_bag()
 void MainWindow::update_code()
 {
     //change authorization code
-
-
+    query->exec("UPDATE seller_list SET id="+m->getcode()+" WHERE username='"+m->getName()+"';");
+    qDebug()<<"new code in sql now";
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -428,8 +426,10 @@ void MainWindow::on_btn_c_infoupdate_clicked()
 }
 void MainWindow::on_actionAuthorization_Code_triggered()
 {
+
     Author_code_dialog* dialog=new Author_code_dialog(m);
     dialog->setWindowTitle("Authorization Code");
+
     connect(dialog,SIGNAL(update_request()),this,SLOT(update_code()));
     dialog->exec();
 }

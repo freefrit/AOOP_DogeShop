@@ -28,21 +28,13 @@ class LoginWindowPopUpForm : public QWidget{
 public:
     explicit LoginWindowPopUpForm(QWidget *parent = nullptr);
     ~LoginWindowPopUpForm();
-    void syncpage(QStackedWidget* pages){
-       mypage=pages;
-    }
-    void syncdatabase(QSqlDatabase& db){
-        database=db;
-    }
-    void sync_C_pointer(Customer*&cp){
-        cp=c;
-    }
-    void sync_S_pointer(Seller*&sp){
-        sp=s;
-    }
-    void setprePage(int n){
-        prePage=n;
-    }
+    void syncpage(QStackedWidget* pages){mypage=pages;}
+    void syncdatabase(QSqlDatabase& db){database=db;}
+    void sync_C_pointer(Customer*&cp){cp=c;}
+    void sync_S_pointer(Seller*&sp){sp=s;}
+    void sync_M_pointer(Manager*&mp){mp=dynamic_cast<Manager*>(s);}
+
+    void setprePage(int n){prePage=n;}
     bool is_loggedin(){
         return login_success;
     };
@@ -58,7 +50,7 @@ private:
     QStackedWidget* mypage;
     QSqlDatabase database;
     QSqlQuery *query;
-    QString name_in, password_in,sql_command;
+    QString name_in, password_in,sql_command,realcode;
     Customer* c;
     Seller* s;
     identity identity;

@@ -18,8 +18,10 @@ public:
 signals:
     void update_request();
 private slots:
-    void on_btn_edit_code_clicked();
 
+
+
+    void on_lineedit_newcode_returnPressed();
 
 private:
     Ui::Author_code_dialog *ui;

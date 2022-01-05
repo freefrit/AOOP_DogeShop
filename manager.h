@@ -6,12 +6,14 @@ class Manager:public Seller
 {
     int authorization_code[4];
 public:
-    Manager(int _id,QString&name,QString&pass,QString code):Seller(_id,name,pass){
-        qDebug()<<"man Logged in";edit_code(code);
+    Manager(int _id,QString&name,QString&pass,int code):Seller(_id,name,pass){
+        qDebug()<<"man Logged in";
+        edit_code(code);
     };
     void edit_code(QString);
     void edit_code(int);
     int getdigit(int);
+    QString getcode();
 };
 
 #endif // MANAGER_H
