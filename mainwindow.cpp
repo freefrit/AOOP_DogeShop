@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include "loginwindowpopupform.h"
 #include <QDialog>
-#include<QMessageBox>
-#include<QIntValidator>
+#include <QMessageBox>
+#include <QIntValidator>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
 #include "header/addgoods_list.h"
@@ -69,6 +69,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_login_window,SIGNAL(selLoggedin()),this,SLOT(popup_close_sel()));
     connect(m_login_window,SIGNAL(manLoggedin()),this,SLOT(popup_close_man()));
     connect(m_login_window,SIGNAL(testLoggedin()),this,SLOT(popup_close_test()));
+
+    font_record=ui->c_s_table->horizontalHeaderItem(0)->font();
+    ui->c_s_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->c_s_table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->c_s_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
 }
 
@@ -447,31 +452,35 @@ void MainWindow::on_actionCustomer_List_triggered()
     ui->c_s_table->setRowCount(0);
     ui->c_s_table->setColumnCount(4);
     QStringList title;
-    title << "ID" << "Username" << "Cellphone" << "House";
+    title << "ID" << "Username" << "Password" << "Cellphone";
     ui->c_s_table->setHorizontalHeaderLabels(title);
+    ui->c_s_table->setHorizontalHeaderLabels(title);
+    ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(1)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(2)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(3)->setFont(font_record);
     QSqlQuery *query_for_info=new QSqlQuery(database);
     query->exec("SELECT * FROM customer_list;");
 
     while(query->next())
     {
+
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
-        query_for_info->exec("SELECT cellphone,house FROM customer_info WHERE username='"+name_from_sql+"';");
+        QString pwd_from_sql=query->value(2).toString();
+        qDebug()<<"1 sql ok";
+        query_for_info->exec("SELECT cellphone FROM customer_info WHERE username='"+name_from_sql+"';");
         query_for_info->next();
-        QString phone_from_sql,house_from_sql;
+        QString phone_from_sql;
         if(query_for_info->value(0).isNull())
             phone_from_sql="---";
         else
             phone_from_sql=query_for_info->value(0).toString();
-        if(query_for_info->value(1).isNull())
-            house_from_sql="---";
-        else
-            house_from_sql=query_for_info->value(1).toString();
         ui->c_s_table->insertRow(ui->c_s_table->rowCount());
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(pwd_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(phone_from_sql));
-        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_house,new QTableWidgetItem(house_from_sql));
     }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
     delete query_for_info;
@@ -482,22 +491,24 @@ void MainWindow::on_actionStaff_List_triggered()
 {
     ui->label_list_name->setText("Staff List: ");
     ui->c_s_table->setRowCount(0);
-    ui->c_s_table->setColumnCount(4);
+    ui->c_s_table->setColumnCount(3);
 
     QStringList title;
-    title << "ID" << "Username" << "Cellphone" << "House";
+    title << "ID" << "Username" <<"Password";
     ui->c_s_table->setHorizontalHeaderLabels(title);
+    ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(1)->setFont(font_record);
     query->exec("SELECT * FROM seller_list;");
-    QString phone_from_sql="---",house_from_sql="----";
     while(query->next())
     {
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
+        QString pwd_from_sql=query->value(2).toString();
         ui->c_s_table->insertRow(ui->c_s_table->rowCount());
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
-        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(phone_from_sql));
-        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_house,new QTableWidgetItem(house_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(pwd_from_sql));
+
     }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
 
@@ -518,4 +529,7 @@ void MainWindow::on_actionFast_Release_triggered()
 
     delete load_window;
 }
+
+
+
 

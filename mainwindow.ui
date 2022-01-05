@@ -802,6 +802,9 @@ border:2px solid;</string>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
+        <property name="autoScrollMargin">
+         <number>14</number>
+        </property>
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectRows</enum>
         </property>
@@ -820,9 +823,6 @@ border:2px solid;</string>
         <property name="cornerButtonEnabled">
          <bool>true</bool>
         </property>
-        <attribute name="horizontalHeaderVisible">
-         <bool>true</bool>
-        </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
@@ -835,16 +835,10 @@ border:2px solid;</string>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
         </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>true</bool>
-        </attribute>
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
         <attribute name="verticalHeaderMinimumSectionSize">
-         <number>40</number>
-        </attribute>
-        <attribute name="verticalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="verticalHeaderShowSortIndicator" stdset="0">

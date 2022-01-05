@@ -20,7 +20,7 @@ enum stackpage{
     emptypage,frontpage,c_info_page,c_wallet_page,
                c_bag_page,m_account_manage_page};
 enum column_num{
-    col_id,col_name,col_phone,col_house
+    col_id,col_name,col_pass,col_phone
 };
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -75,6 +75,8 @@ private slots:
 
     void on_actionFast_Release_triggered();
 
+
+
 private:
     bool is_test;
     int prePage;
@@ -82,6 +84,7 @@ private:
     QSqlDatabase database;
     QSqlQuery *query;
     QString sql_command;
+    QFont font_record;
     Seller* s;
     Customer* c;
     Manager* m;
