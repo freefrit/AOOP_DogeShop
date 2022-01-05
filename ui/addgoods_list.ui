@@ -89,28 +89,6 @@ background-color: rgb(61, 61, 61);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QWidget" name="gridLayoutWidget_4">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>150</y>
-     <width>461</width>
-     <height>531</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="right_gridLayout"/>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget_5">
-   <property name="geometry">
-    <rect>
-     <x>11</x>
-     <y>151</y>
-     <width>461</width>
-     <height>531</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="left_gridLayout"/>
-  </widget>
   <widget class="QPushButton" name="previous_page">
    <property name="geometry">
     <rect>
@@ -198,6 +176,9 @@ background-color: rgb(61, 61, 61);</string>
    </item>
   </widget>
   <widget class="QComboBox" name="rownum_box">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>860</x>
@@ -231,6 +212,27 @@ background-color: rgb(61, 61, 61);</string>
      <string>8/page</string>
     </property>
    </item>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>920</width>
+     <height>540</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>160</y>
+     <width>901</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout"/>
   </widget>
  </widget>
  <resources/>

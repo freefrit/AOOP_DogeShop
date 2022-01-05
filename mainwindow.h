@@ -76,6 +76,8 @@ private slots:
 
     void on_actionStaff_List_triggered();
 
+    void on_actionFast_Release_triggered();
+
 private:
     bool is_test;
     int prePage;

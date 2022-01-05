@@ -37,8 +37,7 @@ AddGoods_list::AddGoods_list(QWidget *parent) :
     ui->previous_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
                                      "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
 
-    card_grid_layout(col_cards, ui->left_gridLayout, 0);
-    card_grid_layout(col_cards, ui->right_gridLayout, 1);
+    card_grid_layout(ui->gridLayout);
 }
 
 AddGoods_list::AddGoods_list(int flag, QWidget *parent) :
@@ -51,20 +50,51 @@ AddGoods_list::AddGoods_list(int flag, QWidget *parent) :
         qDebug() << "construct for manage list";
 }
 
-void AddGoods_list::card_grid_layout(int q, QGridLayout *grid, int idx)
+void AddGoods_list::card_grid_layout(QGridLayout *grid)
 {
+    int q = col_cards;
     //Card *cardObj = new Card;
-    for(int i = 0; i < q && (2*q*page + i + col_cards*idx) < (int)all_card.size(); i++)
+    for(int i = 0; i < q && (2*q*page + i) < (int)all_card.size(); i++)
     {
         QLabel *name = new QLabel;
-        name->setText(QString::fromStdString(all_card[2*q*page + i + col_cards*idx].name));
+        name->setText(QString::fromStdString(all_card[2*q*page + i].name));
         name->setAlignment(Qt::AlignCenter);
-        name->setMinimumWidth(234);
-        if(all_card[2*q*page + i + col_cards*idx].type == "monster")
+        name->setMinimumWidth(300);
+        if(all_card[2*q*page + i].type == "monster")
             name->setStyleSheet("QLabel{background-color:rgb(197, 152, 75); color:white; border:2px solid; font:bold;}");
+        else if(all_card[2*q*page + i].type == "magic")
+            name->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white; border:2px solid; font:bold;}");
+        else if(all_card[2*q*page + i].type == "trap")
+            name->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white; border:2px solid; font:bold;}");
         grid->addWidget(name, i, 0, 1, 4, Qt::AlignCenter);     //name佔第i列, 0~3共四行
 
+        QLabel *num = new QLabel("數量"), *price = new QLabel("價格");
+        num->setAlignment(Qt::AlignRight);
+        price->setAlignment(Qt::AlignRight);
+        QLineEdit *num_in = new QLineEdit, *price_in = new QLineEdit;
+        num_in->setMinimumWidth(100);
+        price_in->setMinimumWidth(100);
+        num_in->setValidator(new QIntValidator(0, 1000, this));
+        price_in->setValidator(new QIntValidator(0, 10000, this));
+        num_in_v.push_back(num_in);
+        price_in_v.push_back(price_in);
 
+        QHBoxLayout *hBoxLayout = new QHBoxLayout;
+        hBoxLayout->addWidget(num, 2, Qt::AlignRight);
+        hBoxLayout->addWidget(num_in, 2, Qt::AlignLeft);
+        hBoxLayout->addWidget(price, 3, Qt::AlignRight);
+        hBoxLayout->addWidget(price_in, 3, Qt::AlignLeft);
+        hBoxLayout->setSpacing(2);
+        grid->addLayout(hBoxLayout, i, 4, 1, 4, Qt::AlignCenter);
+
+        QPushButton *button = new QPushButton(" 點此查看卡片詳細 ");
+        button->setMinimumWidth(300);
+        button->setAutoDefault(false);
+        button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
+                              color:white; border-radius:0px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
+        connect(button, &QPushButton::clicked, this, [=](){all_card[2*q*page + i].detail();});
+        grid->addWidget(button, i, 8, 1, 4, Qt::AlignCenter);
     }
 }
 

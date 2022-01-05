@@ -24,7 +24,7 @@ public:
     explicit AddGoods_list(QWidget *parent = nullptr);
     AddGoods_list(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_list();
-    virtual void card_grid_layout(int q, QGridLayout *grid, int row_idx);
+    virtual void card_grid_layout(QGridLayout *grid);
     void clear_layout(QLayout* layout);
     void clear_lineEdit_v();
 

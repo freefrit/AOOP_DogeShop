@@ -6,6 +6,7 @@
 #include<QIntValidator>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
+#include "header/addgoods_list.h"
 #include "header/shop_window.h"
 #include "header/managegoods_window.h"
 
@@ -13,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-{           
+{
     ui->setupUi(this);
     is_test = false;
 
@@ -449,5 +450,21 @@ void MainWindow::on_actionStaff_List_triggered()
 {
     ui->label_list_name->setText("Staff List: ");
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+}
+
+
+void MainWindow::on_actionFast_Release_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    AddGoods_list *add_window = new AddGoods_list(this);
+    add_window->setWindowTitle("卡片上架");
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
+    add_window->show();
+
+    delete load_window;
 }
 

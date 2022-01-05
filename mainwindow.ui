@@ -955,6 +955,7 @@ border:2px solid;</string>
     </property>
     <addaction name="actionShop_Manage"/>
     <addaction name="actionRelease_Card"/>
+    <addaction name="actionFast_Release"/>
     <addaction name="separator"/>
     <addaction name="actionManage_Password"/>
     <addaction name="separator"/>
@@ -1168,6 +1169,17 @@ border:2px solid;</string>
   <action name="actionManage_Password">
    <property name="text">
     <string>Manage Password</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionFast_Release">
+   <property name="text">
+    <string>Fast Release</string>
    </property>
    <property name="font">
     <font>
