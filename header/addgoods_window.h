@@ -25,7 +25,6 @@ public:
     AddGoods_window(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_window();
     virtual void card_grid_layout(int q, QGridLayout *grid, int row_idx);
-    //virtual void advance_grid_layout(int q, QGridLayout *grid, int row_idx);
     void clear_layout(QLayout* layout);
     void clear_lineEdit_v();
 
