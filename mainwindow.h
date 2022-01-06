@@ -10,7 +10,6 @@
 #include "exchange_popup.h"
 #include "author_code_dialog.h"
 
-
 class LoginWindowPopUpForm;
 class Customer;
 class Seller;
@@ -94,6 +93,7 @@ private:
     void build_cus_list();
     void build_sel_list();
     void myinfo_default();
+    void set_piechart(vector<Card_in_bag>);
 
     void customer_info_callin();
     void customer_wallet_callin();
