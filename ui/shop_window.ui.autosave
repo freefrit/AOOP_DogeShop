@@ -32,6 +32,9 @@
    <property name="text">
     <string>下一頁</string>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="previous_page">
    <property name="geometry">
@@ -52,6 +55,9 @@
    <property name="text">
     <string>上一頁</string>
    </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="add">
    <property name="geometry">
@@ -71,7 +77,10 @@
     </font>
    </property>
    <property name="text">
-    <string>輸入數量後一併加入購物車</string>
+    <string>輸入數量後一併購買</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="shop_title">
@@ -96,7 +105,7 @@
 background-color: rgb(61, 61, 61);</string>
    </property>
    <property name="text">
-    <string>shop_title</string>
+    <string>shop_title★☆</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -147,6 +156,124 @@ background-color: rgb(61, 61, 61);</string>
     </rect>
    </property>
    <layout class="QGridLayout" name="up_gridLayout_shop"/>
+  </widget>
+  <widget class="QComboBox" name="sort_box">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>90</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>all</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>monster</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>magic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>trap</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>new</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>hot</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>cut</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="money">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 215, 56);
+background-color: rgb(61, 61, 61);</string>
+   </property>
+   <property name="text">
+    <string>money</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="rownum_box">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>120</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>16/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>12/page</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8/page</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>
