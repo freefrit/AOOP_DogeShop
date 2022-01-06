@@ -10,7 +10,6 @@
 #include "exchange_popup.h"
 #include "author_code_dialog.h"
 
-
 class LoginWindowPopUpForm;
 class Customer;
 class Seller;
@@ -20,7 +19,7 @@ enum stackpage{
     emptypage,frontpage,c_info_page,c_wallet_page,
                c_bag_page,m_account_manage_page};
 enum column_num{
-    col_id,col_name,col_phone,col_house
+    col_id,col_name,col_pass,col_phone
 };
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -75,6 +74,8 @@ private slots:
 
     void on_actionFast_Release_triggered();
 
+
+
 private:
     bool is_test;
     int prePage;
@@ -82,6 +83,7 @@ private:
     QSqlDatabase database;
     QSqlQuery *query;
     QString sql_command;
+    QFont font_record;
     Seller* s;
     Customer* c;
     Manager* m;
@@ -91,6 +93,7 @@ private:
     void build_cus_list();
     void build_sel_list();
     void myinfo_default();
+    void set_piechart(vector<Card_in_bag>);
 
     void customer_info_callin();
     void customer_wallet_callin();

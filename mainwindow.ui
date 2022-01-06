@@ -35,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -326,6 +326,17 @@ HORNY DOGE SHOP !!</string>
            <width>161</width>
            <height>21</height>
           </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
          </property>
          <property name="text">
           <string>Plz update before leaving</string>
@@ -779,15 +790,44 @@ border:2px solid;</string>
          </item>
         </layout>
        </widget>
+       <widget class="PieChartWidget" name="piechart" native="true">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>230</y>
+          <width>240</width>
+          <height>240</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_piechart">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>190</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Attribute Table :</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="page_5">
        <widget class="QTableWidget" name="c_s_table">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>60</y>
+          <x>240</x>
+          <y>30</y>
           <width>640</width>
-          <height>400</height>
+          <height>441</height>
          </rect>
         </property>
         <property name="font">
@@ -801,6 +841,9 @@ border:2px solid;</string>
         </property>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="autoScrollMargin">
+         <number>14</number>
         </property>
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectRows</enum>
@@ -820,9 +863,6 @@ border:2px solid;</string>
         <property name="cornerButtonEnabled">
          <bool>true</bool>
         </property>
-        <attribute name="horizontalHeaderVisible">
-         <bool>true</bool>
-        </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
@@ -835,16 +875,10 @@ border:2px solid;</string>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
         </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>true</bool>
-        </attribute>
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
         <attribute name="verticalHeaderMinimumSectionSize">
-         <number>40</number>
-        </attribute>
-        <attribute name="verticalHeaderDefaultSectionSize">
          <number>40</number>
         </attribute>
         <attribute name="verticalHeaderShowSortIndicator" stdset="0">
@@ -1213,6 +1247,14 @@ border:2px solid;</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PieChartWidget</class>
+   <extends>QWidget</extends>
+   <header>piechartwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
