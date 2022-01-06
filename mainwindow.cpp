@@ -192,11 +192,11 @@ void MainWindow::update_money()
 }
 void MainWindow::update_bag()
 {
-    query->exec("TRUNCATE TABLE "+c->getName()+";");
+    query->exec("TRUNCATE TABLE c_"+QString::number(c->getID())+";");
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO c_"+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO c_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
                                                         "',"+QString::number(x.num)+","+boolbit+");");
@@ -343,7 +343,7 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM c_"+c->getName()+";";
+    sql_command="SELECT * FROM c_"+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
