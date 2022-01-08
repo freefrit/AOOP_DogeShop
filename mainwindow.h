@@ -78,6 +78,8 @@ private slots:
 
     void on_radioButton_toggled(bool checked);
 
+    void on_actionFAST_SHOP_triggered();
+
 private:
     bool is_test;
     int prePage;

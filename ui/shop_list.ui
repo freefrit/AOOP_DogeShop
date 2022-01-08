@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddGoods_list</class>
- <widget class="QDialog" name="AddGoods_list">
+ <class>Shop_list</class>
+ <widget class="QDialog" name="Shop_list">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -34,7 +34,7 @@
     </font>
    </property>
    <property name="text">
-    <string>輸入數量與價格後一併上架</string>
+    <string>輸入數量與價格後一併購買</string>
    </property>
   </widget>
   <widget class="QLabel" name="shop_title">
@@ -128,6 +128,21 @@ background-color: rgb(61, 61, 61);</string>
      <string>trap</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>new</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>hot</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>cut</string>
+    </property>
+   </item>
   </widget>
   <widget class="QGraphicsView" name="graphicsView">
    <property name="geometry">
@@ -149,6 +164,34 @@ background-color: rgb(61, 61, 61);</string>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
+  <widget class="QLabel" name="money">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>90</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 215, 56);
+background-color: rgb(61, 61, 61);</string>
+   </property>
+   <property name="text">
+    <string>money</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>
