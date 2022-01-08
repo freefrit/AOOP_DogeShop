@@ -678,7 +678,7 @@ HORNY DOGE SHOP !!</string>
           <x>280</x>
           <y>30</y>
           <width>621</width>
-          <height>481</height>
+          <height>451</height>
          </rect>
         </property>
        </widget>
@@ -688,7 +688,7 @@ HORNY DOGE SHOP !!</string>
           <x>280</x>
           <y>60</y>
           <width>621</width>
-          <height>451</height>
+          <height>421</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="bag_gridLayout">
@@ -906,6 +906,32 @@ border:2px solid;</string>
          </item>
         </layout>
        </widget>
+       <widget class="QPushButton" name="btn_delete_allcard">
+        <property name="geometry">
+         <rect>
+          <x>810</x>
+          <y>485</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dangerous&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Delete All</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>kill_all.png</normaloff>kill_all.png</iconset>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="page_5">
        <widget class="QTableWidget" name="c_s_table">
@@ -1039,6 +1065,32 @@ border:2px solid;</string>
         </property>
         <property name="text">
          <string>XXX List :</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_delete_all">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>480</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dangerous&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Delete All</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>kill_all.png</normaloff>kill_all.png</iconset>
         </property>
        </widget>
       </widget>
