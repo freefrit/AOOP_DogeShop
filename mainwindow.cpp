@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     c=NULL;
     s=NULL;
     m=NULL;
-
     //authorization code
     ui->lineEdit_cellphone->setInputMask("9999-999-999");
 
@@ -48,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<database.lastError();
     }
     query=new QSqlQuery(database);
+    query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
 
 
     //default set to empty record
@@ -133,6 +133,7 @@ void MainWindow::popup_close_cus()
         is_test = false;
         ui->btn_c_infoupdate->setEnabled(true);
         ui->btn_cus_change_pwd->setEnabled(true);
+        ui->stackedWidget->setCurrentIndex(frontpage);
     }
 }
 void MainWindow::popup_close_sel()
@@ -143,6 +144,7 @@ void MainWindow::popup_close_sel()
         ui->menuSeller_Center->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
+        ui->stackedWidget->setCurrentIndex(frontpage);
     }
 }
 void MainWindow::popup_close_test()
@@ -155,6 +157,7 @@ void MainWindow::popup_close_test()
         ui->btn_cus_change_pwd->setEnabled(false);
         ui->label_memberinfo_id->setText("0");
         ui->label_memberinfo_name->setText("test");
+        ui->stackedWidget->setCurrentIndex(frontpage);
     }
 }
 void MainWindow::popup_close_man()
@@ -165,6 +168,7 @@ void MainWindow::popup_close_man()
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
+        ui->stackedWidget->setCurrentIndex(frontpage);
     }
 }
 void MainWindow::update_password(QString q)
@@ -203,13 +207,6 @@ void MainWindow::update_bag()
     }
 
 }
-void MainWindow::update_code()
-{
-    //change authorization code
-    query->exec("UPDATE seller_list SET id="+m->getcode()+" WHERE username='"+m->getName()+"';");
-    qDebug()<<"new code in sql now";
-}
-
 void MainWindow::delete_card(Card_in_bag tmp)
 {
     qDebug()<<QString::fromStdString(tmp.name)<<tmp.num;
@@ -218,6 +215,13 @@ void MainWindow::delete_card(Card_in_bag tmp)
     else
         query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+";");
 
+}
+
+void MainWindow::delete_cus(QString tmpname,QString tmpid)
+{
+    query->exec("DELETE FROM customer_list WHERE username='"+tmpname+"';");
+    query->exec("DELETE FROM customer_info WHERE username='"+tmpname+"';");
+    query->exec("DROP TABLE c_"+tmpid+";");
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -472,6 +476,8 @@ void MainWindow::on_actionMyBag_triggered()
 {
     clear_layout(ui->bag_gridLayout);
     set_piechart(c->mybag(),ui->radioButton->isChecked());
+    if(c->mybag().empty())ui->btn_delete_allcard->setDisabled(true);
+    else ui->btn_delete_allcard->setDisabled(false);
 
     QTableWidget *tableWidget = new QTableWidget(c->mybag().size(),5);
     //tableWidget->resize(600, 450);
@@ -526,9 +532,7 @@ void MainWindow::on_actionMyBag_triggered()
         button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
-//>>>>>>>>>>>>>>>>>>>>>>>>>>改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name); delete_card_in_bag(i);  on_actionMyBag_triggered();});
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         tableWidget->setCellWidget(i, 4, button);
     }
 
@@ -569,7 +573,7 @@ void MainWindow::on_actionAuthorization_Code_triggered()
     Author_code_dialog* dialog=new Author_code_dialog(m);
     dialog->setWindowTitle("Authorization Code");
 
-    connect(dialog,SIGNAL(update_request()),this,SLOT(update_code()));
+    connect(dialog,&Author_code_dialog::update_request,this,[this](){query->exec("UPDATE seller_list SET id="+m->getcode()+" WHERE username='"+m->getName()+"';");});
     dialog->exec();
     ui->stackedWidget->setCurrentIndex(prePage);
 }
@@ -580,11 +584,13 @@ void MainWindow::on_actionLog_Out_triggered()
 }
 void MainWindow::on_actionCustomer_List_triggered()
 {
+    in_cus_list=true;
     ui->label_list_name->setText("Customer List:");
     for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
         delete  ui->c_s_table->takeItem(i, 4);
     ui->c_s_table->setRowCount(0);
     ui->c_s_table->setColumnCount(5);
+    ui->c_s_table->setSortingEnabled(false);
     QStringList title;
     title << "ID" << "Username" << "Password" << "Cellphone" << "-";
     ui->c_s_table->setHorizontalHeaderLabels(title);
@@ -608,7 +614,7 @@ void MainWindow::on_actionCustomer_List_triggered()
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
         QString pwd_from_sql=query->value(2).toString();
-        qDebug()<<"1 sql ok";
+        //qDebug()<<"1 sql ok";
         query_for_info->exec("SELECT cellphone FROM customer_info WHERE username='"+name_from_sql+"';");
         query_for_info->next();
         QString phone_from_sql;
@@ -626,24 +632,30 @@ void MainWindow::on_actionCustomer_List_triggered()
         button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
-//>>>>>>>>>>>>>>>>>>>>>>>>>>刪人改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        connect(button, &QPushButton::clicked, this, [this](){qDebug( )<< "刪除"; on_actionCustomer_List_triggered();});
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        connect(button, &QPushButton::clicked, this, [this,name_from_sql,id_from_sql](){qDebug( )<< "刪除";
+            delete_cus(name_from_sql,id_from_sql);QMessageBox::information(this,"Deletion Done","You have deleted customer:"+name_from_sql+"from list."); on_actionCustomer_List_triggered();});
+
         ui->c_s_table->setCellWidget(ui->c_s_table->rowCount()-1, 4, button);
     }
+    if(ui->c_s_table->rowCount()==0)ui->btn_delete_all->setDisabled(true);
+    else ui->btn_delete_all->setDisabled(false);
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+    ui->c_s_table->setSortingEnabled(true);
     delete query_for_info;
 }
 
 
 void MainWindow::on_actionStaff_List_triggered()
 {
+    in_cus_list=false;
+
     ui->label_list_name->setText("Staff List: ");
     for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
         delete  ui->c_s_table->takeItem(i, 3);
     ui->c_s_table->setRowCount(0);
     ui->c_s_table->setColumnCount(4);
-
+    ui->c_s_table->setSortingEnabled(false);
     QStringList title;
     title << "ID" << "Username" << "Password" << "-";
     ui->c_s_table->setHorizontalHeaderLabels(title);
@@ -660,6 +672,8 @@ void MainWindow::on_actionStaff_List_triggered()
     {
         QString id_from_sql=query->value(0).toString();
         QString name_from_sql=query->value(1).toString();
+        if(name_from_sql=="manager")
+            continue;
         QString pwd_from_sql=query->value(2).toString();
         ui->c_s_table->insertRow(ui->c_s_table->rowCount());
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
@@ -670,12 +684,18 @@ void MainWindow::on_actionStaff_List_triggered()
         button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
-//>>>>>>>>>>>>>>>>>>>>>>>>>>刪人改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        connect(button, &QPushButton::clicked, this, [this](){qDebug( )<< "刪除"; on_actionCustomer_List_triggered();});
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+        connect(button, &QPushButton::clicked, this, [this,name_from_sql](){qDebug( )<< "刪除";
+            query->exec("DELETE FROM seller_list WHERE username='"+name_from_sql+"';");
+            QMessageBox::information(this,"Deletion Done","You have deleted seller:"+name_from_sql+" from list."); on_actionStaff_List_triggered();});
+
         ui->c_s_table->setCellWidget(ui->c_s_table->rowCount()-1, 3, button);
     }
+    if(ui->c_s_table->rowCount()==0)ui->btn_delete_all->setDisabled(true);
+    else ui->btn_delete_all->setDisabled(false);
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+
+    ui->c_s_table->setSortingEnabled(true);
 
 }
 void MainWindow::on_actionFast_Release_triggered()
@@ -698,5 +718,55 @@ void MainWindow::on_radioButton_toggled(bool checked)
     set_piechart(c->mybag(),checked);
     ui->piechart->update();
     qDebug()<<"pie chart unique:"<<checked;
+}
+void MainWindow::on_btn_delete_all_clicked()
+{
+   bool yes=false;
+   Double_check_dialog* d=new Double_check_dialog;
+   d->setWindowTitle("Delete All member record");
+   connect(d,&Double_check_dialog::confirm,this,[&yes](){yes=true;});
+   d->exec();
+   if(yes)
+   {
+       if(in_cus_list)
+       {
+           vector<QString> names;
+           query->exec("SELECT id FROM customer_list;");
+           while(query->next())
+               names.push_back(query->value(0).toString());
+           for(auto &x:names)
+               query->exec("DROP c_"+x+";");
+           query->exec("TRUNCATE customer_list;");
+           query->exec("TRUNCATE customer_info;");
+           QMessageBox::information(this,"Deletion Done","You have deleted all the data.");
+           on_actionCustomer_List_triggered();
+       }
+       else
+       {
+           query->exec("TRUNCATE seller_list;");
+           QMessageBox::information(this,"Deletion Done","You have deleted all the data.");
+           on_actionStaff_List_triggered();
+       }
+   }
+
+}
+void MainWindow::on_btn_delete_allcard_clicked()
+{
+    bool yes=false;
+    Double_check_dialog* d=new Double_check_dialog;
+    d->setWindowTitle("Delete All cards in bag");
+    connect(d,&Double_check_dialog::confirm,this,[&yes](){yes=true;});
+    d->exec();
+    if(yes)
+    {
+        c->mybag().clear();
+        query->exec("SELECT SUM(count) FROM c_"+QString::number(c->getID())+";");
+        query->next();
+        int totall_delete=query->value(0).toInt();
+        c->earnPoint(totall_delete*100);
+        QMessageBox::information(this,"Deletion Done","You have deleted all the cards.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
+        query->exec("TRUNCATE c_"+QString::number(c->getID())+";");
+    }
+    on_actionMyBag_triggered();
 }
 

@@ -21,6 +21,7 @@ SOURCES += \
     cpp/shop_window.cpp \
     customer.cpp \
     customerbag.cpp \
+    double_check_dialog.cpp \
     exchange_popup.cpp \
     loginwindowpopupform.cpp \
     main.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     changepwd_dialog.h \
     customer.h \
     customerbag.h \
+    double_check_dialog.h \
     exchange_popup.h \
     header/addgoods_list.h \
     header/addgoods_window.h \
@@ -56,6 +58,7 @@ HEADERS += \
 FORMS += \
     author_code_dialog.ui \
     changepwd_dialog.ui \
+    double_check_dialog.ui \
     exchange_popup.ui \
     ui/addgoods_list.ui \
     ui/managegoods_window.ui \
