@@ -581,10 +581,12 @@ void MainWindow::on_actionLog_Out_triggered()
 void MainWindow::on_actionCustomer_List_triggered()
 {
     ui->label_list_name->setText("Customer List:");
+    for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
+        delete  ui->c_s_table->takeItem(i, 4);
     ui->c_s_table->setRowCount(0);
-    ui->c_s_table->setColumnCount(4);
+    ui->c_s_table->setColumnCount(5);
     QStringList title;
-    title << "ID" << "Username" << "Password" << "Cellphone";
+    title << "ID" << "Username" << "Password" << "Cellphone" << "-";
     ui->c_s_table->setHorizontalHeaderLabels(title);
     ui->c_s_table->setHorizontalHeaderLabels(title);
     ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
@@ -593,6 +595,12 @@ void MainWindow::on_actionCustomer_List_triggered()
     ui->c_s_table->horizontalHeaderItem(3)->setFont(font_record);
     QSqlQuery *query_for_info=new QSqlQuery(database);
     query->exec("SELECT * FROM customer_list;");
+
+    ui->c_s_table->setColumnWidth(0,140);
+    ui->c_s_table->setColumnWidth(1,140);
+    ui->c_s_table->setColumnWidth(2,140);
+    ui->c_s_table->setColumnWidth(3,140);
+    ui->c_s_table->setColumnWidth(4,59);
 
     while(query->next())
     {
@@ -613,6 +621,15 @@ void MainWindow::on_actionCustomer_List_triggered()
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(pwd_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(phone_from_sql));
+
+        QPushButton *button = new QPushButton("刪除");
+        button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
+                              color:white; border-radius:2px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
+//>>>>>>>>>>>>>>>>>>>>>>>>>>刪人改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        connect(button, &QPushButton::clicked, this, [this](){qDebug( )<< "刪除"; on_actionCustomer_List_triggered();});
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        ui->c_s_table->setCellWidget(ui->c_s_table->rowCount()-1, 4, button);
     }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
     delete query_for_info;
@@ -622,14 +639,22 @@ void MainWindow::on_actionCustomer_List_triggered()
 void MainWindow::on_actionStaff_List_triggered()
 {
     ui->label_list_name->setText("Staff List: ");
+    for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
+        delete  ui->c_s_table->takeItem(i, 3);
     ui->c_s_table->setRowCount(0);
-    ui->c_s_table->setColumnCount(3);
+    ui->c_s_table->setColumnCount(4);
 
     QStringList title;
-    title << "ID" << "Username" <<"Password";
+    title << "ID" << "Username" << "Password" << "-";
     ui->c_s_table->setHorizontalHeaderLabels(title);
     ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
     ui->c_s_table->horizontalHeaderItem(1)->setFont(font_record);
+
+    ui->c_s_table->setColumnWidth(0,186);
+    ui->c_s_table->setColumnWidth(1,187);
+    ui->c_s_table->setColumnWidth(2,187);
+    ui->c_s_table->setColumnWidth(3,59);
+
     query->exec("SELECT * FROM seller_list;");
     while(query->next())
     {
@@ -641,6 +666,14 @@ void MainWindow::on_actionStaff_List_triggered()
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(name_from_sql));
         ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(pwd_from_sql));
 
+        QPushButton *button = new QPushButton("刪除");
+        button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
+                              color:white; border-radius:2px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
+//>>>>>>>>>>>>>>>>>>>>>>>>>>刪人改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        connect(button, &QPushButton::clicked, this, [this](){qDebug( )<< "刪除"; on_actionCustomer_List_triggered();});
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        ui->c_s_table->setCellWidget(ui->c_s_table->rowCount()-1, 3, button);
     }
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
 
