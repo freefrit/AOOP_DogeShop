@@ -533,7 +533,9 @@ void MainWindow::on_actionMyBag_triggered()
         button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
-        connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name); delete_card_in_bag(i);  on_actionMyBag_triggered();});
+        connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name);
+            if(!c->mybag()[i].star)delete_card_in_bag(i);else QMessageBox::information(this,"Deletion Error","You cannot delete a card with star.");
+                on_actionMyBag_triggered();});
         tableWidget->setCellWidget(i, 4, button);
     }
 
@@ -786,12 +788,13 @@ void MainWindow::on_btn_delete_allcard_clicked()
     if(yes)
     {
         c->mybag().clear();
-        query->exec("SELECT SUM(count) FROM c_"+QString::number(c->getID())+";");
+        query->exec("SELECT SUM(count) FROM c_"+QString::number(c->getID())+" WHERE star=false;");
         query->next();
         int totall_delete=query->value(0).toInt();
         c->earnPoint(totall_delete*100);
-        QMessageBox::information(this,"Deletion Done","You have deleted all the cards.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
-        query->exec("TRUNCATE c_"+QString::number(c->getID())+";");
+        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE star=false;");
+        QMessageBox::information(this,"Deletion Done","You have deleted all the cards except cards with star.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
     }
+    customer_bag_calltobag();
     on_actionMyBag_triggered();
 }
