@@ -815,7 +815,7 @@ border:2px solid;</string>
 border:2px solid;</string>
            </property>
            <property name="text">
-            <string> </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1089,6 +1089,7 @@ border:2px solid;</string>
      <addaction name="actionMyWallet"/>
      <addaction name="actionMyBag"/>
      <addaction name="actionDOGE_SHOP"/>
+     <addaction name="actionFAST_SHOP"/>
      <addaction name="separator"/>
      <addaction name="actionLog_out"/>
     </widget>
@@ -1336,6 +1337,11 @@ border:2px solid;</string>
      <family>Agency FB</family>
      <pointsize>12</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="actionFAST_SHOP">
+   <property name="text">
+    <string>FAST SHOP</string>
    </property>
   </action>
  </widget>

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QGridLayout>
+#include <QTableWidget>
+#include <QHeaderView>
 #include "card.h"
 
 namespace Ui {
@@ -14,8 +16,6 @@ class AddGoods_list : public QDialog
     Q_OBJECT
 
 public:
-    int page;
-    int col_cards;
     vector<Card> all_card;
     vector<Card_in_shop> shop_v;
     vector<QLineEdit *> num_in_v;
@@ -27,6 +27,11 @@ public:
     virtual void card_grid_layout(QGridLayout *grid);
     void clear_layout(QLayout* layout);
     void clear_lineEdit_v();
+
+private slots:
+    virtual void on_add_clicked();
+
+    virtual void on_sort_box_currentTextChanged(const QString &arg1);
 
 private:
     Ui::AddGoods_list *ui;

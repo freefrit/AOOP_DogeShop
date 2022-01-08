@@ -19,6 +19,7 @@ SOURCES += \
     cpp/loading_window.cpp \
     cpp/managegoods_window.cpp \
     cpp/shop_window.cpp \
+    cpp/shop_list.cpp \
     customer.cpp \
     customerbag.cpp \
     exchange_popup.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     header/csv.h \
     header/loading_window.h \
     header/shop_window.h \
+    header/shop_list.h \
     header/managegoods_window.h \
     loginwindowpopupform.h \
     mainwindow.h \
@@ -64,7 +66,8 @@ FORMS += \
     ui/addgoods_window.ui \
     ui/carddetail_window.ui \
     ui/loading_window.ui \
-    ui/shop_window.ui
+    ui/shop_window.ui \
+    ui/shop_list.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
