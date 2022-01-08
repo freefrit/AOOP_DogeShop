@@ -10,7 +10,7 @@ public:
     CustomerBag();
     void addCard(Card_in_bag*);
     int deck_size(){return deck.size();}
-    vector<Card_in_bag> getdeck(){return deck;}
+    vector<Card_in_bag> & getdeck(){return deck;}
 };
 
 #endif // CUSTOMERBAG_H

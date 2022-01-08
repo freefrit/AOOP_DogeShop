@@ -389,7 +389,7 @@ void MainWindow::clear_layout(QLayout* layout)
             clear_layout(childLayout);
     }
 }
-
+/*
 void MainWindow::on_actionMyBag_triggered()
 {
     clear_layout(ui->bag_gridLayout);
@@ -428,6 +428,75 @@ void MainWindow::on_actionMyBag_triggered()
 
     ui->stackedWidget->setCurrentIndex(c_bag_page);
 }
+*/
+void MainWindow::on_actionMyBag_triggered()
+{
+    clear_layout(ui->bag_gridLayout);
+    set_piechart(c->mybag());
+
+    QTableWidget *tableWidget = new QTableWidget(c->mybag().size(),5);
+    //tableWidget->resize(600, 450);
+    tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    tableWidget->horizontalHeader()->hide();
+    tableWidget->verticalHeader()->hide();
+    tableWidget->setColumnWidth(0,240);
+    tableWidget->setColumnWidth(1,120);
+    tableWidget->setColumnWidth(2,120);
+    tableWidget->setColumnWidth(3,60);
+    tableWidget->setColumnWidth(4,59);
+    ui->bag_gridLayout->addWidget(tableWidget);
+
+    for(int i = 0; i < (int)c->mybag().size(); i++)
+    {
+        QLabel *name = new QLabel;
+        name->setText(QString::fromStdString(c->mybag()[i].name));
+        name->setAlignment(Qt::AlignCenter);
+        name->setMinimumWidth(234);
+        if(c->mybag()[i].type == "monster")
+            name->setStyleSheet("QLabel{background-color:rgb(197, 152, 75); color:white; border:2px solid; font:bold;}");
+        else if(c->mybag()[i].type == "magic")
+            name->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white; border:2px solid; font:bold;}");
+        else if(c->mybag()[i].type == "trap")
+            name->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white; border:2px solid; font:bold;}");
+        tableWidget->setCellWidget(i, 0, name);
+
+        QLabel *num = new QLabel;
+        num->setText(QString::number(c->mybag()[i].num));
+        num->setAlignment(Qt::AlignCenter);
+        num->setMinimumWidth(117);
+        num->setStyleSheet("border:2px solid; font:bold;");
+        tableWidget->setCellWidget(i, 1, num);
+
+        QPushButton *button = new QPushButton("點此查看卡片詳細");
+        button->setAutoDefault(false);
+        button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
+                              color:white; border-radius:2px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
+        connect(button, &QPushButton::clicked, this, [=](){c->mybag()[i].detail();});
+        tableWidget->setCellWidget(i, 2, button);
+
+        button = new QPushButton((c->mybag()[i].star) ? "✦" : "✧");
+        button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
+                              color:white; border-radius:2px; font:bold; font-size:25px;}"
+                              "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
+        connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star(); update_bag(); on_actionMyBag_triggered();});
+        tableWidget->setCellWidget(i, 3, button);
+
+        button = new QPushButton("分解");
+        button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
+                              color:white; border-radius:2px; font:bold;}"
+                              "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
+//>>>>>>>>>>>>>>>>>>>>>>>>>>改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name); update_bag(); on_actionMyBag_triggered();});
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        tableWidget->setCellWidget(i, 4, button);
+    }
+
+    ui->bag_gridLayout->setSpacing(0);
+    ui->stackedWidget->setCurrentIndex(c_bag_page);
+}
+
 void MainWindow::on_btn_cus_change_pwd_2_clicked()
 {
     if(c->get_money_point()<1000)

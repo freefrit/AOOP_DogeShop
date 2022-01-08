@@ -51,47 +51,7 @@ void Shop_window::card_grid_layout(int q, QGridLayout *grid, int idx)
         grid->addWidget(name, 1, i, Qt::AlignCenter);
 
         sub_layout(grid, idx, i);
-/*
-        QHBoxLayout *hBoxLayout = new QHBoxLayout;
-        QLabel *type = new QLabel;
-        type->setText(QString::fromStdString(shop_v[2*q*page + i + row_cards*idx].type));
-        type->setStyleSheet("font:bold;");
-        type->setAlignment(Qt::AlignCenter);
-        hBoxLayout->addWidget(type, 4, Qt::AlignCenter);
 
-        if(shop_v[2*q*page + i + row_cards*idx].state != " ")
-        {
-            QLabel *state = new QLabel(shop_v[2*q*page + i + row_cards*idx].state);
-            if(state->text() == "NEW") state->setStyleSheet("font:bold; border:1px solid green; color:green; font-size:8px;");
-            else if(state->text() == "HOT") state->setStyleSheet("font:bold; border:1px solid red; color:red; font-size:8px;");
-            else if(state->text() == "CUT") state->setStyleSheet("font:bold; border:1px solid blue; color:blue; font-size:8px;");
-            state->setAlignment(Qt::AlignCenter);
-            hBoxLayout->addWidget(state, 1, Qt::AlignCenter);
-        }
-        grid->addLayout(hBoxLayout, 2, i, Qt::AlignCenter);
-
-        QLabel *num = new QLabel("庫存" + QString::number(shop_v[2*q*page + i + row_cards*idx].num));
-        QLabel *price = new QLabel("價格" + QString::number(shop_v[2*q*page + i + row_cards*idx].price));
-        num->setAlignment(Qt::AlignCenter);
-        price->setAlignment(Qt::AlignCenter);
-        num->setStyleSheet("font:bold; color:red");
-        price->setStyleSheet("font:bold; color:red");
-
-        QLabel *num2 = new QLabel("輸入數量");
-        QLineEdit *num_in = new QLineEdit;
-        num_in->setValidator(new QIntValidator(0, shop_v[2*q*page + i + row_cards*idx].num, this));
-        num_in->disconnect();
-        //connect(num_in1, &QLineEdit::returnPressed, this, [=](){this->on_add_clicked(); qDebug() << "hi4";});
-        num_in_v.push_back(num_in);
-
-        QGridLayout *subLayout = new QGridLayout;
-        subLayout->addWidget(num, 0, 0, Qt::AlignCenter);
-        subLayout->addWidget(price, 0, 1, Qt::AlignCenter);
-        subLayout->addWidget(num2, 1, 0, Qt::AlignLeft);
-        subLayout->addWidget(num_in, 1, 1, Qt::AlignLeft);
-        subLayout->setSpacing(2);
-        grid->addLayout(subLayout, 3, i, Qt::AlignCenter);
-*/
         QPushButton *button = new QPushButton(" 點此查看卡片詳細 ");
         button->setAutoDefault(false);
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
@@ -307,14 +267,6 @@ void Shop_window::on_add_clicked()
         load_window->setWindowTitle("購買成功");
         load_window->set_text("SUCCESS");
         load_window->show();
-/*
-        clear_lineEdit_v();
-        clear_layout(ui->up_gridLayout_shop);
-        clear_layout(ui->down_gridLayout_shop);
-        card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
-        card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
-
-        delete load_window;*/
     }
     else
     {
