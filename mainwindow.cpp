@@ -8,6 +8,7 @@
 #include "header/addgoods_window.h"
 #include "header/addgoods_list.h"
 #include "header/shop_window.h"
+#include "header/shop_list.h"
 #include "header/managegoods_window.h"
 
 
@@ -713,12 +714,37 @@ void MainWindow::on_actionFast_Release_triggered()
     delete load_window;
 }
 
+void MainWindow::on_actionFAST_SHOP_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    if(is_test)
+    {
+        QString name = "test", pass = "test";
+        c = new Customer(0, name, pass, 81000, 81000);
+    }
+    Shop_list *shop_window = new Shop_list(c, this);
+    shop_window->setWindowTitle("卡片購買");
+
+    connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
+    connect(shop_window,SIGNAL(update_bag_request()),this,SLOT(update_bag()));
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
+    shop_window->show();
+
+    delete load_window;
+}
+
+
 void MainWindow::on_radioButton_toggled(bool checked)
 {
     set_piechart(c->mybag(),checked);
     ui->piechart->update();
     qDebug()<<"pie chart unique:"<<checked;
 }
+
 void MainWindow::on_btn_delete_all_clicked()
 {
    bool yes=false;
@@ -769,4 +795,3 @@ void MainWindow::on_btn_delete_allcard_clicked()
     }
     on_actionMyBag_triggered();
 }
-

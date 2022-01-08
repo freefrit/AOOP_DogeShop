@@ -75,13 +75,11 @@ private slots:
     void on_actionStaff_List_triggered();
 
     void on_actionFast_Release_triggered();
-
-
     void on_radioButton_toggled(bool checked);
-
     void on_btn_delete_all_clicked();
-
     void on_btn_delete_allcard_clicked();
+    void on_actionFAST_SHOP_triggered();
+
 
 private:
     bool is_test,in_cus_list;
