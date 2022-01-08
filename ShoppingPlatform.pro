@@ -28,6 +28,7 @@ SOURCES += \
     manager.cpp \
     money.cpp \
     person.cpp \
+    piechartwidget.cpp \
     seller.cpp
 
 HEADERS += \
@@ -49,6 +50,7 @@ HEADERS += \
     manager.h \
     money.h \
     person.h \
+    piechartwidget.h \
     seller.h
 
 FORMS += \

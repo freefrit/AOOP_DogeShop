@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //initalize display
     logout_display();
+    ui->piechart->hide();
     ui->menuCustomer_Center->setUpdatesEnabled(true);
     ui->menuCustomer_Center->setFont(ui->menuBar->font());
 
@@ -191,11 +192,11 @@ void MainWindow::update_money()
 }
 void MainWindow::update_bag()
 {
-    query->exec("TRUNCATE TABLE "+c->getName()+";");
+    query->exec("TRUNCATE TABLE c_"+QString::number(c->getID())+";");
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO "+c->getName()+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO c_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
                                                         "',"+QString::number(x.num)+","+boolbit+");");
@@ -288,6 +289,29 @@ void MainWindow::myinfo_default(){
     ui->dateEdit->setCalendarPopup(1);
     ui->lineEdit_cellphone->setPlaceholderText("0900-000-000");
 }
+
+void MainWindow::set_piechart(vector<Card_in_bag> deck)
+{
+    if(deck.size()==0)
+    {
+        ui->piechart->hide();
+    }
+    else
+    {
+        int magic=0,trap=0,monster=0;
+        for(auto &x:deck)
+        {
+            if(x.type=="magic")
+                magic++;
+            else if(x.type=="trap")
+                trap++;
+            else
+                monster++;
+        }
+        ui->piechart->setpercentage(magic,trap,monster);
+        ui->piechart->show();
+    }
+}
 void MainWindow::customer_info_callin()
 {
     sql_command="SELECT * FROM customer_info WHERE username = '"+c->getName()+"';";
@@ -319,7 +343,7 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM "+c->getName()+";";
+    sql_command="SELECT * FROM c_"+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
@@ -369,7 +393,7 @@ void MainWindow::clear_layout(QLayout* layout)
 void MainWindow::on_actionMyBag_triggered()
 {
     clear_layout(ui->bag_gridLayout);
-
+    set_piechart(c->mybag());
     for(int i = 0; i < c->get_deck_in_bag_size(); i++)
     {
         //c->mybag()[i];
@@ -513,8 +537,6 @@ void MainWindow::on_actionStaff_List_triggered()
     ui->stackedWidget->setCurrentIndex(m_account_manage_page);
 
 }
-
-
 void MainWindow::on_actionFast_Release_triggered()
 {
     Loading_window *load_window = new Loading_window(this);
