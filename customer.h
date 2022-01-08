@@ -18,7 +18,7 @@ public:
         money.addCash(c).addPoint(p);
     };
     ~Customer(){};
-    void earnPoint();
+    void earnPoint(double a=-1);
     void exchangePoint(int);
     bool purchase(int);
     void addToBag(Card_in_bag*);
