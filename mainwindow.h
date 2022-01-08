@@ -47,6 +47,7 @@ private slots:
     void update_money();
     void update_bag();
     void update_code();
+    void delete_card(Card_in_bag);
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -75,6 +76,7 @@ private slots:
     void on_actionFast_Release_triggered();
 
 
+    void on_radioButton_toggled(bool checked);
 
 private:
     bool is_test;
@@ -93,8 +95,8 @@ private:
     void build_cus_list();
     void build_sel_list();
     void myinfo_default();
-    void set_piechart(vector<Card_in_bag>);
-
+    void set_piechart(vector<Card_in_bag>,bool);
+    void delete_card_in_bag(int);
     void customer_info_callin();
     void customer_wallet_callin();
     void customer_bag_calltobag();

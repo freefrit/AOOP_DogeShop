@@ -209,6 +209,16 @@ void MainWindow::update_code()
     query->exec("UPDATE seller_list SET id="+m->getcode()+" WHERE username='"+m->getName()+"';");
     qDebug()<<"new code in sql now";
 }
+
+void MainWindow::delete_card(Card_in_bag tmp)
+{
+    qDebug()<<QString::fromStdString(tmp.name)<<tmp.num;
+    if(tmp.num==0)
+        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
+    else
+        query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+";");
+
+}
 void MainWindow::on_actionLog_out_triggered()
 {
     m_login_window->logout();
@@ -290,27 +300,56 @@ void MainWindow::myinfo_default(){
     ui->lineEdit_cellphone->setPlaceholderText("0900-000-000");
 }
 
-void MainWindow::set_piechart(vector<Card_in_bag> deck)
+void MainWindow::set_piechart(vector<Card_in_bag> deck,bool count_unique)
 {
+
     if(deck.size()==0)
     {
+        ui->label_piechart->hide();
         ui->piechart->hide();
+        ui->groupBox_4->hide();
     }
     else
     {
         int magic=0,trap=0,monster=0;
-        for(auto &x:deck)
+        if(count_unique)
         {
-            if(x.type=="magic")
-                magic++;
-            else if(x.type=="trap")
-                trap++;
-            else
-                monster++;
+            for(auto &x:deck)
+            {
+                if(x.type=="magic")
+                    magic++;
+                else if(x.type=="trap")
+                    trap++;
+                else
+                    monster++;
+            }
+        }
+        else
+        {
+            for(auto &x:deck)
+            {
+                if(x.type=="magic")
+                    magic+=x.num;
+                else if(x.type=="trap")
+                    trap+=x.num;
+                else
+                    monster+=x.num;
+            }
         }
         ui->piechart->setpercentage(magic,trap,monster);
+        ui->label_piechart->show();
         ui->piechart->show();
+        ui->groupBox_4->show();
     }
+}
+
+void MainWindow::delete_card_in_bag(int i)
+{
+    Exchange_popup* pop=new Exchange_popup(c,i);
+    pop->setWindowTitle("Cards recycle");
+    connect(pop,SIGNAL(update_bag_request(Card_in_bag)),this,SLOT(delete_card(Card_in_bag)));
+    connect(pop,SIGNAL(update_money_request()),this,SLOT(update_money()));
+    pop->exec();
 }
 void MainWindow::customer_info_callin()
 {
@@ -432,7 +471,7 @@ void MainWindow::on_actionMyBag_triggered()
 void MainWindow::on_actionMyBag_triggered()
 {
     clear_layout(ui->bag_gridLayout);
-    set_piechart(c->mybag());
+    set_piechart(c->mybag(),ui->radioButton->isChecked());
 
     QTableWidget *tableWidget = new QTableWidget(c->mybag().size(),5);
     //tableWidget->resize(600, 450);
@@ -488,7 +527,7 @@ void MainWindow::on_actionMyBag_triggered()
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
 //>>>>>>>>>>>>>>>>>>>>>>>>>>改這<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name); update_bag(); on_actionMyBag_triggered();});
+        connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name); delete_card_in_bag(i);  on_actionMyBag_triggered();});
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         tableWidget->setCellWidget(i, 4, button);
     }
@@ -512,7 +551,7 @@ void MainWindow::on_btn_cus_change_pwd_3_clicked()
 {
     Exchange_popup* dialog=new Exchange_popup(c);
     dialog->setWindowTitle("Points Exchanger");
-    connect(dialog,SIGNAL(update_request()),this,SLOT(update_money()));
+    connect(dialog,SIGNAL(update_money_request()),this,SLOT(update_money()));
     dialog->exec();
 }
 void MainWindow::on_btn_c_infoupdate_clicked()
@@ -654,6 +693,10 @@ void MainWindow::on_actionFast_Release_triggered()
     delete load_window;
 }
 
-
-
+void MainWindow::on_radioButton_toggled(bool checked)
+{
+    set_piechart(c->mybag(),checked);
+    ui->piechart->update();
+    qDebug()<<"pie chart unique:"<<checked;
+}
 
