@@ -10,6 +10,7 @@
 #include "header/shop_window.h"
 #include "header/shop_list.h"
 #include "header/managegoods_window.h"
+#include "header/manage_list.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -737,6 +738,20 @@ void MainWindow::on_actionFAST_SHOP_triggered()
     delete load_window;
 }
 
+void MainWindow::on_actionFast_Manage_triggered()
+{
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    Manage_list *manage_list = new Manage_list(this);
+    manage_list->setWindowTitle("商品管理");
+
+    ui->stackedWidget->setCurrentIndex(frontpage);
+    manage_list->show();
+
+    delete load_window;
+}
 
 void MainWindow::on_radioButton_toggled(bool checked)
 {
@@ -795,3 +810,4 @@ void MainWindow::on_btn_delete_allcard_clicked()
     }
     on_actionMyBag_triggered();
 }
+

@@ -1157,6 +1157,7 @@ border:2px solid;</string>
      <string>Seller Center</string>
     </property>
     <addaction name="actionShop_Manage"/>
+    <addaction name="actionFast_Manage"/>
     <addaction name="actionRelease_Card"/>
     <addaction name="actionFast_Release"/>
     <addaction name="separator"/>
@@ -1394,6 +1395,17 @@ border:2px solid;</string>
   <action name="actionFAST_SHOP">
    <property name="text">
     <string>FAST SHOP</string>
+   </property>
+  </action>
+  <action name="actionFast_Manage">
+   <property name="text">
+    <string>Fast Manage</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Agency FB</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>

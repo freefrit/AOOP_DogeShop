@@ -13,13 +13,14 @@ ManageGoods_window::ManageGoods_window(QWidget *parent) :
     page = 0;
     row_cards = 8;
     Csv *csvObj = new Csv;
-    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
-    sub_v = shop_v;
+    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv"); 
     delete csvObj;
 
     for(int i = 0; i < (int)shop_v.size(); i++)
         if(shop_v[i].state == "HOT" || shop_v[i].state == "CUT")
             shop_v[i].state = " ";
+
+    sub_v = shop_v;
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");

@@ -81,6 +81,8 @@ private slots:
     void on_actionFAST_SHOP_triggered();
 
 
+    void on_actionFast_Manage_triggered();
+
 private:
     bool is_test,in_cus_list;
     int prePage;

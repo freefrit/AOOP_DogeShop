@@ -18,6 +18,7 @@ SOURCES += \
     cpp/csv.cpp \
     cpp/loading_window.cpp \
     cpp/managegoods_window.cpp \
+    cpp/manage_list.cpp \
     cpp/shop_window.cpp \
     cpp/shop_list.cpp \
     customer.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     header/shop_window.h \
     header/shop_list.h \
     header/managegoods_window.h \
+    header/manage_list.h \
     loginwindowpopupform.h \
     mainwindow.h \
     manager.h \
@@ -64,6 +66,7 @@ FORMS += \
     exchange_popup.ui \
     ui/addgoods_list.ui \
     ui/managegoods_window.ui \
+    ui/manage_list.ui \
     loginwindowpopupform.ui \
     mainwindow.ui \
     ui/addgoods_window.ui \
