@@ -9,6 +9,7 @@
 #include "changepwd_dialog.h"
 #include "exchange_popup.h"
 #include "author_code_dialog.h"
+#include "double_check_dialog.h"
 
 class LoginWindowPopUpForm;
 class Customer;
@@ -46,8 +47,8 @@ private slots:
     void update_password(QString);
     void update_money();
     void update_bag();
-    void update_code();
     void delete_card(Card_in_bag);
+    void delete_cus(QString,QString);
     void on_actionLogin_triggered();
     void on_actionSignup_triggered();
     void on_actionHome_triggered();
@@ -74,14 +75,14 @@ private slots:
     void on_actionStaff_List_triggered();
 
     void on_actionFast_Release_triggered();
-
-
     void on_radioButton_toggled(bool checked);
-
+    void on_btn_delete_all_clicked();
+    void on_btn_delete_allcard_clicked();
     void on_actionFAST_SHOP_triggered();
 
+
 private:
-    bool is_test;
+    bool is_test,in_cus_list;
     int prePage;
     Ui::MainWindow *ui;
     QSqlDatabase database;
