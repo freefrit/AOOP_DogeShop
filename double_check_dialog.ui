@@ -88,6 +88,9 @@
     <string>You are trying to delete all data
 Do you really want to do this? </string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

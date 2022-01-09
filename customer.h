@@ -27,6 +27,8 @@ public:
     void set_point(double);
     int get_deck_in_bag_size(){return bag.deck_size();}
     vector<Card_in_bag> & mybag(){return bag.getdeck();}
+    bool is_filter_on(){return bag.filter_on;}
+    void set_filter(bool a){bag.filter_on=a;}
 };
 
 
