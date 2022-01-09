@@ -77,7 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->c_s_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->c_s_table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->c_s_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-
+    ui->comboBox_filter->setCurrentIndex(0);
+    ui->comboBoxsort->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
@@ -484,16 +485,24 @@ void MainWindow::on_actionMyBag_triggered()
 */
 void MainWindow::on_actionMyBag_triggered()
 {
+
+    bool filter=false;
+    c->set_filter(false);
+    if(ui->comboBox_filter->currentIndex()!=0)
+        filter=true,c->set_filter(true);
+
     if(is_test)
     {
         QString name = "test", pass = "test";
         c = new Customer(0, name, pass, 81000, 81000);
     }
 
+
     clear_layout(ui->bag_gridLayout);
-    set_piechart(c->mybag(),ui->radioButton->isChecked());
-    if(c->mybag().empty())ui->btn_delete_allcard->setDisabled(true);
-    else ui->btn_delete_allcard->setDisabled(false);
+
+    if(c->mybag().empty()||filter)ui->btn_delete_allcard->hide();
+    else ui->btn_delete_allcard->show();
+
 
     QTableWidget *tableWidget = new QTableWidget(c->mybag().size(),5);
     //tableWidget->resize(600, 450);
@@ -508,8 +517,22 @@ void MainWindow::on_actionMyBag_triggered()
     tableWidget->setColumnWidth(4,59);
     ui->bag_gridLayout->addWidget(tableWidget);
 
-    for(int i = 0; i < (int)c->mybag().size(); i++)
+
+    int j=0;
+    for(int i = 0; i < (int)c->mybag().size(); i++,j++)
     {
+        if(filter){
+            if(ui->comboBox_filter->currentText()=="star"&&(c->mybag()[i].star)){
+                //ok
+            }
+            else if(ui->comboBox_filter->currentText()=="no star"&&!c->mybag()[i].star){
+                //ok
+            }
+            else if(c->mybag()[i].type!=ui->comboBox_filter->currentText().toStdString()){
+                j--;
+                continue;
+            }
+        }
         QLabel *name = new QLabel;
         name->setText(QString::fromStdString(c->mybag()[i].name));
         name->setAlignment(Qt::AlignCenter);
@@ -520,14 +543,14 @@ void MainWindow::on_actionMyBag_triggered()
             name->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white; border:2px solid; font:bold;}");
         else if(c->mybag()[i].type == "trap")
             name->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white; border:2px solid; font:bold;}");
-        tableWidget->setCellWidget(i, 0, name);
+        tableWidget->setCellWidget(j, 0, name);//let i j 不同步
 
         QLabel *num = new QLabel;
         num->setText(QString::number(c->mybag()[i].num));
         num->setAlignment(Qt::AlignCenter);
         num->setMinimumWidth(117);
         num->setStyleSheet("border:2px solid; font:bold;");
-        tableWidget->setCellWidget(i, 1, num);
+        tableWidget->setCellWidget(j, 1, num);
 
         QPushButton *button = new QPushButton("點此查看卡片詳細");
         button->setAutoDefault(false);
@@ -535,14 +558,14 @@ void MainWindow::on_actionMyBag_triggered()
                               color:white; border-radius:2px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
         connect(button, &QPushButton::clicked, this, [=](){c->mybag()[i].detail();});
-        tableWidget->setCellWidget(i, 2, button);
+        tableWidget->setCellWidget(j, 2, button);
 
         button = new QPushButton((c->mybag()[i].star) ? "✦" : "✧");
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
                               color:white; border-radius:2px; font:bold; font-size:25px;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
         connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star(); update_bag(); on_actionMyBag_triggered();});
-        tableWidget->setCellWidget(i, 3, button);
+        tableWidget->setCellWidget(j, 3, button);
 
         button = new QPushButton("分解");
         button->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%);\
@@ -551,8 +574,11 @@ void MainWindow::on_actionMyBag_triggered()
         connect(button, &QPushButton::clicked, this, [this, i](){qDebug( )<< "分解" << QString::fromStdString(c->mybag()[i].name);
             if(!c->mybag()[i].star)delete_card_in_bag(i);else QMessageBox::information(this,"Deletion Error","You cannot delete a card with star.");
                 on_actionMyBag_triggered();});
-        tableWidget->setCellWidget(i, 4, button);
+        tableWidget->setCellWidget(j, 4, button);
     }
+    tableWidget->setRowCount(j);//truncate unnecessary rows
+
+    set_piechart(c->mybag(),ui->radioButton->isChecked());//piechart;
 
     ui->bag_gridLayout->setSpacing(0);
     ui->stackedWidget->setCurrentIndex(c_bag_page);
@@ -825,6 +851,31 @@ void MainWindow::on_btn_delete_allcard_clicked()
         QMessageBox::information(this,"Deletion Done","You have deleted all the cards except cards with star.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
     }
     customer_bag_calltobag();
+    on_actionMyBag_triggered();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    switch(ui->comboBoxsort->currentIndex())
+    {
+    case 2 ... 3:
+        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(ascii));
+        break;
+    case 4 ... 5:
+        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(longest));
+        break;
+    case 6 ... 7:
+        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(most));
+        break;
+    case 8:
+        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(type));
+        break;
+    default:
+        c->mybag().clear();
+        customer_bag_calltobag();
+    }
+    if(ui->comboBoxsort->currentIndex()%2==1)
+        reverse(c->mybag().begin(),c->mybag().end());
     on_actionMyBag_triggered();
 }
 
