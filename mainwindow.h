@@ -85,6 +85,7 @@ private slots:
 
     void on_actionFast_Manage_triggered();
 
+    void on_github_butt_clicked();
 
 private:
     bool is_test,in_cus_list;
