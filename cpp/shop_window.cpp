@@ -172,6 +172,12 @@ void Shop_window::on_previous_page_clicked()
 
 void Shop_window::on_add_clicked()
 {
+    if(ui->lineEdit->hasFocus())        //在輸入搜尋文字時enter
+    {
+        on_search_clicked();            //就跳過去，不是這
+        return;
+    }
+
     int count = 0;
 
     for(int i = 0; i < (int)num_in_v.size(); i++)
@@ -366,3 +372,112 @@ void Shop_window::on_rownum_box_currentTextChanged(const QString &arg1)
 
     delete load_window;
 }
+
+void Shop_window::on_search_clicked()
+{
+    if(ui->lineEdit->text() == "")      //不輸入就滾
+        return;
+
+    while(shop_v.size())
+        shop_v.pop_back();
+    QString arg1 = ui->sort_box->currentText();     //按sort box重整card vector
+    if(arg1 == "monster")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "monster")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "magic")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "magic")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "trap")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "trap")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "new")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "NEW")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "hot")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "HOT")
+                shop_v.push_back(sub_v[i]);
+    }
+    else if(arg1 == "cut")
+    {
+
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].state == "CUT")
+                shop_v.push_back(sub_v[i]);
+    }
+    else
+        shop_v = sub_v;
+
+    string input = ui->lineEdit->text().toStdString();
+    ui->lineEdit->clear();
+    vector<string> words;
+
+    size_t pos = 0;
+    while ((pos = input.find(" ")) != string::npos)     //空格分割
+    {
+        if(input.substr(0, pos) != "")
+            words.push_back(input.substr(0, pos));
+        input.erase(0, pos + 1);
+    }
+    if(input != "")
+        words.push_back(input);     //把最後剩下的字串加入
+
+    for (string &str : words)
+        qDebug() << QString::fromStdString(str);
+
+    int max_found = 0;      //一張卡被找到最多的指定字串量
+    vector<int> count(shop_v.size(),0);       //每張卡被找到多少指定字串
+    for(int i = 0; i < (int)words.size(); i++)  //對每個指定字串搜尋所有卡片
+        for(int j = 0; j < (int)shop_v.size(); j++)
+            if(shop_v[j].name.find(words[i]) != string::npos)
+            {
+                count[j]++;
+                if(count[j] > max_found)
+                    max_found = count[j];
+            }
+
+    vector<Card_in_shop> temp;      //儲存包含指定字串卡片的vector
+    for(int i = max_found; i > 0; i--)      //被找到最多字串的優先加入
+        for(int j = 0; j < (int)shop_v.size(); j++)
+            if(count[j] == i)
+                temp.push_back(shop_v[j]);
+
+    while(shop_v.size())
+        shop_v.pop_back();
+    shop_v = temp;
+
+    page = 0;
+    string search_show = "搜尋:";
+    for(int i = 0; i < (int)words.size(); i++)
+        search_show += " 「" + words[i] + "」";
+    ui->how_many->setText(QString::fromStdString(search_show) + ", 第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->up_gridLayout_shop);
+    clear_layout(ui->down_gridLayout_shop);
+    card_grid_layout(row_cards, ui->up_gridLayout_shop, 0);
+    card_grid_layout(row_cards, ui->down_gridLayout_shop, 1);
+
+    delete load_window;
+}
+

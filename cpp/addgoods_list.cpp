@@ -147,6 +147,12 @@ void AddGoods_list::reject()
 
 void AddGoods_list::on_add_clicked()
 {
+    if(ui->lineEdit->hasFocus())        //在輸入搜尋文字時enter
+    {
+        on_search_clicked();            //就跳過去，不是這
+        return;
+    }
+
     Card_in_shop *temp;
     int count = 0;
 
@@ -204,6 +210,87 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
         all_card = sub_v;
 
     ui->how_many->setText("全[" + QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->gridLayout);
+    card_grid_layout(ui->gridLayout);
+
+    delete load_window;
+}
+
+
+void AddGoods_list::on_search_clicked()
+{
+    if(ui->lineEdit->text() == "")      //不輸入就滾
+        return;
+
+    while(all_card.size())
+        all_card.pop_back();
+    QString arg1 = ui->sort_box->currentText();     //按sort box重整card vector
+    if(arg1 == "monster")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "monster")
+                all_card.push_back(sub_v[i]);
+    }
+    else if(arg1 == "magic")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "magic")
+                all_card.push_back(sub_v[i]);
+    }
+    else if(arg1 == "trap")
+    {
+        for(int i = 0; i < (int)sub_v.size(); i++)
+            if(sub_v[i].type == "trap")
+                all_card.push_back(sub_v[i]);
+    }
+    else
+        all_card = sub_v;
+
+    string input = ui->lineEdit->text().toStdString();
+    ui->lineEdit->clear();
+    vector<string> words;
+
+    size_t pos = 0;
+    while ((pos = input.find(" ")) != string::npos)     //空格分割
+    {
+        if(input.substr(0, pos) != "")
+            words.push_back(input.substr(0, pos));
+        input.erase(0, pos + 1);
+    }
+    if(input != "")
+        words.push_back(input);     //把最後剩下的字串加入
+
+    int max_found = 0;      //一張卡被找到最多的指定字串量
+    vector<int> count(all_card.size(),0);       //每張卡被找到多少指定字串
+    for(int i = 0; i < (int)words.size(); i++)  //對每個指定字串搜尋所有卡片
+        for(int j = 0; j < (int)all_card.size(); j++)
+            if(all_card[j].name.find(words[i]) != string::npos)
+            {
+                count[j]++;
+                if(count[j] > max_found)
+                    max_found = count[j];
+            }
+
+    vector<Card> temp;      //儲存包含指定字串卡片的vector
+    for(int i = max_found; i > 0; i--)      //被找到最多字串的優先加入
+        for(int j = 0; j < (int)all_card.size(); j++)
+            if(count[j] == i)
+                temp.push_back(all_card[j]);
+
+    while(all_card.size())
+        all_card.pop_back();
+    all_card = temp;
+
+    string search_show = "搜尋:";
+    for(int i = 0; i < (int)words.size(); i++)
+        search_show += " 「" + words[i] + "」";
+    ui->how_many->setText(QString::fromStdString(search_show) + ", 全[" + QString::number(all_card.size()) + "]種商品");
 
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");

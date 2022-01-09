@@ -16,7 +16,6 @@ class AddGoods_list : public QDialog
     Q_OBJECT
 
 public:
-    vector<Card> all_card;
     vector<Card_in_shop> shop_v;
     vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
@@ -33,8 +32,11 @@ private slots:
 
     virtual void on_sort_box_currentTextChanged(const QString &arg1);
 
+    virtual void on_search_clicked();
+
 private:
     Ui::AddGoods_list *ui;
+    vector<Card> all_card;
     vector<Card> sub_v;
 
     void reject() override;
