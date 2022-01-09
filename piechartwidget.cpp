@@ -37,10 +37,10 @@ void PieChartWidget::paintEvent(QPaintEvent *)
     }
     else
     {
-        painter.setBrush(QColor(19, 147, 129));
-        painter.drawPie(size,90*16,magic_percentage*16);
         painter.setBrush(QColor(171, 29, 134));
-        painter.drawPie(size,90*16+magic_percentage*16,trap_percentage*16);
+        painter.drawPie(size,90*16,trap_percentage*16);
+        painter.setBrush(QColor(19, 147, 129));
+        painter.drawPie(size,90*16+trap_percentage*16,magic_percentage*16);
         painter.setBrush(QColor(197,152,75));
         painter.drawPie(size,90*16,-monster_percentage*16);
     }

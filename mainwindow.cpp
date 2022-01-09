@@ -142,6 +142,8 @@ void MainWindow::popup_close_cus()
         ui->btn_c_infoupdate->setEnabled(true);
         ui->btn_cus_change_pwd->setEnabled(true);
         ui->stackedWidget->setCurrentIndex(frontpage);
+        ui->comboBox_filter->setCurrentIndex(0);
+        ui->comboBoxsort->setCurrentIndex(0);
     }
 }
 void MainWindow::popup_close_sel()
@@ -243,6 +245,8 @@ void MainWindow::on_actionLog_out_2_triggered()
 }
 void MainWindow::logout_display()
 {
+    ui->comboBox_filter->setCurrentIndex(0);
+    ui->comboBoxsort->setCurrentIndex(0);
     ui->stackedWidget->setCurrentIndex(frontpage);
     ui->menuMyInfo->menuAction()->setVisible(false);
     ui->menuSeller_Center->menuAction()->setVisible(false);
@@ -864,15 +868,12 @@ void MainWindow::on_pushButton_clicked()
     switch(ui->comboBoxsort->currentIndex())
     {
     case 2 ... 3:
-        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(ascii));
-        break;
-    case 4 ... 5:
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(longest));
         break;
-    case 6 ... 7:
+    case 4 ... 5:
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(most));
         break;
-    case 8:
+    case 6 :
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(type));
         break;
     default:
