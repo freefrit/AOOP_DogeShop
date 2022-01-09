@@ -4,7 +4,7 @@
 #include<vector>
 using namespace std;
 enum sorttype{
-  ascii,longest,most,type
+  longest,most,type
 };
 class CustomerBag
 {
@@ -26,9 +26,6 @@ public:
     }
     bool operator()(Card_in_bag a,Card_in_bag b){
         switch (s_type) {
-            case ascii:
-                return a.name.compare(b.name)<0;
-                break;
             case longest:
                 if(a.name.length()==b.name.length())
                    return a.name.compare(b.name)<0;

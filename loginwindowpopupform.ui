@@ -38,7 +38,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -319,8 +319,14 @@ p, li { white-space: pre-wrap; }
        <height>22</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="cursorMoveStyle">
+      <enum>Qt::LogicalMoveStyle</enum>
      </property>
     </widget>
     <widget class="QLineEdit" name="c_password">
