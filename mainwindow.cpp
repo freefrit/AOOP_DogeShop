@@ -418,8 +418,16 @@ void MainWindow::on_actionManage_Password_triggered()
 }
 void MainWindow::on_actionMyWallet_triggered()
 {
-    update_money();
-    customer_wallet_callin();
+    if(is_test)
+    {
+        QString name = "test", pass = "test";
+        c = new Customer(0, name, pass, 81000, 81000);
+    }
+    else
+    {
+        update_money();
+        customer_wallet_callin();
+    }
     ui->stackedWidget->setCurrentIndex(c_wallet_page);
 }
 
@@ -476,6 +484,12 @@ void MainWindow::on_actionMyBag_triggered()
 */
 void MainWindow::on_actionMyBag_triggered()
 {
+    if(is_test)
+    {
+        QString name = "test", pass = "test";
+        c = new Customer(0, name, pass, 81000, 81000);
+    }
+
     clear_layout(ui->bag_gridLayout);
     set_piechart(c->mybag(),ui->radioButton->isChecked());
     if(c->mybag().empty())ui->btn_delete_allcard->setDisabled(true);
