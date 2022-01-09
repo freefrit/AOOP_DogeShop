@@ -81,6 +81,8 @@ private slots:
     void on_actionFAST_SHOP_triggered();
 
 
+    void on_pushButton_clicked();
+
     void on_actionFast_Manage_triggered();
 
     void on_github_butt_clicked();

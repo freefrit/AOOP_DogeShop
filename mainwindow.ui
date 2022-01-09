@@ -685,23 +685,13 @@ HORNY DOGE SHOP !!</string>
          <string>My Bag :</string>
         </property>
        </widget>
-       <widget class="QListWidget" name="listWidget">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>30</y>
-          <width>621</width>
-          <height>451</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
           <x>280</x>
-          <y>60</y>
-          <width>621</width>
-          <height>421</height>
+          <y>90</y>
+          <width>631</width>
+          <height>391</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="bag_gridLayout">
@@ -713,14 +703,17 @@ HORNY DOGE SHOP !!</string>
        <widget class="QWidget" name="horizontalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>279</x>
-          <y>29</y>
-          <width>621</width>
+          <x>280</x>
+          <y>60</y>
+          <width>633</width>
           <height>31</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
           <number>0</number>
          </property>
          <item>
@@ -741,6 +734,7 @@ HORNY DOGE SHOP !!</string>
            </property>
            <property name="styleSheet">
             <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
 border:2px solid;</string>
            </property>
            <property name="text">
@@ -775,6 +769,7 @@ border:2px solid;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
 border:2px solid;</string>
            </property>
            <property name="text">
@@ -803,6 +798,7 @@ border:2px solid;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
 border:2px solid;</string>
            </property>
            <property name="text">
@@ -825,6 +821,7 @@ border:2px solid;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(138, 138, 138);
 border:2px solid;</string>
            </property>
            <property name="text">
@@ -852,7 +849,7 @@ border:2px solid;</string>
          <rect>
           <x>20</x>
           <y>160</y>
-          <width>91</width>
+          <width>161</width>
           <height>21</height>
          </rect>
         </property>
@@ -863,7 +860,7 @@ border:2px solid;</string>
          </font>
         </property>
         <property name="text">
-         <string>Attribute Table :</string>
+         <string>Card Type Distribute Table :</string>
         </property>
        </widget>
        <widget class="QGroupBox" name="groupBox_4">
@@ -922,9 +919,9 @@ border:2px solid;</string>
        <widget class="QPushButton" name="btn_delete_allcard">
         <property name="geometry">
          <rect>
-          <x>810</x>
+          <x>732</x>
           <y>485</y>
-          <width>93</width>
+          <width>171</width>
           <height>28</height>
          </rect>
         </property>
@@ -938,11 +935,176 @@ border:2px solid;</string>
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dangerous&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Delete All</string>
+         <string>Delete All Cards In Bag</string>
         </property>
         <property name="icon">
          <iconset>
           <normaloff>kill_all.png</normaloff>kill_all.png</iconset>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBoxsort">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>20</y>
+          <width>165</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>Oldest(default)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Newest</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ascii</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ascii reverse</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Longest Name</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Shortest Name</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Most</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Least</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Type(monster&gt;magic&gt;trap)</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>20</y>
+          <width>55</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sort by:</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_filter">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>20</y>
+          <width>165</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>All(default)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monster</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>magic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>trap</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>star</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>no star</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_6">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>20</y>
+          <width>55</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Filter:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>810</x>
+          <y>20</y>
+          <width>93</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Agency FB</family>
+          <pointsize>12</pointsize>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="text">
+         <string>Apply</string>
         </property>
        </widget>
       </widget>
