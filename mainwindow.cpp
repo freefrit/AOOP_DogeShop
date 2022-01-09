@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     //authorization code
     ui->lineEdit_cellphone->setInputMask("9999-999-999");
 
+    ui->dateEdit->setMaximumDate(QDate(2004,1,1));
+
     //error message color
     QPalette sample_palette_error;
     QColor color;
@@ -614,8 +616,11 @@ void MainWindow::on_btn_cus_change_pwd_3_clicked()
 void MainWindow::on_btn_c_infoupdate_clicked()
 {
     query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_gender->currentIndex())+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->date().toString("yyyyMMdd")+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET cellphone='"+ui->lineEdit_cellphone->text()+"' WHERE username = '"+c->getName()+"';");
+        query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->date().toString("yyyyMMdd")+" WHERE username = '"+c->getName()+"';");
+    if(ui->lineEdit_cellphone->text().length()<12)
+        QMessageBox::information(this,"cellphone error","Please make sure you fill in 10 digits."),ui->lineEdit_cellphone->clear();
+    else
+        query->exec("UPDATE customer_info SET cellphone='"+ui->lineEdit_cellphone->text()+"' WHERE username = '"+c->getName()+"';");
     query->exec("UPDATE customer_info SET house="+QString::number(ui->comboBox_house->currentIndex())+" WHERE username = '"+c->getName()+"';");
 
 }
