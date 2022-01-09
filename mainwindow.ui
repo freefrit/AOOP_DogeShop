@@ -35,7 +35,7 @@
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -60,6 +60,19 @@ HORNY DOGE SHOP !!</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="github_butt">
+        <property name="geometry">
+         <rect>
+          <x>847</x>
+          <y>460</y>
+          <width>80</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -1104,7 +1117,7 @@ border:2px solid;</string>
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>30</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="font">

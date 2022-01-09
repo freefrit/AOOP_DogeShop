@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QMessageBox>
 #include <QIntValidator>
+#include <QDesktopServices>
 #include "header/loading_window.h"
 #include "header/addgoods_window.h"
 #include "header/addgoods_list.h"
@@ -60,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_login_window->syncpage(ui->stackedWidget);
     m_login_window->syncdatabase(database);
     m_login_window->hide();
+
+    //github button
+    ui->github_butt->setStyleSheet("QPushButton{border-image: url(../AOOP_DogeShop/src/github.png); width: 80px; height: 80px;}"
+                                   "QPushButton:hover{border-image: url(../AOOP_DogeShop/src/github2.png);}");
 
     //initalize display
     logout_display();
@@ -826,5 +831,12 @@ void MainWindow::on_btn_delete_allcard_clicked()
     }
     customer_bag_calltobag();
     on_actionMyBag_triggered();
+}
+
+
+void MainWindow::on_github_butt_clicked()
+{
+    QString link = "https://github.com/freefrit/AOOP_DogeShop";
+    QDesktopServices::openUrl(QUrl(link));
 }
 
