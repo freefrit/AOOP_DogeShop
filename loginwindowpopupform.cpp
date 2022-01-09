@@ -25,6 +25,7 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
                         "color: red }");
     ui->btn_return->setStyleSheet("background-color:rgba(223,213,165,255) ;"
                                   "color:white ;");
+
     QPalette sample_palette_error;
     QColor color;
     color.setRgba(0x50FF0000);
@@ -35,6 +36,8 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
     ui->c_error_password_label->setPalette(sample_palette_error);
     ui->c_error_username_label->setAutoFillBackground(true);
     ui->c_error_username_label->setPalette(sample_palette_error);
+    ui->s_error_code_label->setAutoFillBackground(true);
+    ui->s_error_code_label->setPalette(sample_palette_error);
     ui->page->setAutoFillBackground(true);
     ui->page_2->setAutoFillBackground(true);
     color.setRgb(0xDFD5A5);
