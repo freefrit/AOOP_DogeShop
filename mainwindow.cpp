@@ -240,6 +240,10 @@ void MainWindow::on_actionLog_out_triggered()
     m_login_window->logout();
     logout_display();
 
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("登出");
+    load_window->set_text("SUCCESS");
+    load_window->show();
 }
 void MainWindow::on_actionLog_out_2_triggered()
 {
