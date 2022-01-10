@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     //authorization code
     ui->lineEdit_cellphone->setInputMask("9999-999-999");
 
+    ui->dateEdit->setMaximumDate(QDate(2004,1,1));
+
     //error message color
     QPalette sample_palette_error;
     QColor color;
@@ -142,6 +144,8 @@ void MainWindow::popup_close_cus()
         ui->btn_c_infoupdate->setEnabled(true);
         ui->btn_cus_change_pwd->setEnabled(true);
         ui->stackedWidget->setCurrentIndex(frontpage);
+        ui->comboBox_filter->setCurrentIndex(0);
+        ui->comboBoxsort->setCurrentIndex(0);
     }
 }
 void MainWindow::popup_close_sel()
@@ -243,6 +247,8 @@ void MainWindow::on_actionLog_out_2_triggered()
 }
 void MainWindow::logout_display()
 {
+    ui->comboBox_filter->setCurrentIndex(0);
+    ui->comboBoxsort->setCurrentIndex(0);
     ui->stackedWidget->setCurrentIndex(frontpage);
     ui->menuMyInfo->menuAction()->setVisible(false);
     ui->menuSeller_Center->menuAction()->setVisible(false);
@@ -610,8 +616,11 @@ void MainWindow::on_btn_cus_change_pwd_3_clicked()
 void MainWindow::on_btn_c_infoupdate_clicked()
 {
     query->exec("UPDATE customer_info SET gender="+QString::number(ui->comboBox_gender->currentIndex())+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->date().toString("yyyyMMdd")+" WHERE username = '"+c->getName()+"';");
-    query->exec("UPDATE customer_info SET cellphone='"+ui->lineEdit_cellphone->text()+"' WHERE username = '"+c->getName()+"';");
+        query->exec("UPDATE customer_info SET birthday="+ui->dateEdit->date().toString("yyyyMMdd")+" WHERE username = '"+c->getName()+"';");
+    if(ui->lineEdit_cellphone->text().length()<12)
+        QMessageBox::information(this,"cellphone error","Please make sure you fill in 10 digits."),ui->lineEdit_cellphone->clear();
+    else
+        query->exec("UPDATE customer_info SET cellphone='"+ui->lineEdit_cellphone->text()+"' WHERE username = '"+c->getName()+"';");
     query->exec("UPDATE customer_info SET house="+QString::number(ui->comboBox_house->currentIndex())+" WHERE username = '"+c->getName()+"';");
 
 }
@@ -864,15 +873,12 @@ void MainWindow::on_pushButton_clicked()
     switch(ui->comboBoxsort->currentIndex())
     {
     case 2 ... 3:
-        sort(c->mybag().begin(),c->mybag().end(),Card_sorter(ascii));
-        break;
-    case 4 ... 5:
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(longest));
         break;
-    case 6 ... 7:
+    case 4 ... 5:
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(most));
         break;
-    case 8:
+    case 6 :
         sort(c->mybag().begin(),c->mybag().end(),Card_sorter(type));
         break;
     default:

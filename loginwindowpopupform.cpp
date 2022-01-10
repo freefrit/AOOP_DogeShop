@@ -25,6 +25,7 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
                         "color: red }");
     ui->btn_return->setStyleSheet("background-color:rgba(223,213,165,255) ;"
                                   "color:white ;");
+
     QPalette sample_palette_error;
     QColor color;
     color.setRgba(0x50FF0000);
@@ -35,6 +36,8 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
     ui->c_error_password_label->setPalette(sample_palette_error);
     ui->c_error_username_label->setAutoFillBackground(true);
     ui->c_error_username_label->setPalette(sample_palette_error);
+    ui->s_error_code_label->setAutoFillBackground(true);
+    ui->s_error_code_label->setPalette(sample_palette_error);
     ui->page->setAutoFillBackground(true);
     ui->page_2->setAutoFillBackground(true);
     color.setRgb(0xDFD5A5);
@@ -49,6 +52,15 @@ LoginWindowPopUpForm::LoginWindowPopUpForm(QWidget *parent)
     initialize_lineedits();
     c=NULL;
     s=NULL;
+
+    //tab order
+    setTabOrder(ui->c_id,ui->c_password);
+    setTabOrder(ui->c_password,ui->c_password2);
+    setTabOrder(ui->c_password2,ui->c_id);
+    setTabOrder(ui->s_id,ui->s_password);
+    setTabOrder(ui->s_password,ui->s_password2);
+    setTabOrder(ui->s_password2,ui->s_authorizationcode);
+    setTabOrder(ui->s_authorizationcode,ui->s_id);
 
 }
 void LoginWindowPopUpForm::signOrLog(enum state s)
@@ -425,8 +437,11 @@ void LoginWindowPopUpForm::on_lineedit_ID_selectionChanged()
 void LoginWindowPopUpForm::on_commandLinkButton_clicked()
 {
     signOrLog(signup_);
+    ui->s_password->setFocus();
     ui->c_id->setText(name_in);
+    ui->c_password->setFocus();
     ui->s_id->setText(name_in);
+
 }
 //already has account
 void LoginWindowPopUpForm::on_commandLinkButton_2_clicked()

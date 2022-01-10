@@ -31,11 +31,19 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="font">
+       <font>
+        <family>Agency FB</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="frameShape">
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="emptypage"/>
       <widget class="QWidget" name="page">
@@ -52,6 +60,8 @@
          <font>
           <family>Agency FB</family>
           <pointsize>40</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -90,6 +100,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Agency FB</family>
           <pointsize>26</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
           <underline>true</underline>
          </font>
         </property>
@@ -110,6 +122,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="title">
@@ -128,6 +142,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
         </widget>
@@ -167,6 +183,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="currentText">
@@ -247,6 +265,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -266,6 +286,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -308,6 +330,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <item>
@@ -369,6 +393,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="title">
@@ -429,6 +455,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -448,6 +476,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -468,6 +498,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Segoe UI</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -489,6 +521,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>MV Boli</family>
           <pointsize>9</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="layoutDirection">
@@ -555,6 +589,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>15</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="layoutDirection">
@@ -595,6 +631,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Agency FB</family>
            <pointsize>15</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -617,6 +655,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Segoe UI</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -636,6 +676,8 @@ HORNY DOGE SHOP !!</string>
           <font>
            <family>Segoe UI</family>
            <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -656,6 +698,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Agency FB</family>
           <pointsize>26</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
           <underline>true</underline>
          </font>
         </property>
@@ -678,6 +722,8 @@ HORNY DOGE SHOP !!</string>
          <font>
           <family>Agency FB</family>
           <pointsize>26</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
           <underline>true</underline>
          </font>
         </property>
@@ -857,6 +903,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -876,6 +924,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="title">
@@ -888,6 +938,8 @@ border:2px solid;</string>
             <font>
              <family>Agency FB</family>
              <pointsize>10</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
             </font>
            </property>
            <property name="text">
@@ -904,6 +956,8 @@ border:2px solid;</string>
             <font>
              <family>Agency FB</family>
              <pointsize>10</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
             </font>
            </property>
            <property name="text">
@@ -929,6 +983,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -945,16 +1001,18 @@ border:2px solid;</string>
        <widget class="QComboBox" name="comboBoxsort">
         <property name="geometry">
          <rect>
-          <x>610</x>
-          <y>20</y>
-          <width>165</width>
-          <height>31</height>
+          <x>604</x>
+          <y>25</y>
+          <width>171</width>
+          <height>20</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>Agency FB</family>
-          <pointsize>10</pointsize>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <item>
@@ -965,16 +1023,6 @@ border:2px solid;</string>
         <item>
          <property name="text">
           <string>Newest</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ascii</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ascii reverse</string>
          </property>
         </item>
         <item>
@@ -1016,6 +1064,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -1025,16 +1075,18 @@ border:2px solid;</string>
        <widget class="QComboBox" name="comboBox_filter">
         <property name="geometry">
          <rect>
-          <x>340</x>
-          <y>20</y>
+          <x>330</x>
+          <y>25</y>
           <width>165</width>
-          <height>31</height>
+          <height>20</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>Agency FB</family>
-          <pointsize>10</pointsize>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <item>
@@ -1081,6 +1133,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -1093,13 +1147,15 @@ border:2px solid;</string>
           <x>810</x>
           <y>20</y>
           <width>93</width>
-          <height>30</height>
+          <height>28</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>Agency FB</family>
-          <pointsize>12</pointsize>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
           <kerning>true</kerning>
          </font>
         </property>
@@ -1122,6 +1178,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -1235,6 +1293,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>26</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
           <underline>true</underline>
          </font>
         </property>
@@ -1255,6 +1315,8 @@ border:2px solid;</string>
          <font>
           <family>Agency FB</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -1279,7 +1341,7 @@ border:2px solid;</string>
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
