@@ -225,7 +225,7 @@ void MainWindow::delete_card(Card_in_bag tmp)
     if(tmp.num==0)
         query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
     else
-        query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+";");
+        query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
 
 }
 
@@ -579,7 +579,9 @@ void MainWindow::on_actionMyBag_triggered()
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
                               color:white; border-radius:2px; font:bold; font-size:25px;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
-        connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star(); update_bag(); on_actionMyBag_triggered();});
+        connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star();
+                 query->exec("UPDATE c_"+QString::number(c->getID())+" SET star= NOT star WHERE card_name='"+QString::fromStdString(c->mybag()[i].name)+"';");
+                 on_actionMyBag_triggered();});
         tableWidget->setCellWidget(j, 3, button);
 
         button = new QPushButton("分解");
@@ -817,7 +819,7 @@ void MainWindow::on_radioButton_toggled(bool checked)
 {
     set_piechart(c->mybag(),checked);
     ui->piechart->update();
-    qDebug()<<"pie chart unique:"<<checked;
+    //qDebug()<<"pie chart unique:"<<checked;
 }
 
 void MainWindow::on_btn_delete_all_clicked()
