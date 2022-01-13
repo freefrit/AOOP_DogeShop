@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<database.lastError();
     }
     query=new QSqlQuery(database);
-    query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
+   // query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
 
 
     //default set to empty record
@@ -901,3 +901,4 @@ void MainWindow::on_github_butt_clicked()
     QString link = "https://github.com/freefrit/AOOP_DogeShop";
     QDesktopServices::openUrl(QUrl(link));
 }
+

@@ -562,3 +562,13 @@ void LoginWindowPopUpForm::logout(){
 
 
 
+
+void LoginWindowPopUpForm::on_Hidden_butt_clicked()
+{
+    name_in="0710849d0108";
+    retrieve_customer(name_in);
+    ui->lineedit_password->setText("f951235789");
+    identity=cus;
+    on_Login_button_pass_clicked();
+}
+

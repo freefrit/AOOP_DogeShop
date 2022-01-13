@@ -1050,6 +1050,11 @@ border:2px solid;</string>
           <string>Type(monster&gt;magic&gt;trap)</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>shuffle</string>
+         </property>
+        </item>
        </widget>
        <widget class="QLabel" name="label_5">
         <property name="geometry">
