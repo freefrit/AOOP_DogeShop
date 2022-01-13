@@ -14,6 +14,7 @@ using namespace std;
 class Card
 {
 public:
+    int id;
     string name;
     string type;
     string url;

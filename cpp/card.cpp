@@ -42,6 +42,7 @@ void Card::detail()
 
 void Card_in_shop::set_data(Card x, int num, int price)
 {
+    this->id = x.id;
     this->name = x.name;
     this->type = x.type;
     this->url = x.url;
@@ -52,6 +53,7 @@ void Card_in_shop::set_data(Card x, int num, int price)
 
 void Card_in_bag::set_data(Card_in_shop x, int num)
 {
+    this->id = x.id;
     this->name = x.name;
     this->type = x.type;
     this->url = x.url;

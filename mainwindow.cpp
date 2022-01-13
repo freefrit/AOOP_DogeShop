@@ -267,7 +267,7 @@ void MainWindow::on_actionRelease_Card_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    AddGoods_window *add_window = new AddGoods_window(this);
+    AddGoods_window *add_window = new AddGoods_window(database, query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -766,9 +766,10 @@ void MainWindow::on_actionFast_Release_triggered()
 {
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
+    load_window->set_text("LOADING");
     load_window->show();
 
-    AddGoods_list *add_window = new AddGoods_list(this);
+    AddGoods_list *add_window = new AddGoods_list(database, query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
