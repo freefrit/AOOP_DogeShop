@@ -6,18 +6,26 @@
 
 using namespace std;
 
-AddGoods_list::AddGoods_list(QWidget *parent) :
+AddGoods_list::AddGoods_list(QSqlDatabase &db, QSqlQuery *q, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddGoods_list)
 {
     ui->setupUi(this);
 
-    //col_cards = 20;
-    Csv *csvObj = new Csv;
-    all_card = csvObj->read_csv("../AOOP_DogeShop/src/cards.csv");
+    //SQL connection
+    database = db;
+    query = q;
+
+    query->exec("SELECT * FROM mix_card_list;");
+    while(query->next())
+    {
+        qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+        if(!query->value("card_no").isNull())
+            all_card.push_back(query->value("card_no").toInt());
+    }
     sub_v = all_card;
-    delete csvObj;
-    csvObj = new Csv;
+
+    Csv *csvObj = new Csv;
     shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
@@ -26,10 +34,24 @@ AddGoods_list::AddGoods_list(QWidget *parent) :
         if(shop_v[i].state == "NEW")
             shop_v[i].state = " ";
 
-    ui->how_many->setText("全[" + QString::number(all_card.size()) + "]種商品");
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
+
+
     ui->shop_title->setText("DOGE SHOP - Release");
     ui->add->setStyleSheet("QPushButton{background-color:rgba(212,109,104,100%); color:white; border-radius:0px;}"
                            "QPushButton:hover{background-color:rgba(183,78,73,100%); color:white;}");
+    ui->next_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
+                                 "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
+    ui->previous_page->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
+                                     "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
+    ui->search->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
+                                 "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
+    ui->clear->setStyleSheet("QPushButton{background-color:rgba(61,61,61,100%); color:white; border-radius:0px;}"
+                                     "QPushButton:hover{background-color:rgba(80,80,80,100%); color:white;}");
 
     card_grid_layout(ui->gridLayout);
 }
@@ -46,8 +68,7 @@ AddGoods_list::AddGoods_list(int flag, QWidget *parent) :
 
 void AddGoods_list::card_grid_layout(QGridLayout *grid)
 {
-    //Card *cardObj = new Card;
-    QTableWidget *tableWidget = new QTableWidget(all_card.size(),6);
+    QTableWidget *tableWidget = new QTableWidget(min(100, (int)all_card.size() - page*100), 6);
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
     tableWidget->horizontalHeader()->hide();
@@ -60,17 +81,25 @@ void AddGoods_list::card_grid_layout(QGridLayout *grid)
     tableWidget->setColumnWidth(5,280);
     grid->addWidget(tableWidget);
 
-    for(int i = 0; i < (int)all_card.size(); i++)
+    for(int i = 0, idx = 0; i < 100 && idx < (int)all_card.size(); i++)
     {
+        idx = page * 100 + i;
+        query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
+        query->next();
+        string card_name = query->value("card_name").toString().toStdString();
+        string card_type = query->value("card_type").toString().toStdString();
+        string card_url = query->value("card_url").toString().toStdString();
+        qDebug() << QString::fromStdString(card_name);
+
         QLabel *name = new QLabel;
-        name->setText(QString::fromStdString(all_card[i].name));
+        name->setText(QString::fromStdString(card_name));
         name->setAlignment(Qt::AlignCenter);
         name->setMinimumWidth(300);
-        if(all_card[i].type == "monster")
+        if(card_type == "monster")
             name->setStyleSheet("QLabel{background-color:rgb(197, 152, 75); color:white; border:2px solid; font:bold;}");
-        else if(all_card[i].type == "magic")
+        else if(card_type == "magic")
             name->setStyleSheet("QLabel{background-color:rgb(19, 147, 129); color:white; border:2px solid; font:bold;}");
-        else if(all_card[i].type == "trap")
+        else if(card_type == "trap")
             name->setStyleSheet("QLabel{background-color:rgb(171, 29, 134); color:white; border:2px solid; font:bold;}");
         tableWidget->setCellWidget(i, 0, name);
 
@@ -97,7 +126,15 @@ void AddGoods_list::card_grid_layout(QGridLayout *grid)
         button->setStyleSheet("QPushButton{background-color:rgba(217,182,80,100%);\
                               color:white; border-radius:0px; font:bold;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
-        connect(button, &QPushButton::clicked, this, [=](){all_card[i].detail();});
+        connect(button, &QPushButton::clicked, this, [=]()
+        {
+            Card *c = new Card;
+            c->id = all_card[idx];
+            c->name = card_name;
+            c->type = card_type;
+            c->url = card_url;
+            c->detail();
+        });
         tableWidget->setCellWidget(i, 5, button);
     }
 }
@@ -152,17 +189,36 @@ void AddGoods_list::on_add_clicked()
         on_search_clicked();            //就跳過去，不是這
         return;
     }
+    else if(ui->pageEdit->hasFocus())
+    {
+        on_to_page_clicked();           //就跳過去，不是這
+        return;
+    }
 
-    Card_in_shop *temp;
+    Card *temp;
+    Card_in_shop *temp2;
     int count = 0;
 
     for(int i = 0; i < (int)num_in_v.size(); i++)
     {
         if(num_in_v[i]->text() != "" && price_in_v[i]->text() != "")
         {
-            temp = new Card_in_shop;
-            temp->set_data(all_card[i], num_in_v[i]->text().toInt(), price_in_v[i]->text().toInt());
-            shop_v.push_back(*temp);
+            int idx = page * 100 + i;
+            query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
+            query->next();
+            string card_name = query->value("card_name").toString().toStdString();
+            string card_type = query->value("card_type").toString().toStdString();
+            string card_url = query->value("card_url").toString().toStdString();
+
+            temp = new Card;
+            temp->id = all_card[idx];
+            temp->name = card_name;
+            temp->type = card_type;
+            temp->url = card_url;
+            qDebug() << "add" << QString::number(temp->id) << QString::fromStdString(temp->name);
+            temp2 = new Card_in_shop;
+            temp2->set_data(*temp, num_in_v[i]->text().toInt(), price_in_v[i]->text().toInt());
+            shop_v.push_back(*temp2);
             count++;
         }
 
@@ -183,33 +239,51 @@ void AddGoods_list::on_add_clicked()
     }
     load_window->show();
 }
+
 void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
 {
     while(all_card.size())
-        all_card.pop_back();
+        all_card.pop_back();    
 
-    if(arg1 == "monster")
+    if(arg1 == "all")
+        all_card = sub_v;
+    else if(arg1 == "DOGE")
     {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "monster")
-                all_card.push_back(sub_v[i]);
+        query->exec("SELECT * FROM mix_card_list WHERE card_no < 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
     }
-    else if(arg1 == "magic")
+    else if(arg1 == "YGO")
     {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "magic")
-                all_card.push_back(sub_v[i]);
-    }
-    else if(arg1 == "trap")
-    {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "trap")
-                all_card.push_back(sub_v[i]);
+        query->exec("SELECT * FROM mix_card_list WHERE card_no >= 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
     }
     else
-        all_card = sub_v;
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
 
-    ui->how_many->setText("全[" + QString::number(all_card.size()) + "]種商品");
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
+
 
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
@@ -226,34 +300,9 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
 void AddGoods_list::on_search_clicked()
 {
     if(ui->lineEdit->text() == "")      //不輸入就滾
-        return;
-
-    while(all_card.size())
-        all_card.pop_back();
-    QString arg1 = ui->sort_box->currentText();     //按sort box重整card vector
-    if(arg1 == "monster")
-    {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "monster")
-                all_card.push_back(sub_v[i]);
-    }
-    else if(arg1 == "magic")
-    {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "magic")
-                all_card.push_back(sub_v[i]);
-    }
-    else if(arg1 == "trap")
-    {
-        for(int i = 0; i < (int)sub_v.size(); i++)
-            if(sub_v[i].type == "trap")
-                all_card.push_back(sub_v[i]);
-    }
-    else
-        all_card = sub_v;
+        return;   
 
     string input = ui->lineEdit->text().toStdString();
-    ui->lineEdit->clear();
     vector<string> words;
 
     size_t pos = 0;
@@ -266,18 +315,44 @@ void AddGoods_list::on_search_clicked()
     if(input != "")
         words.push_back(input);     //把最後剩下的字串加入
 
-    int max_found = 0;      //一張卡被找到最多的指定字串量
-    vector<int> count(all_card.size(),0);       //每張卡被找到多少指定字串
-    for(int i = 0; i < (int)words.size(); i++)  //對每個指定字串搜尋所有卡片
-        for(int j = 0; j < (int)all_card.size(); j++)
-            if(all_card[j].name.find(words[i]) != string::npos)
-            {
-                count[j]++;
-                if(count[j] > max_found)
-                    max_found = count[j];
-            }
+    while(all_card.size())
+        all_card.pop_back();
+    QString arg1 = ui->sort_box->currentText();
 
-    vector<Card> temp;      //儲存包含指定字串卡片的vector
+    int max_found = 0;      //一張卡被找到最多的指定字串量
+    vector<int> count;      //每張卡被找到多少指定字串
+    for(int i = 0; i < (int)words.size(); i++)  //對每個指定字串搜尋所有卡片
+    {
+        if(arg1 == "all")
+            query->exec("SELECT * FROM mix_card_list WHERE card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+        else
+            query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 +
+                        "' AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            bool new_flag = 1;
+
+            for(int j = 0; j < (int)all_card.size(); j++)
+            {
+                if(query->value("card_no").toInt() == all_card[j])
+                {
+                    new_flag = 0;
+                    count[j]++;
+                    if(count[j] > max_found) max_found = count[j];
+                }
+            }
+            if(new_flag)
+            {
+                count.push_back(1);
+                if(!max_found) max_found = 1;
+                all_card.push_back(query->value("card_no").toInt());
+            }
+        }
+    }
+
+    vector<int> temp;      //儲存包含指定字串卡片的vector
     for(int i = max_found; i > 0; i--)      //被找到最多字串的優先加入
         for(int j = 0; j < (int)all_card.size(); j++)
             if(count[j] == i)
@@ -290,10 +365,126 @@ void AddGoods_list::on_search_clicked()
     string search_show = "搜尋:";
     for(int i = 0; i < (int)words.size(); i++)
         search_show += " 「" + words[i] + "」";
-    ui->how_many->setText(QString::fromStdString(search_show) + ", 全[" + QString::number(all_card.size()) + "]種商品");
+
+    page = 0;
+    ui->how_many->setText(QString::fromStdString(search_show) + "，第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
 
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->gridLayout);
+    card_grid_layout(ui->gridLayout);
+
+    delete load_window;
+}
+
+
+void AddGoods_list::on_clear_clicked()
+{
+    if(ui->lineEdit->text() == "")      //不輸入就滾
+        return;
+    ui->lineEdit->clear();
+
+    while(all_card.size())
+        all_card.pop_back();
+
+    QString arg1 = ui->sort_box->currentText();
+    if(arg1 == "all")
+        all_card = sub_v;
+    else
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
+
+    page = 0;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->gridLayout);
+    card_grid_layout(ui->gridLayout);
+
+    delete load_window;
+}
+
+
+void AddGoods_list::on_next_page_clicked()
+{
+    page++;
+    if(page > (int)(all_card.size()-0.5) / 100)
+        page = 0;
+
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->set_text("LOADING");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->gridLayout);
+    card_grid_layout(ui->gridLayout);
+
+    delete load_window;
+}
+
+
+void AddGoods_list::on_previous_page_clicked()
+{
+    page--;
+    if(page < 0)
+        page = (int)(all_card.size()-0.5) / 100;
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->set_text("LOADING");
+    load_window->show();
+
+    clear_lineEdit_v();
+    clear_layout(ui->gridLayout);
+    card_grid_layout(ui->gridLayout);
+
+    delete load_window;
+}
+
+
+void AddGoods_list::on_to_page_clicked()
+{
+    page = ui->pageEdit->text().toInt() - 1;
+    if(page < 0)
+        page = (int)(all_card.size()-0.5) / 100;
+    else if(page > (int)(all_card.size()-0.5) / 100)
+        page = 0;
+
+    ui->how_many->setText("第[" + QString::number(page + 1) +
+                          "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
+                          QString::number(all_card.size()) + "]種商品");
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->set_text("LOADING");
     load_window->show();
 
     clear_lineEdit_v();
