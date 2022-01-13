@@ -16,7 +16,7 @@ AddGoods_window::AddGoods_window(QSqlDatabase &db, QSqlQuery *q, QWidget *parent
     database = db;
     query = q;
 
-    query->exec("SELECT * FROM ygo_card_list;");
+    query->exec("SELECT * FROM mix_card_list;");
     while(query->next())
     {
         qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
@@ -72,7 +72,7 @@ void AddGoods_window::card_grid_layout(int q, QGridLayout *grid, int row_idx)
     for(int i = 0, idx = 0; i < q && idx < (int)all_card.size(); i++)
     {
         idx = 2*q*page + q*row_idx + i;
-        query->exec("SELECT * FROM ygo_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
+        query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
         query->next();
         string card_name = query->value("card_name").toString().toStdString();
         string card_type = query->value("card_type").toString().toStdString();

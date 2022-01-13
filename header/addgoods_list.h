@@ -38,13 +38,13 @@ private slots:
 
     virtual void on_search_clicked();
 
-    void on_clear_clicked();
+    virtual void on_clear_clicked();
 
-    void on_next_page_clicked();
+    virtual void on_next_page_clicked();
 
-    void on_previous_page_clicked();
+    virtual void on_previous_page_clicked();
 
-    void on_to_page_clicked();
+    virtual void on_to_page_clicked();
 
 private:
     Ui::AddGoods_list *ui;

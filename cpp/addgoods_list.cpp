@@ -16,7 +16,7 @@ AddGoods_list::AddGoods_list(QSqlDatabase &db, QSqlQuery *q, QWidget *parent) :
     database = db;
     query = q;
 
-    query->exec("SELECT * FROM ygo_card_list;");
+    query->exec("SELECT * FROM mix_card_list;");
     while(query->next())
     {
         qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
@@ -84,7 +84,7 @@ void AddGoods_list::card_grid_layout(QGridLayout *grid)
     for(int i = 0, idx = 0; i < 100 && idx < (int)all_card.size(); i++)
     {
         idx = page * 100 + i;
-        query->exec("SELECT * FROM ygo_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
+        query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
         query->next();
         string card_name = query->value("card_name").toString().toStdString();
         string card_type = query->value("card_type").toString().toStdString();
@@ -204,7 +204,7 @@ void AddGoods_list::on_add_clicked()
         if(num_in_v[i]->text() != "" && price_in_v[i]->text() != "")
         {
             int idx = page * 100 + i;
-            query->exec("SELECT * FROM ygo_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
+            query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
             query->next();
             string card_name = query->value("card_name").toString().toStdString();
             string card_type = query->value("card_type").toString().toStdString();
@@ -245,9 +245,11 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
     while(all_card.size())
         all_card.pop_back();    
 
-    if(arg1 == "monster")
+    if(arg1 == "all")
+        all_card = sub_v;
+    else if(arg1 == "DOGE")
     {
-        query->exec("SELECT * FROM ygo_card_list WHERE card_type = 'monster';");
+        query->exec("SELECT * FROM mix_card_list WHERE card_no < 0;");
         while(query->next())
         {
             qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
@@ -255,19 +257,9 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
                 all_card.push_back(query->value("card_no").toInt());
         }
     }
-    else if(arg1 == "magic")
+    else if(arg1 == "YGO")
     {
-        query->exec("SELECT * FROM ygo_card_list WHERE card_type = 'magic';");
-        while(query->next())
-        {
-            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
-            if(!query->value("card_no").isNull())
-                all_card.push_back(query->value("card_no").toInt());
-        }
-    }
-    else if(arg1 == "trap")
-    {
-        query->exec("SELECT * FROM ygo_card_list WHERE card_type = 'trap';");
+        query->exec("SELECT * FROM mix_card_list WHERE card_no >= 0;");
         while(query->next())
         {
             qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
@@ -276,7 +268,15 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
         }
     }
     else
-        all_card = sub_v;
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
 
     page = 0;
     ui->how_many->setText("第[" + QString::number(page + 1) +
@@ -324,9 +324,9 @@ void AddGoods_list::on_search_clicked()
     for(int i = 0; i < (int)words.size(); i++)  //對每個指定字串搜尋所有卡片
     {
         if(arg1 == "all")
-            query->exec("SELECT * FROM ygo_card_list WHERE card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+            query->exec("SELECT * FROM mix_card_list WHERE card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
         else
-            query->exec("SELECT * FROM ygo_card_list WHERE card_type = '" + arg1 +
+            query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 +
                         "' AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
 
         while(query->next())
@@ -398,7 +398,7 @@ void AddGoods_list::on_clear_clicked()
         all_card = sub_v;
     else
     {
-        query->exec("SELECT * FROM ygo_card_list WHERE card_type = '" + arg1 + "';");
+        query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");
         while(query->next())
         {
             qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
@@ -472,7 +472,7 @@ void AddGoods_list::on_previous_page_clicked()
 
 void AddGoods_list::on_to_page_clicked()
 {
-    page = ui->pageEdit->text().toInt();
+    page = ui->pageEdit->text().toInt() - 1;
     if(page < 0)
         page = (int)(all_card.size()-0.5) / 100;
     else if(page > (int)(all_card.size()-0.5) / 100)
