@@ -53,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     }
     query=new QSqlQuery(database);
    // query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
-
+    query->exec("SELECT COUNT(*) FROM shop_stock WHERE card_count=-1");
+    query->next();
+    qDebug()<<query->value(0).toInt();
 
     //default set to empty record
     myinfo_default();
@@ -208,14 +210,14 @@ void MainWindow::update_money()
 }
 void MainWindow::update_bag()
 {
-    query->exec("TRUNCATE TABLE c_"+QString::number(c->getID())+";");
+    query->exec("TRUNCATE TABLE newbag_"+QString::number(c->getID())+";");
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO c_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO newbag_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
-                                                        "',"+QString::number(x.num)+","+boolbit+");");
+                                                        "',"+QString::number(x.num)+","+boolbit+","+QString::number(x.id)+");");
     }
 
 }
@@ -223,9 +225,9 @@ void MainWindow::delete_card(Card_in_bag tmp)
 {
     qDebug()<<QString::fromStdString(tmp.name)<<tmp.num;
     if(tmp.num==0)
-        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
+        query->exec("DELETE FROM newbag_"+QString::number(c->getID())+" WHERE card_no = "+QString::number(tmp.id)+";");
     else
-        query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
+        query->exec("UPDATE newbag_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+" WHERE card_no = "+QString::number(tmp.id)+";");
 
 }
 
@@ -233,7 +235,7 @@ void MainWindow::delete_cus(QString tmpname,QString tmpid)
 {
     query->exec("DELETE FROM customer_list WHERE username='"+tmpname+"';");
     query->exec("DELETE FROM customer_info WHERE username='"+tmpname+"';");
-    query->exec("DROP TABLE c_"+tmpid+";");
+    query->exec("DROP TABLE newbag_"+tmpid+";");
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -404,14 +406,16 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM c_"+QString::number(c->getID())+";";
+    sql_command="SELECT * FROM newbag_"+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
-        Card_in_bag* cib=new Card_in_bag(query->value(0).toString().toStdString(),
+        Card_in_bag* cib=new Card_in_bag(query->value("card_no").toInt(),
+                                        query->value(0).toString().toStdString(),
                                          query->value(1).toString().toStdString(),
                                          query->value(2).toString().toStdString(),
-                                         query->value(3).toInt(),query->value(4).toBool());
+                                         query->value(3).toInt(),query->value(4).toBool()
+                                         );
         c->addToBag(cib);
     }
 
@@ -580,7 +584,7 @@ void MainWindow::on_actionMyBag_triggered()
                               color:white; border-radius:2px; font:bold; font-size:25px;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
         connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star();
-                 query->exec("UPDATE c_"+QString::number(c->getID())+" SET star= NOT star WHERE card_name='"+QString::fromStdString(c->mybag()[i].name)+"';");
+                 query->exec("UPDATE newbag_"+QString::number(c->getID())+" SET star= NOT star WHERE card_name='"+QString::fromStdString(c->mybag()[i].name)+"';");
                  on_actionMyBag_triggered();});
         tableWidget->setCellWidget(j, 3, button);
 
@@ -838,7 +842,7 @@ void MainWindow::on_btn_delete_all_clicked()
            while(query->next())
                names.push_back(query->value(0).toString());
            for(auto &x:names)
-               query->exec("DROP c_"+x+";");
+               query->exec("DROP newbag_"+x+";");
            query->exec("TRUNCATE customer_list;");
            query->exec("TRUNCATE customer_info;");
            QMessageBox::information(this,"Deletion Done","You have deleted all the data.");
@@ -863,11 +867,11 @@ void MainWindow::on_btn_delete_allcard_clicked()
     if(yes)
     {
         c->mybag().clear();
-        query->exec("SELECT SUM(count) FROM c_"+QString::number(c->getID())+" WHERE star=false;");
+        query->exec("SELECT SUM(count) FROM newbag_"+QString::number(c->getID())+" WHERE star=false;");
         query->next();
         int totall_delete=query->value(0).toInt();
         c->earnPoint(totall_delete*100);
-        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE star=false;");
+        query->exec("DELETE FROM newbag_"+QString::number(c->getID())+" WHERE star=false;");
         QMessageBox::information(this,"Deletion Done","You have deleted all the cards except cards with star.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
     }
     customer_bag_calltobag();

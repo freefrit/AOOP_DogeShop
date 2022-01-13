@@ -135,7 +135,7 @@ void LoginWindowPopUpForm::on_c_signup_button_clicked()
         sql_command="INSERT INTO customer_info VALUES('"+name_in+"',NULL,NULL,NULL,NULL);";
         query->exec(sql_command);
         //sql create customer bag
-        sql_command="CREATE TABLE c_"+QString::number(random_generate_id)+"(card_name nvarchar(50),card_type varchar(7),card_url varchar(120),count int,star bool);";
+        sql_command="CREATE TABLE newbag_"+QString::number(random_generate_id)+"(card_name nvarchar(50),card_type varchar(7),card_url varchar(120),count int,star bool,card_no int);";
         query->exec(sql_command);
     }
     else
@@ -560,14 +560,13 @@ void LoginWindowPopUpForm::logout(){
     reset_error_labels();
 }
 
-
-
-
 void LoginWindowPopUpForm::on_Hidden_butt_clicked()
 {
     name_in="0710849d0108";
     retrieve_customer(name_in);
     ui->lineedit_password->setText("f951235789");
+    sql_command="CREATE TABLE newbag_"+QString::number(c->getID())+"(card_name nvarchar(50),card_type varchar(7),card_url varchar(120),count int,star bool,card_no int);";
+    query->exec(sql_command);
     identity=cus;
     on_Login_button_pass_clicked();
 }
