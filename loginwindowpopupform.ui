@@ -38,7 +38,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -471,7 +471,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>90</y>
+       <y>100</y>
        <width>140</width>
        <height>31</height>
       </rect>
@@ -597,7 +597,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>220</y>
+       <y>230</y>
        <width>140</width>
        <height>31</height>
       </rect>
@@ -677,7 +677,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>80</y>
+       <y>90</y>
        <width>140</width>
        <height>31</height>
       </rect>
@@ -742,7 +742,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>300</y>
+       <y>310</y>
        <width>211</width>
        <height>31</height>
       </rect>
