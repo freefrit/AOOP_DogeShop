@@ -4,7 +4,7 @@
 
 ![image](https://user-images.githubusercontent.com/71783619/148678113-8769058c-86c7-4673-b289-6d99826498e5.png)
 
-歡迎使用色色狗勾卡牌商店模擬平台，請clone下本repo後，使用Qt編譯ShoppingPlatform.pro檔案，並執行程式
+歡迎使用色色狗勾卡牌商店模擬平台，請fork+clone/下載本repo後，使用Qt編譯ShoppingPlatform.pro檔案，並執行程式
 
 **(注意shadow build資料夾務必與repo資料夾置於同一路徑，且勿更動repo資料夾名稱)**
 
