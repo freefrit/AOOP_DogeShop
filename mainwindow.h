@@ -87,6 +87,7 @@ private slots:
 
     void on_github_butt_clicked();
 
+
 private:
     bool is_test,in_cus_list;
     int prePage;
