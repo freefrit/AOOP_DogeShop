@@ -183,7 +183,7 @@ void AddGoods_list::reject()
     csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
-    for(int i = 0; i < shop_v.size(); i++)
+    for(int i = 0; i < (int)shop_v.size(); i++)
     {
         //qDebug() << shop_v[i].id << QString::fromStdString(shop_v[i].name) << shop_v[i].num;
         query->exec("UPDATE shop_stock SET card_count = " + QString::number(shop_v[i].num) +
@@ -419,6 +419,26 @@ void AddGoods_list::on_clear_clicked()
     QString arg1 = ui->sort_box->currentText();
     if(arg1 == "all")
         all_card = sub_v;
+    else if(arg1 == "DOGE")
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_no < 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
+    else if(arg1 == "YGO")
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_no >= 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
     else
     {
         query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");

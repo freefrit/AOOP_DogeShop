@@ -24,7 +24,7 @@ public:
     vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
 
-    explicit AddGoods_window(QSqlDatabase &db, QSqlQuery *q, QWidget *parent = nullptr);
+    explicit AddGoods_window(QSqlQuery *q, QWidget *parent = nullptr);
     AddGoods_window(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_window();
     virtual void card_grid_layout(int q, QGridLayout *grid, int row_idx);
@@ -43,6 +43,10 @@ private slots:
     virtual void on_rownum_box_currentTextChanged(const QString &arg1);
 
     virtual void on_search_clicked();
+
+    void on_to_page_clicked();
+
+    void on_clear_clicked();
 
 private:
     Ui::AddGoods_window *ui;

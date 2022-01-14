@@ -13,13 +13,15 @@ class ManageGoods_window : public AddGoods_window
     Q_OBJECT
 
 public:
-    explicit ManageGoods_window(QWidget *parent = nullptr);
+    explicit ManageGoods_window(QSqlQuery *q, QWidget *parent = nullptr);
     ~ManageGoods_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 
 private:
     Ui::ManageGoods_window *ui;
     vector<Card_in_shop> sub_v;
+
+    QSqlQuery *query;
 
     void on_next_page_clicked() override;
     void on_previous_page_clicked() override;

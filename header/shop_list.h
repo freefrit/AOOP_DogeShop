@@ -17,7 +17,7 @@ class Shop_list : public AddGoods_list
     Q_OBJECT
 
 public:
-    explicit Shop_list(Customer *&cp, QWidget *parent = nullptr);
+    explicit Shop_list(QSqlQuery *q, Customer *&cp, QWidget *parent = nullptr);
     ~Shop_list();
     void card_grid_layout(QGridLayout *grid) override;
 

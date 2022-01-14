@@ -36,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     sample_palette_error.setColor(QPalette::Window,color);
     sample_palette_error.setColor(QPalette::WindowText, Qt::red);
 
-
-
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
     database.setHostName("140.113.89.173");
@@ -265,7 +263,7 @@ void MainWindow::on_actionRelease_Card_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    AddGoods_window *add_window = new AddGoods_window(database, query, this);
+    AddGoods_window *add_window = new AddGoods_window(query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -286,7 +284,7 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
         QString name = "test", pass = "test";
         c = new Customer(0, name, pass, 81000, 81000);
     }
-    Shop_window *shop_window = new Shop_window(c, this);
+    Shop_window *shop_window = new Shop_window(query, c, this);
     shop_window->setWindowTitle("卡片購買");
 
     connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
@@ -304,7 +302,7 @@ void MainWindow::on_actionShop_Manage_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    ManageGoods_window *manage_window = new ManageGoods_window(this);
+    ManageGoods_window *manage_window = new ManageGoods_window(query, this);
     manage_window->setWindowTitle("商品管理");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -789,7 +787,7 @@ void MainWindow::on_actionFAST_SHOP_triggered()
         QString name = "test", pass = "test";
         c = new Customer(0, name, pass, 81000, 81000);
     }
-    Shop_list *shop_window = new Shop_list(c, this);
+    Shop_list *shop_window = new Shop_list(query, c, this);
     shop_window->setWindowTitle("卡片購買");
 
     connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
@@ -807,7 +805,7 @@ void MainWindow::on_actionFast_Manage_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    Manage_list *manage_list = new Manage_list(this);
+    Manage_list *manage_list = new Manage_list(query, this);
     manage_list->setWindowTitle("商品管理");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
