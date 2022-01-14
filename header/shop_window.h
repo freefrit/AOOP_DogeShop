@@ -17,7 +17,7 @@ class Shop_window : public AddGoods_window
     Q_OBJECT
 
 public:
-    explicit Shop_window(Customer *&cp, QWidget *parent = nullptr);
+    explicit Shop_window(QSqlQuery *q, Customer *&cp, QWidget *parent = nullptr);
     ~Shop_window();
     void card_grid_layout(int q, QGridLayout *grid, int row_idx) override;
 

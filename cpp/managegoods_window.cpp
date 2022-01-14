@@ -4,24 +4,26 @@
 #include "header/csv.h"
 #include <QIntValidator>
 
-ManageGoods_window::ManageGoods_window(QWidget *parent) :
+ManageGoods_window::ManageGoods_window(QSqlQuery *q, QWidget *parent) :
     AddGoods_window(1, parent),
     ui(new Ui::ManageGoods_window)
 {
     ui->setupUi(this);
 
-    page = 0;
-    row_cards = 8;
+    //SQL connection
+    query = q;
+
     Csv *csvObj = new Csv;
-    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv"); 
+    shop_v = csvObj->read_sql_shop(query);
     delete csvObj;
 
     for(int i = 0; i < (int)shop_v.size(); i++)
         if(shop_v[i].state == "HOT" || shop_v[i].state == "CUT")
             shop_v[i].state = " ";
-
     sub_v = shop_v;
 
+    page = 0;
+    row_cards = 8;
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
     ui->shop_title->setText("DOGE SHOP - Manage");
@@ -122,11 +124,17 @@ ManageGoods_window::~ManageGoods_window()
 
 void ManageGoods_window::reject()
 {
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Saving...");
+    load_window->set_text("SAVING");
+    load_window->show();
+
     remove("../AOOP_DogeShop/src/shop.csv");
 
     for(int i = 0; i < (int)sub_v.size(); i++)
         if(sub_v[i].num == 0)
         {
+            query->exec("UPDATE shop_stock SET card_count = -1 WHERE card_no = " + QString::number(sub_v[i].id) + ";");
             sub_v.erase(sub_v.begin() + i);
             i--;
         }
@@ -135,6 +143,17 @@ void ManageGoods_window::reject()
     csvObj->save_shop_csv(sub_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
+    for(int i = 0; i < (int)sub_v.size(); i++)
+    {
+        query->exec("UPDATE shop_stock SET card_count = " + QString::number(sub_v[i].num) +
+                    " WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET card_price = " + QString::number(sub_v[i].price) +
+                    " WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET label = '" + sub_v[i].state +
+                    "' WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+    }
+
+    delete load_window;
     QDialog::reject();
 }
 
