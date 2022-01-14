@@ -38,7 +38,7 @@
     <number>-1</number>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -200,6 +200,22 @@ p, li { white-space: pre-wrap; }
          <string>Seller</string>
         </property>
        </item>
+      </widget>
+      <widget class="QPushButton" name="Hidden_butt">
+       <property name="geometry">
+        <rect>
+         <x>590</x>
+         <y>160</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="page_2">
