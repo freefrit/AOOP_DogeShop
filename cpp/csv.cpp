@@ -67,6 +67,28 @@ vector<Card_in_shop> Csv::read_shop(string path)
     return out;
 }
 
+vector<Card_in_shop> Csv::read_sql_shop(QSqlQuery *query)
+{
+    vector<Card_in_shop> out;
+
+    query->exec("SELECT * FROM shop_stock WHERE card_count > -1;");
+    while(query->next())
+    {
+        Card_in_shop *temp = new Card_in_shop;
+        temp->id = query->value("card_no").toInt();
+        temp->name = query->value("card_name").toString().toStdString();
+        temp->type = query->value("card_type").toString().toStdString();
+        temp->url = query->value("card_url").toString().toStdString();
+        temp->num = query->value("card_count").toInt();
+        temp->price = query->value("card_price").toInt();
+        temp->state = query->value("label").toString();
+
+        out.push_back(*temp);
+    }
+
+    return out;
+}
+
 void Csv::save_shop_csv(vector<Card_in_shop> shop, string path)
 {
     string temp = "";

@@ -52,8 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<database.lastError();
     }
     query=new QSqlQuery(database);
-    query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
-
 
     //default set to empty record
     myinfo_default();
@@ -769,7 +767,7 @@ void MainWindow::on_actionFast_Release_triggered()
     load_window->set_text("LOADING");
     load_window->show();
 
-    AddGoods_list *add_window = new AddGoods_list(database, query, this);
+    AddGoods_list *add_window = new AddGoods_list(query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
