@@ -196,6 +196,16 @@ background-color: rgb(61, 61, 61);</string>
      <string>trap</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>DOGE</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>YGO</string>
+    </property>
+   </item>
   </widget>
   <widget class="QComboBox" name="rownum_box">
    <property name="geometry">

@@ -4,19 +4,21 @@
 #include "header/csv.h"
 #include <QIntValidator>
 
-Shop_window::Shop_window(Customer *&cp, QWidget *parent) :
+Shop_window::Shop_window(QSqlQuery *q, Customer *&cp, QWidget *parent) :
     AddGoods_window(0, parent),
     ui(new Ui::Shop_window)
 {
     ui->setupUi(this);
     c = cp;
+    //SQL connection
+    query = q;
 
     page = 0;
     row_cards = 8;
     Csv *csvObj = new Csv;
-    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
-    sub_v = shop_v;
+    shop_v = csvObj->read_sql_shop(query);
     delete csvObj;
+    sub_v = shop_v;
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(shop_v.size()) + "]種商品");
@@ -115,14 +117,30 @@ Shop_window::~Shop_window()
 
 void Shop_window::reject()
 {
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Saving...");
+    load_window->set_text("SAVING");
+    load_window->show();
+
     remove("../AOOP_DogeShop/src/shop.csv");
 
     Csv *csvObj = new Csv;
     csvObj->save_shop_csv(sub_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
+    for(int i = 0; i < (int)sub_v.size(); i++)
+    {
+        query->exec("UPDATE shop_stock SET card_count = " + QString::number(sub_v[i].num) +
+                    " WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET card_price = " + QString::number(sub_v[i].price) +
+                    " WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET label = '" + sub_v[i].state +
+                    "' WHERE card_no = " + QString::number(sub_v[i].id) + ";");
+    }
+
     emit update_money_request();
     emit update_bag_request();
+    delete load_window;
     QDialog::reject();
 }
 

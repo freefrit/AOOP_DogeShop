@@ -24,7 +24,7 @@ public:
     vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
 
-    explicit AddGoods_list(QSqlDatabase &db, QSqlQuery *q, QWidget *parent = nullptr);
+    explicit AddGoods_list(QSqlQuery *q, QWidget *parent = nullptr);
     AddGoods_list(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_list();
     virtual void card_grid_layout(QGridLayout *grid);
@@ -52,7 +52,6 @@ private:
     vector<int> sub_v;
     int page;
 
-    QSqlDatabase database;
     QSqlQuery *query;
 
     void reject() override;

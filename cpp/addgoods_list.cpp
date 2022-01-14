@@ -6,14 +6,13 @@
 
 using namespace std;
 
-AddGoods_list::AddGoods_list(QSqlDatabase &db, QSqlQuery *q, QWidget *parent) :
+AddGoods_list::AddGoods_list(QSqlQuery *q, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddGoods_list)
 {
     ui->setupUi(this);
 
     //SQL connection
-    database = db;
     query = q;
 
     query->exec("SELECT * FROM mix_card_list;");
@@ -26,7 +25,7 @@ AddGoods_list::AddGoods_list(QSqlDatabase &db, QSqlQuery *q, QWidget *parent) :
     sub_v = all_card;
 
     Csv *csvObj = new Csv;
-    shop_v = csvObj->read_shop("../AOOP_DogeShop/src/shop.csv");
+    shop_v = csvObj->read_sql_shop(query);
     delete csvObj;
 
     //清除上次上架的"NEW"
@@ -81,7 +80,7 @@ void AddGoods_list::card_grid_layout(QGridLayout *grid)
     tableWidget->setColumnWidth(5,280);
     grid->addWidget(tableWidget);
 
-    for(int i = 0, idx = 0; i < 100 && idx < (int)all_card.size(); i++)
+    for(int i = 0, idx = 0; i < 100 && idx+1 < (int)all_card.size(); i++)
     {
         idx = page * 100 + i;
         query->exec("SELECT * FROM mix_card_list WHERE card_no = '" + QString::number(all_card[idx]) + "';");
@@ -89,7 +88,7 @@ void AddGoods_list::card_grid_layout(QGridLayout *grid)
         string card_name = query->value("card_name").toString().toStdString();
         string card_type = query->value("card_type").toString().toStdString();
         string card_url = query->value("card_url").toString().toStdString();
-        qDebug() << QString::fromStdString(card_name);
+        qDebug() << all_card[idx] << QString::fromStdString(card_name);
 
         QLabel *name = new QLabel;
         name->setText(QString::fromStdString(card_name));
@@ -172,6 +171,11 @@ AddGoods_list::~AddGoods_list()
 
 void AddGoods_list::reject()
 {
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Saving...");
+    load_window->set_text("SAVING");
+    load_window->show();
+
     //刪掉原csv後重寫
     remove("../AOOP_DogeShop/src/shop.csv");
 
@@ -179,6 +183,18 @@ void AddGoods_list::reject()
     csvObj->save_shop_csv(shop_v, "../AOOP_DogeShop/src/shop.csv");
     delete csvObj;
 
+    for(int i = 0; i < (int)shop_v.size(); i++)
+    {
+        //qDebug() << shop_v[i].id << QString::fromStdString(shop_v[i].name) << shop_v[i].num;
+        query->exec("UPDATE shop_stock SET card_count = " + QString::number(shop_v[i].num) +
+                    " WHERE card_no = " + QString::number(shop_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET card_price = " + QString::number(shop_v[i].price) +
+                    " WHERE card_no = " + QString::number(shop_v[i].id) + ";");
+        query->exec("UPDATE shop_stock SET label = '" + shop_v[i].state +
+                    "' WHERE card_no = " + QString::number(shop_v[i].id) + ";");
+    }
+
+    delete load_window;
     QDialog::reject();
 }
 
@@ -242,6 +258,10 @@ void AddGoods_list::on_add_clicked()
 
 void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
 {
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
     while(all_card.size())
         all_card.pop_back();    
 
@@ -282,12 +302,7 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
                           QString::number(all_card.size()) + "]種商品");
-    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
-
-
-    Loading_window *load_window = new Loading_window(this);
-    load_window->setWindowTitle("Loading...");
-    load_window->show();
+    ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));   
 
     clear_lineEdit_v();
     clear_layout(ui->gridLayout);
@@ -300,7 +315,11 @@ void AddGoods_list::on_sort_box_currentTextChanged(const QString &arg1)
 void AddGoods_list::on_search_clicked()
 {
     if(ui->lineEdit->text() == "")      //不輸入就滾
-        return;   
+        return;
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
 
     string input = ui->lineEdit->text().toStdString();
     vector<string> words;
@@ -325,9 +344,12 @@ void AddGoods_list::on_search_clicked()
     {
         if(arg1 == "all")
             query->exec("SELECT * FROM mix_card_list WHERE card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+        else if(arg1 == "DOGE")
+            query->exec("SELECT * FROM mix_card_list WHERE card_no < 0 AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+        else if(arg1 == "YGO")
+            query->exec("SELECT * FROM mix_card_list WHERE card_no >= 0 AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
         else
-            query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 +
-                        "' AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
+            query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "' AND card_name LIKE '%" + QString::fromStdString(words[i]) + "%';");
 
         while(query->next())
         {
@@ -372,10 +394,6 @@ void AddGoods_list::on_search_clicked()
                           QString::number(all_card.size()) + "]種商品");
     ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
 
-    Loading_window *load_window = new Loading_window(this);
-    load_window->setWindowTitle("Loading...");
-    load_window->show();
-
     clear_lineEdit_v();
     clear_layout(ui->gridLayout);
     card_grid_layout(ui->gridLayout);
@@ -388,6 +406,11 @@ void AddGoods_list::on_clear_clicked()
 {
     if(ui->lineEdit->text() == "")      //不輸入就滾
         return;
+
+    Loading_window *load_window = new Loading_window(this);
+    load_window->setWindowTitle("Loading...");
+    load_window->show();
+
     ui->lineEdit->clear();
 
     while(all_card.size())
@@ -396,6 +419,26 @@ void AddGoods_list::on_clear_clicked()
     QString arg1 = ui->sort_box->currentText();
     if(arg1 == "all")
         all_card = sub_v;
+    else if(arg1 == "DOGE")
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_no < 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
+    else if(arg1 == "YGO")
+    {
+        query->exec("SELECT * FROM mix_card_list WHERE card_no >= 0;");
+        while(query->next())
+        {
+            qDebug() << query->value("card_no").toInt() << query->value("card_name").toString();
+            if(!query->value("card_no").isNull())
+                all_card.push_back(query->value("card_no").toInt());
+        }
+    }
     else
     {
         query->exec("SELECT * FROM mix_card_list WHERE card_type = '" + arg1 + "';");
@@ -412,10 +455,6 @@ void AddGoods_list::on_clear_clicked()
                           "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
                           QString::number(all_card.size()) + "]種商品");
     ui->pageEdit->setValidator(new QIntValidator(1, 1+(int)(all_card.size()-0.5)/100, this));
-
-    Loading_window *load_window = new Loading_window(this);
-    load_window->setWindowTitle("Loading...");
-    load_window->show();
 
     clear_lineEdit_v();
     clear_layout(ui->gridLayout);
@@ -472,11 +511,16 @@ void AddGoods_list::on_previous_page_clicked()
 
 void AddGoods_list::on_to_page_clicked()
 {
+    if(ui->pageEdit->text() == "")      //不輸入就滾
+        return;
+
     page = ui->pageEdit->text().toInt() - 1;
+    ui->pageEdit->clear();
+
     if(page < 0)
-        page = (int)(all_card.size()-0.5) / 100;
-    else if(page > (int)(all_card.size()-0.5) / 100)
         page = 0;
+    else if(page > (int)(all_card.size()-0.5) / 100)
+        page = (int)(all_card.size()-0.5) / 100;
 
     ui->how_many->setText("第[" + QString::number(page + 1) +
                           "]頁，全[" + QString::number(1+(int)(all_card.size()-0.5)/100) + "]頁/[" +
