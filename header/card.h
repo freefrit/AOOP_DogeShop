@@ -14,6 +14,8 @@ using namespace std;
 class Card
 {
 public:
+    int id;
+
     string name;
     string type;
     string url;
@@ -39,8 +41,9 @@ public:
 
 
     Card_in_bag(){}
-    Card_in_bag(string SQLname,string SQLtype,string SQLurl,int amount,bool like)
+    Card_in_bag(int card_no,string SQLname,string SQLtype,string SQLurl,int amount,bool like)
     {
+        id=card_no;
         name=SQLname;
         type=SQLtype;
         url=SQLurl;

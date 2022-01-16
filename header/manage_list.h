@@ -13,13 +13,15 @@ class Manage_list : public AddGoods_list
     Q_OBJECT
 
 public:
-    explicit Manage_list(QWidget *parent = nullptr);
+    explicit Manage_list(QSqlQuery *q, QWidget *parent = nullptr);
     ~Manage_list();
     void card_grid_layout(QGridLayout *grid) override;
 
 private:
     Ui::Manage_list *ui;
     vector<Card_in_shop> sub_v;
+
+    QSqlQuery *query;
 
     void on_add_clicked() override;
     void on_sort_box_currentTextChanged(const QString &arg1) override;

@@ -10,8 +10,10 @@ vector<Card> Csv::read_csv(string path)
         return out;
     }
 
+    //qDebug() << out.max_size() << sizeof(Card);
     file.readLine();    //skip first line
     while(!file.atEnd())
+    //for(int i = 0; !file.atEnd(); i++)
     {
         QString line = file.readLine();
         line.replace('\n',"");
@@ -24,9 +26,11 @@ vector<Card> Csv::read_csv(string path)
         temp->url = lineList[2].toStdString();
 
         out.push_back(*temp);
+        //qDebug() << i;
     }
     file.close();
 
+    //qDebug() << "finish read csv";
     return out;
 }
 
@@ -48,16 +52,39 @@ vector<Card_in_shop> Csv::read_shop(string path)
 
         Card_in_shop *temp;
         temp = new Card_in_shop;
-        temp->name = lineList[0].toStdString();
-        temp->type = lineList[1].toStdString();
-        temp->url = lineList[2].toStdString();
-        temp->num = lineList[3].toInt();
-        temp->price = lineList[4].toInt();
-        temp->state = lineList[5];
+        temp->id = lineList[0].toInt();
+        temp->name = lineList[1].toStdString();
+        temp->type = lineList[2].toStdString();
+        temp->url = lineList[3].toStdString();
+        temp->num = lineList[4].toInt();
+        temp->price = lineList[5].toInt();
+        temp->state = lineList[6];
 
         out.push_back(*temp);
     }
     file.close();
+
+    return out;
+}
+
+vector<Card_in_shop> Csv::read_sql_shop(QSqlQuery *query)
+{
+    vector<Card_in_shop> out;
+
+    query->exec("SELECT * FROM shop_stock WHERE card_count > -1;");
+    while(query->next())
+    {
+        Card_in_shop *temp = new Card_in_shop;
+        temp->id = query->value("card_no").toInt();
+        temp->name = query->value("card_name").toString().toStdString();
+        temp->type = query->value("card_type").toString().toStdString();
+        temp->url = query->value("card_url").toString().toStdString();
+        temp->num = query->value("card_count").toInt();
+        temp->price = query->value("card_price").toInt();
+        temp->state = query->value("label").toString();
+
+        out.push_back(*temp);
+    }
 
     return out;
 }
@@ -67,6 +94,7 @@ void Csv::save_shop_csv(vector<Card_in_shop> shop, string path)
     string temp = "";
     for(int i = 0; i < (int)shop.size(); i++)
     {
+        temp += to_string(shop[i].id) + ",";
         temp += shop[i].name + ",";
         temp += shop[i].type + ",";
         temp += shop[i].url + ",";

@@ -36,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     sample_palette_error.setColor(QPalette::Window,color);
     sample_palette_error.setColor(QPalette::WindowText, Qt::red);
 
-
-
     //SQL connection
     database = QSqlDatabase::addDatabase("QMYSQL");
     database.setHostName("140.113.89.173");
@@ -52,8 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<database.lastError();
     }
     query=new QSqlQuery(database);
-    query->exec("INSERT INTO seller_list VALUE(1234,'manager','manager');");
-
 
     //default set to empty record
     myinfo_default();
@@ -208,14 +204,14 @@ void MainWindow::update_money()
 }
 void MainWindow::update_bag()
 {
-    query->exec("TRUNCATE TABLE c_"+QString::number(c->getID())+";");
+    query->exec("TRUNCATE TABLE newbag_"+QString::number(c->getID())+";");
     for (auto &x :c->mybag()) {
         QString boolbit="false";
         if(x.star) boolbit="true";
-        query->exec("INSERT INTO c_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
+        query->exec("INSERT INTO newbag_"+QString::number(c->getID())+" VALUES('"+QString::fromStdString(x.name)+
                                                         "','"+QString::fromStdString(x.type)+
                                                         "','"+QString::fromStdString(x.url)+
-                                                        "',"+QString::number(x.num)+","+boolbit+");");
+                                                        "',"+QString::number(x.num)+","+boolbit+","+QString::number(x.id)+");");
     }
 
 }
@@ -223,9 +219,9 @@ void MainWindow::delete_card(Card_in_bag tmp)
 {
     qDebug()<<QString::fromStdString(tmp.name)<<tmp.num;
     if(tmp.num==0)
-        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
+        query->exec("DELETE FROM newbag_"+QString::number(c->getID())+" WHERE card_no = "+QString::number(tmp.id)+";");
     else
-        query->exec("UPDATE c_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+" WHERE card_name = '"+QString::fromStdString(tmp.name)+"';");
+        query->exec("UPDATE newbag_"+QString::number(c->getID())+" SET count ="+QString::number(tmp.num)+" WHERE card_no = "+QString::number(tmp.id)+";");
 
 }
 
@@ -233,7 +229,7 @@ void MainWindow::delete_cus(QString tmpname,QString tmpid)
 {
     query->exec("DELETE FROM customer_list WHERE username='"+tmpname+"';");
     query->exec("DELETE FROM customer_info WHERE username='"+tmpname+"';");
-    query->exec("DROP TABLE c_"+tmpid+";");
+    query->exec("DROP TABLE newbag_"+tmpid+";");
 }
 void MainWindow::on_actionLog_out_triggered()
 {
@@ -267,7 +263,7 @@ void MainWindow::on_actionRelease_Card_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    AddGoods_window *add_window = new AddGoods_window(this);
+    AddGoods_window *add_window = new AddGoods_window(query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -288,7 +284,7 @@ void MainWindow::on_actionDOGE_SHOP_triggered()
         QString name = "test", pass = "test";
         c = new Customer(0, name, pass, 81000, 81000);
     }
-    Shop_window *shop_window = new Shop_window(c, this);
+    Shop_window *shop_window = new Shop_window(query, c, this);
     shop_window->setWindowTitle("卡片購買");
 
     connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
@@ -306,7 +302,7 @@ void MainWindow::on_actionShop_Manage_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    ManageGoods_window *manage_window = new ManageGoods_window(this);
+    ManageGoods_window *manage_window = new ManageGoods_window(query, this);
     manage_window->setWindowTitle("商品管理");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -404,14 +400,16 @@ void MainWindow::customer_wallet_callin()
 }
 void MainWindow::customer_bag_calltobag()
 {
-    sql_command="SELECT * FROM c_"+QString::number(c->getID())+";";
+    sql_command="SELECT * FROM newbag_"+QString::number(c->getID())+";";
     query->exec(sql_command);
     while(query->next())
     {
-        Card_in_bag* cib=new Card_in_bag(query->value(0).toString().toStdString(),
+        Card_in_bag* cib=new Card_in_bag(query->value("card_no").toInt(),
+                                        query->value(0).toString().toStdString(),
                                          query->value(1).toString().toStdString(),
                                          query->value(2).toString().toStdString(),
-                                         query->value(3).toInt(),query->value(4).toBool());
+                                         query->value(3).toInt(),query->value(4).toBool()
+                                         );
         c->addToBag(cib);
     }
 
@@ -580,7 +578,7 @@ void MainWindow::on_actionMyBag_triggered()
                               color:white; border-radius:2px; font:bold; font-size:25px;}"
                               "QPushButton:hover{background-color:rgba(255,220,110,100%); color:rgb(61,61,61);}");
         connect(button, &QPushButton::clicked, this, [this, i](){c->mybag()[i].change_star();
-                 query->exec("UPDATE c_"+QString::number(c->getID())+" SET star= NOT star WHERE card_name='"+QString::fromStdString(c->mybag()[i].name)+"';");
+                 query->exec("UPDATE newbag_"+QString::number(c->getID())+" SET star= NOT star WHERE card_name='"+QString::fromStdString(c->mybag()[i].name)+"';");
                  on_actionMyBag_triggered();});
         tableWidget->setCellWidget(j, 3, button);
 
@@ -766,9 +764,10 @@ void MainWindow::on_actionFast_Release_triggered()
 {
     Loading_window *load_window = new Loading_window(this);
     load_window->setWindowTitle("Loading...");
+    load_window->set_text("LOADING");
     load_window->show();
 
-    AddGoods_list *add_window = new AddGoods_list(this);
+    AddGoods_list *add_window = new AddGoods_list(query, this);
     add_window->setWindowTitle("卡片上架");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -788,7 +787,7 @@ void MainWindow::on_actionFAST_SHOP_triggered()
         QString name = "test", pass = "test";
         c = new Customer(0, name, pass, 81000, 81000);
     }
-    Shop_list *shop_window = new Shop_list(c, this);
+    Shop_list *shop_window = new Shop_list(query, c, this);
     shop_window->setWindowTitle("卡片購買");
 
     connect(shop_window,SIGNAL(update_money_request()),this,SLOT(update_money()));
@@ -806,7 +805,7 @@ void MainWindow::on_actionFast_Manage_triggered()
     load_window->setWindowTitle("Loading...");
     load_window->show();
 
-    Manage_list *manage_list = new Manage_list(this);
+    Manage_list *manage_list = new Manage_list(query, this);
     manage_list->setWindowTitle("商品管理");
 
     ui->stackedWidget->setCurrentIndex(frontpage);
@@ -838,7 +837,7 @@ void MainWindow::on_btn_delete_all_clicked()
            while(query->next())
                names.push_back(query->value(0).toString());
            for(auto &x:names)
-               query->exec("DROP c_"+x+";");
+               query->exec("DROP newbag_"+x+";");
            query->exec("TRUNCATE customer_list;");
            query->exec("TRUNCATE customer_info;");
            QMessageBox::information(this,"Deletion Done","You have deleted all the data.");
@@ -863,11 +862,11 @@ void MainWindow::on_btn_delete_allcard_clicked()
     if(yes)
     {
         c->mybag().clear();
-        query->exec("SELECT SUM(count) FROM c_"+QString::number(c->getID())+" WHERE star=false;");
+        query->exec("SELECT SUM(count) FROM newbag_"+QString::number(c->getID())+" WHERE star=false;");
         query->next();
         int totall_delete=query->value(0).toInt();
         c->earnPoint(totall_delete*100);
-        query->exec("DELETE FROM c_"+QString::number(c->getID())+" WHERE star=false;");
+        query->exec("DELETE FROM newbag_"+QString::number(c->getID())+" WHERE star=false;");
         QMessageBox::information(this,"Deletion Done","You have deleted all the cards except cards with star.\nAnd Earned "+QString::number(totall_delete*100)+"p in return.");
     }
     customer_bag_calltobag();
@@ -901,3 +900,4 @@ void MainWindow::on_github_butt_clicked()
     QString link = "https://github.com/freefrit/AOOP_DogeShop";
     QDesktopServices::openUrl(QUrl(link));
 }
+

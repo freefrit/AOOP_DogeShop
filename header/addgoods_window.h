@@ -3,6 +3,10 @@
 
 #include <QDialog>
 #include <QGridLayout>
+#include <QSqlResult>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 #include "card.h"
 
 namespace Ui {
@@ -20,7 +24,7 @@ public:
     vector<QLineEdit *> num_in_v;
     vector<QLineEdit *> price_in_v;
 
-    explicit AddGoods_window(QWidget *parent = nullptr);
+    explicit AddGoods_window(QSqlQuery *q, QWidget *parent = nullptr);
     AddGoods_window(int flag = 0, QWidget *parent = nullptr);
     ~AddGoods_window();
     virtual void card_grid_layout(int q, QGridLayout *grid, int row_idx);
@@ -40,10 +44,17 @@ private slots:
 
     virtual void on_search_clicked();
 
+    void on_to_page_clicked();
+
+    void on_clear_clicked();
+
 private:
     Ui::AddGoods_window *ui;
-    vector<Card> all_card;
-    vector<Card> sub_v;
+    vector<int> all_card;
+    vector<int> sub_v;
+
+    QSqlDatabase database;
+    QSqlQuery *query;
 
     void reject() override;
 };
