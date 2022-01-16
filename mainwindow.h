@@ -88,13 +88,15 @@ private slots:
     void on_github_butt_clicked();
 
 
+    void on_actionSales_log_triggered();
+
 private:
-    bool is_test,in_cus_list;
+    bool is_test,in_cus_list,in_sales;
     int prePage;
     Ui::MainWindow *ui;
     QSqlDatabase database;
     QSqlQuery *query;
-    QString sql_command;
+    QString sql_command,sales_date;
     QFont font_record;
     Seller* s;
     Customer* c;

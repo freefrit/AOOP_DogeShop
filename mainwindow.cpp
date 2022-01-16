@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     is_test = false;
+    in_sales=false;
 
     c=NULL;
     s=NULL;
@@ -50,6 +51,10 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug()<<database.lastError();
     }
     query=new QSqlQuery(database);
+
+    //sql test area
+
+
 
     //default set to empty record
     myinfo_default();
@@ -171,12 +176,19 @@ void MainWindow::popup_close_test()
 void MainWindow::popup_close_man()
 {
     if(m_login_window->is_loggedin()){
+
         m_login_window->sync_M_pointer(m);
         c=NULL,s=NULL;
         ui->menuBack_End_Manage->menuAction()->setVisible(true);
         ui->menuGuest->menuAction()->setVisible(false);
         is_test = false;
         ui->stackedWidget->setCurrentIndex(frontpage);
+//        query->exec("SELECT date FROM sales_log;");//load dates from sql
+//        while(query->next()){
+//            QString s=query->value(0).toString();
+//            s.truncate(7);
+//            ui->comboBox_selectdate->addItem(s);
+//        }
     }
 }
 void MainWindow::update_password(QString q)
@@ -646,7 +658,16 @@ void MainWindow::on_actionLog_Out_triggered()
 }
 void MainWindow::on_actionCustomer_List_triggered()
 {
+    if(in_sales)
+    {
+        ui->label_profit->hide();
+        ui->label_sales_figure->hide();
+        ui->btn_delete_all->show();
+    }
+
     in_cus_list=true;
+    in_sales=false;
+
     ui->label_list_name->setText("Customer List:");
     for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
         delete  ui->c_s_table->takeItem(i, 4);
@@ -710,7 +731,16 @@ void MainWindow::on_actionCustomer_List_triggered()
 
 void MainWindow::on_actionStaff_List_triggered()
 {
+    if(in_sales)
+    {
+        ui->label_profit->hide();
+        ui->label_sales_figure->hide();
+        ui->btn_delete_all->show();
+    }
+
     in_cus_list=false;
+    in_sales=false;
+
 
     ui->label_list_name->setText("Staff List: ");
     for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
@@ -760,6 +790,66 @@ void MainWindow::on_actionStaff_List_triggered()
     ui->c_s_table->setSortingEnabled(true);
 
 }
+void MainWindow::on_actionSales_log_triggered()
+{
+    if(!in_sales){
+        ui->label_profit->show();
+        ui->label_sales_figure->show();
+        ui->btn_delete_all->hide();
+    }
+    in_cus_list=false;
+    in_sales=true;
+
+
+    ui->label_list_name->setText("Sales Log: ");
+    for(int i = 0; i < ui->c_s_table->rowCount(); i++)  //刪除按鈕
+        delete  ui->c_s_table->takeItem(i, 3);
+    ui->c_s_table->setRowCount(0);
+    ui->c_s_table->setColumnCount(5);
+    ui->c_s_table->setSortingEnabled(false);
+    QStringList title;
+    title << "Buyer ID" << "Card No." <<"Card Name" << "Price" << "Count";
+    ui->c_s_table->setHorizontalHeaderLabels(title);
+    ui->c_s_table->horizontalHeaderItem(0)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(1)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(2)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(3)->setFont(font_record);
+    ui->c_s_table->horizontalHeaderItem(4)->setFont(font_record);
+    QSqlQuery *query_for_info=new QSqlQuery(database);
+
+    ui->c_s_table->setColumnWidth(0,186);
+    ui->c_s_table->setColumnWidth(1,118);
+    ui->c_s_table->setColumnWidth(2,187);
+    ui->c_s_table->setColumnWidth(3,59);
+    ui->c_s_table->setColumnWidth(4,69);
+    int sum=0;
+    query->exec("SELECT * FROM sales_log;");
+
+    while(query->next())
+    {
+
+        QString id_from_sql=query->value("id").toString();
+        QString NO_from_sql=query->value("card_inde").toString();
+        QString count_from_sql=query->value("count").toString();
+        QString price_from_sql=query->value("price").toString();
+        query_for_info->exec("SELECT car_name FROM shop_stock WHERE card_no="+NO_from_sql+";");
+        query_for_info->next();
+        QString name_from_sql=query_for_info->value(0).toString();
+        ui->c_s_table->insertRow(ui->c_s_table->rowCount());
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_id,new QTableWidgetItem(id_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_name,new QTableWidgetItem(NO_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_pass,new QTableWidgetItem(name_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,col_phone,new QTableWidgetItem(price_from_sql));
+        ui->c_s_table->setItem(ui->c_s_table->rowCount()-1,4,new QTableWidgetItem(count_from_sql));
+        sum+=count_from_sql.toInt()*price_from_sql.toInt();
+
+    }
+    ui->label_profit->setText(QString::number(sum)+"$");
+    ui->stackedWidget->setCurrentIndex(m_account_manage_page);
+    ui->c_s_table->setSortingEnabled(true);
+    delete query_for_info;
+}
+
 void MainWindow::on_actionFast_Release_triggered()
 {
     Loading_window *load_window = new Loading_window(this);
@@ -900,4 +990,6 @@ void MainWindow::on_github_butt_clicked()
     QString link = "https://github.com/freefrit/AOOP_DogeShop";
     QDesktopServices::openUrl(QUrl(link));
 }
+
+
 
